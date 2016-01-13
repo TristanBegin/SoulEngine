@@ -1,0 +1,1 @@
+GAME * InitializePlatformerGame(void);

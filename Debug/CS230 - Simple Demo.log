@@ -1,0 +1,31 @@
+﻿  System.c
+c:\users\tristan begin\onedrive\documents\digipen\2016_spring\cs230\cs230 - simple demo\soulengine.h(111): error C2079: 'Offset' uses undefined struct 'VECTOR'
+c:\users\tristan begin\onedrive\documents\digipen\2016_spring\cs230\cs230 - simple demo\soulengine.h(122): error C2079: 'Size' uses undefined struct 'VECTOR'
+  SoulEngine.c
+c:\users\tristan begin\onedrive\documents\digipen\2016_spring\cs230\cs230 - simple demo\soulengine.h(111): error C2079: 'Offset' uses undefined struct 'VECTOR'
+c:\users\tristan begin\onedrive\documents\digipen\2016_spring\cs230\cs230 - simple demo\soulengine.h(122): error C2079: 'Size' uses undefined struct 'VECTOR'
+c:\users\tristan begin\onedrive\documents\digipen\2016_spring\cs230\cs230 - simple demo\soulengine.c(58): error C2440: '=': cannot convert from 'VECTOR' to 'int'
+c:\users\tristan begin\onedrive\documents\digipen\2016_spring\cs230\cs230 - simple demo\soulengine.c(81): error C2440: '=': cannot convert from 'VECTOR' to 'int'
+c:\users\tristan begin\onedrive\documents\digipen\2016_spring\cs230\cs230 - simple demo\soulengine.c(265): warning C4013: 'CreateInstanceOfArchetype' undefined; assuming extern returning int
+c:\users\tristan begin\onedrive\documents\digipen\2016_spring\cs230\cs230 - simple demo\soulengine.c(265): warning C4047: '=': 'ARCHETYPE *' differs in levels of indirection from 'int'
+c:\users\tristan begin\onedrive\documents\digipen\2016_spring\cs230\cs230 - simple demo\soulengine.c(279): error C2040: 'CreateInstanceOfArchetype': 'ARCHETYPE *(ARCHETYPE *,UNIT *)' differs in levels of indirection from 'int ()'
+c:\users\tristan begin\onedrive\documents\digipen\2016_spring\cs230\cs230 - simple demo\soulengine.c(282): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\string.h(90): note: see declaration of 'strcat'
+  PlatformerGame.c
+c:\users\tristan begin\onedrive\documents\digipen\2016_spring\cs230\cs230 - simple demo\soulengine.h(111): error C2079: 'Offset' uses undefined struct 'VECTOR'
+c:\users\tristan begin\onedrive\documents\digipen\2016_spring\cs230\cs230 - simple demo\soulengine.h(122): error C2079: 'Size' uses undefined struct 'VECTOR'
+c:\users\tristan begin\onedrive\documents\digipen\2016_spring\cs230\cs230 - simple demo\platformergame.c(7): warning C4013: 'CreatePlayerArchetype' undefined; assuming extern returning int
+c:\users\tristan begin\onedrive\documents\digipen\2016_spring\cs230\cs230 - simple demo\platformergame.c(9): warning C4013: 'CreateLevelZero' undefined; assuming extern returning int
+c:\users\tristan begin\onedrive\documents\digipen\2016_spring\cs230\cs230 - simple demo\platformergame.c(13): error C2040: 'CreatePlayerArchetype': 'ARCHETYPE *(GAME *)' differs in levels of indirection from 'int ()'
+c:\users\tristan begin\onedrive\documents\digipen\2016_spring\cs230\cs230 - simple demo\platformergame.c(23): error C2040: 'CreateLevelZero': 'LEVEL *(GAME *)' differs in levels of indirection from 'int ()'
+c:\users\tristan begin\onedrive\documents\digipen\2016_spring\cs230\cs230 - simple demo\platformergame.c(28): warning C4133: 'function': incompatible types - from 'UNIT *' to 'ARCHETYPE *'
+c:\users\tristan begin\onedrive\documents\digipen\2016_spring\cs230\cs230 - simple demo\platformergame.c(28): error C2065: 'PlayerUpdate': undeclared identifier
+c:\users\tristan begin\onedrive\documents\digipen\2016_spring\cs230\cs230 - simple demo\platformergame.c(28): warning C4047: 'function': 'void (__cdecl *)(BEHAVIOR *,char *)' differs in levels of indirection from 'int'
+c:\users\tristan begin\onedrive\documents\digipen\2016_spring\cs230\cs230 - simple demo\platformergame.c(28): warning C4024: 'AddBehaviorComponent': different types for formal and actual parameter 2
+  Main.c
+c:\users\tristan begin\onedrive\documents\digipen\2016_spring\cs230\cs230 - simple demo\soulengine.h(111): error C2079: 'Offset' uses undefined struct 'VECTOR'
+c:\users\tristan begin\onedrive\documents\digipen\2016_spring\cs230\cs230 - simple demo\soulengine.h(122): error C2079: 'Size' uses undefined struct 'VECTOR'
+  GameStateManager.c
+c:\users\tristan begin\onedrive\documents\digipen\2016_spring\cs230\cs230 - simple demo\soulengine.h(111): error C2079: 'Offset' uses undefined struct 'VECTOR'
+c:\users\tristan begin\onedrive\documents\digipen\2016_spring\cs230\cs230 - simple demo\soulengine.h(122): error C2079: 'Size' uses undefined struct 'VECTOR'
+  Generating Code...
