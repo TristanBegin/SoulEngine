@@ -1,4 +1,5 @@
 #include "SoulEngine.h"
+#include "PlatformerGame.h"
 
 GAME * InitializePlatformerGame(void)
 {

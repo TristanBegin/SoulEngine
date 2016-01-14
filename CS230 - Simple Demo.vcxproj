@@ -26,7 +26,6 @@
     <ClCompile Include="System.c" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\Tiles\Witch01.png" />
     <Image Include="Blank.png" />
   </ItemGroup>
   <ItemGroup>

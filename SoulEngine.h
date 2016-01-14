@@ -20,6 +20,15 @@ typedef struct VAR VAR;
 typedef enum COMPONENTTYPE COMPONENTTYPE;
 typedef enum BOOL BOOL;
 
+
+// Vector, pretty self explanatory.
+typedef struct VECTOR
+{
+  float x;
+  float y;
+}VECTOR;
+
+
 /* The GAME struct branches down to literally everything in the game.
 At no point should there be something that the Game cannot access.
 This is so that the entire game can be freed simply by referencing
@@ -139,14 +148,6 @@ typedef struct BEHAVIOR
   ARCHETYPE * pArchetype; //The original archetype this came from.
 
 }BEHAVIOR;
-
-
-// Vector, pretty self explanatory.
-typedef struct VECTOR
-{
-  float x;
-  float y;
-}VECTOR;
 
 
 /* NOT A COMPONENT STRUCT 
@@ -309,6 +310,8 @@ LEVEL * FindLevelByOrder(GAME *pGame, int Order);
 //creates an instance of it's archetype and transform and initializes
 //values. Also calls "Start" trigger on all behaviors.
 void InitializeUnit(UNIT * pUnit);
+
+ARCHETYPE * CreateInstanceOfArchetype(ARCHETYPE * pArchetype, UNIT * pUnit);
 
 //Adds a new VAR to a behavior. (UNFINISHED DO NOT USE)
 VAR * AddVar(BEHAVIOR * pBehavior);

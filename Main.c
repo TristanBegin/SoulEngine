@@ -105,7 +105,7 @@ int WINAPI WinMain(HINSTANCE instanceH, HINSTANCE prevInstanceH, LPSTR command_l
   AE_ASSERT_MESG(pMeshLine, "Failed to create mesh line.");
 
   //Texture 1: From file.
-  pTex1 = AEGfxTextureLoad("C:\\Users\\Tristan Begin\\OneDrive\\Documents\\Tiles\\Witch01.png");
+  pTex1 = AEGfxTextureLoad("Blank.png");
   AE_ASSERT_MESG(pTex1, "Failed to create texture 1.");
 
   //Texture 2: from memory.
@@ -204,7 +204,7 @@ int WINAPI WinMain(HINSTANCE instanceH, HINSTANCE prevInstanceH, LPSTR command_l
     // Set Position of object 2
     AEGfxSetPosition(100.0f, -60.0f);
     // Set texture for object 2
-    AEGfxTextureSet(pSprite->pTexture, obj2texX, obj2texY);
+    AEGfxTextureSet(pTex1, obj2texX, obj2texY);
     AEGfxSetTransparency(1.0f);
     // Drawing the mesh (list of triangles).
     AEGfxMeshDraw(pMesh2, AE_GFX_MDM_TRIANGLES);
