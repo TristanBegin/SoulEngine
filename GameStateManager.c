@@ -5,6 +5,9 @@
 
 extern GAME * pTheGame;
 LEVEL * pRunningLevel;
+BEHAVIOR ** pBehaviorArray = NULL;
+int numBehaviors;
+
 
 void LoadLevel();
 void InitializeLevel();
@@ -38,7 +41,7 @@ void MainLoopGSM(void)
 			//Load Level
 		}
 
-		//Initialize Level
+    InitializeLevel();
 
 		while (CURRENT_LEVEL == NEXT_LEVEL)
 		{
@@ -63,9 +66,39 @@ void MainLoopGSM(void)
 void InitializeLevel()
 {
   UNIT * temp = pRunningLevel->nextUnit;
+  numBehaviors = 0;
   while (temp)
   {
     InitializeUnit(temp);
+
+    if (FindComponentStruct(temp->pArchetype, Behavior))
+    {
+      numBehaviors++;
+    }
     temp = temp->nextUnit;
   }
+
+  if (numBehaviors > 0)
+  {
+    int i = 0;
+    pBehaviorArray = (BEHAVIOR**)calloc(numBehaviors, sizeof(BEHAVIOR*));
+    temp = pRunningLevel->nextUnit;
+
+    while (temp)
+    {
+      BEHAVIOR * pBehavior = FindComponentStruct(temp->pArchetype, Behavior);
+      if (pBehavior)
+      {
+        pBehaviorArray[i] = pBehavior;
+        i++;
+      }
+      temp = temp->nextUnit;
+    }
+
+  }
+}
+
+void UpdateLevel()
+{
+
 }
