@@ -9,4 +9,4 @@ void PlayerUpdate(BEHAVIOR * Owner, char * Trigger);
 //Added comments
 //Added more comments 
 
-//Hello my name
+//Hello my name is Nick
