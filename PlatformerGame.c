@@ -3,7 +3,7 @@
 
 GAME * InitializePlatformerGame(void)
 {
-  GAME * pGame;
+  GAME * pGame; 
   pGame = InitializeGame("Platformer");
   CreatePlayerArchetype(pGame);
   

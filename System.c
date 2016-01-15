@@ -4,7 +4,7 @@
 void SystemInitialize(HINSTANCE instanceH, int show)
 {
   // Initialize the system
-
+	//this is a change
   // Create new AESysInitInfo
   AESysInitInfo sysInitInfo;
 
