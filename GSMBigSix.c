@@ -2,8 +2,8 @@
 #include "GSMBigSix.h"
 
 extern GAME * pTheGame;
-extern BEHAVIOR ** pBehaviorArray;
-extern int numBehaviors;
+//extern BEHAVIOR ** pBehaviorArray;
+//extern int numBehaviors;
 
 
 /********************************************************
@@ -14,18 +14,19 @@ void InitializeLevel()
 {
   LEVEL * pTheLevel = pTheGame->pGameStats->pRunningLevel;
   UNIT * temp = pTheLevel->nextUnit;
-  numBehaviors = 0;
+  //numBehaviors = 0;
   while (temp)
   {
     InitializeUnit(temp);
-
+    /*
     if (FindComponentStruct(temp->pArchetype, Behavior))
     {
       numBehaviors++;
     }
+    */
     temp = temp->nextUnit;
   }
-
+  /*
   if (numBehaviors > 0)
   {
     int i = 0;
@@ -43,6 +44,7 @@ void InitializeLevel()
       temp = temp->nextUnit;
     }
   }
+  */
 }
 
 
@@ -54,7 +56,39 @@ void InitializeLevel()
 
 void UpdateLevel()
 {
+  LEVEL * pTheLevel = pTheGame->pGameStats->pRunningLevel;
+  UNIT * tempUnit = pTheLevel->nextUnit;
+  while (tempUnit)
+  {
+    COMPONENT * tempComp = tempUnit->pArchetype->nextComponent;
+    SPRITE * pSprite = NULL;
+    SQUAREMESH * pMesh = NULL;
+    BEHAVIOR * pBehavior = NULL;
+    while (tempComp)
+    {
+      switch (tempComp->Type)
+      {
+      case Sprite:
+        pSprite = (SPRITE *)tempComp->pStruct;
+        break;
 
+      case SquareMesh:
+        pMesh = (SQUAREMESH *)tempComp->pStruct;
+        break;
+
+      case Behavior:
+        pMesh = (BEHAVIOR *)tempComp->pStruct;
+        break;
+
+      default:
+        break;
+      }
+
+      tempComp = tempComp->nextComponent;
+    }
+
+    tempUnit = tempUnit->nextUnit;
+  }
 }
 
 
@@ -77,9 +111,11 @@ void DrawLevel()
         case Sprite:
           pSprite = (SPRITE *)tempComp->pStruct;
           break;
+
         case SquareMesh:
           pMesh = (SQUAREMESH *) tempComp->pStruct;
           break;
+
         default:
           break;
       }
