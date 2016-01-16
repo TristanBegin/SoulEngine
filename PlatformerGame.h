@@ -1,6 +1,7 @@
 void InitializePlatformerGame(void);
 
 ARCHETYPE * CreatePlayerArchetype(GAME * pGame);
+ARCHETYPE * CreateAnimArchetype(GAME * pGame);
 
 LEVEL * CreateLevelZero(GAME * pGame);
 

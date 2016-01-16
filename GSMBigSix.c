@@ -142,7 +142,7 @@ void DrawObject(MESH * pMesh, SPRITE * pSprite)
   TRANSFORM * pMyTransform = pSprite->pArchetype->pUnit->pTransform;
 
   //Drawing object
-  AEGfxSetRenderMode(AE_GFX_RM_COLOR);
+  AEGfxSetRenderMode(AE_GFX_RM_TEXTURE);
 
   //Set Position of object
   AEGfxSetPosition(pMyTransform->Position.x, pMyTransform->Position.y);

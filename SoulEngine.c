@@ -54,7 +54,7 @@ GAMESTATS * SetDefaults(GAME * pGame)
   pTransform->Scale = oneVector;
   pStats->pDefaultTransform = pTransform;
 
-  pSprite->pTexture = AEGfxTextureLoad("TestAnimation.png");
+  pSprite->pTexture = AEGfxTextureLoad("Blank.png");
   pSprite->Animated = TRUE;
   pSprite->RowCol.x = 2;
   pSprite->RowCol.y = 5;
@@ -249,10 +249,12 @@ UNIT * AddUnit(LEVEL *pLevel, ARCHETYPE *pArchetype, char *Name)
 {
 
 	UNIT * pNewUnit = malloc(sizeof(UNIT));
+  pNewUnit->pInitTransform = malloc(sizeof(TRANSFORM));
+  pNewUnit->pTransform = malloc(sizeof(TRANSFORM));
 	pNewUnit->Name = Name;
 	pNewUnit->pInitArchetype = pArchetype;
-  pNewUnit->pInitTransform = pArchetype->pGame->pGameStats->pDefaultTransform;
-	pNewUnit->pTransform = pArchetype->pGame->pGameStats->pDefaultTransform;
+  *(pNewUnit->pInitTransform) = *(pArchetype->pGame->pGameStats->pDefaultTransform);
+	*(pNewUnit->pTransform) = *(pArchetype->pGame->pGameStats->pDefaultTransform);
 	pNewUnit->pLevel = pLevel;
 	pNewUnit->nextUnit = pLevel->nextUnit;
 	pLevel->nextUnit = pNewUnit;
