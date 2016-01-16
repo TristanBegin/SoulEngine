@@ -74,12 +74,12 @@ GAMESTATS * SetDefaults(GAME * pGame)
     16.0f, 16.0f, 0xFFFFFFFF, 1.0f, 0.0f,
     -16.0f, 16.0f, 0xFFFFFFFF, 0.0f, 0.0f);
 
-  pMesh = AEGfxMeshEnd();
+  pLMesh = AEGfxMeshEnd();
   AE_ASSERT_MESG(pMesh, "Failed to create default mesh");
 
-  pMesh->pMeshLit = pMesh;
+  pMesh->pMeshLit = pLMesh;
   pMesh->Size = meshSizeVector;
-
+  
   pStats->pDefaultMesh = pMesh;
 
   pStats->pRunningLevel = NULL;
@@ -108,7 +108,8 @@ ARCHETYPE * CreateArchetype(GAME * pGame, char *Name)
 
 void FreeGame(GAME * pGame)
 {
-  ARCHETYPE * temp;
+  ARCHETYPE * temp = NULL;
+  LEVEL * tempLevel = NULL;
   if (pGame != NULL)
   {
     while (pGame->nextArchetype)
@@ -117,6 +118,23 @@ void FreeGame(GAME * pGame)
       free(pGame->nextArchetype);
       pGame->nextArchetype = temp;
     }
+    while (pGame->nextLevel)
+    {
+      //while (tempLevel->nextUnit)
+      //{
+
+      //}
+      tempLevel = pGame->nextLevel->nextLevel;
+      free(pGame->nextLevel);
+      pGame->nextLevel = tempLevel;
+    }
+    // Freeing the objects and textures
+    AEGfxMeshFree(pGame->pGameStats->pDefaultMesh->pMeshLit);
+    
+    // Freeing the texture
+    AEGfxTextureUnload(pGame->pGameStats->pDefaultSprite->pTexture);
+    free(pGame->pGameStats->pDefaultTransform);
+    free(pGame->pGameStats);
     free(pGame);
   }
 }
