@@ -366,4 +366,5 @@ ARCHETYPE * CreateInstanceOfArchetype(ARCHETYPE * pArchetype, UNIT * pUnit)
 VECTOR NewVector(float x, float y)
 {
   VECTOR newVec = { x, y };
+  return newVec;
 }
