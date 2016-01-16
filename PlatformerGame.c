@@ -29,6 +29,9 @@ LEVEL * CreateLevelZero(GAME * pGame)
 	ARCHETYPE * pPlayerArchetype = FindArchetypeByName(pGame, "Player");
 
 	UNIT * Player = AddUnit(pLevelZero, pPlayerArchetype, "Player");
+	
+	SPRITE * pSprite = (SPRITE *)FindComponentStruct(Player->pInitArchetype, Sprite);
+
   
 }
 

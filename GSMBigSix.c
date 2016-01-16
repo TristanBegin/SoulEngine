@@ -1,5 +1,6 @@
 #include "SoulEngine.h"
 #include "GSMBigSix.h"
+#include "Animation.h"
 
 extern GAME * pTheGame;
 //extern BEHAVIOR ** pBehaviorArray;
@@ -83,7 +84,10 @@ void UpdateLevel()
       default:
         break;
       }
-
+	  if (pSprite->Animated == TRUE)
+	  {
+		  //Animate(pSprite);
+	  }
       tempComp = tempComp->nextComponent;
     }
     //pBehavior->BehaviorScript(pBehavior, "Update");

@@ -54,9 +54,14 @@ GAMESTATS * SetDefaults(GAME * pGame)
   pTransform->Scale = oneVector;
   pStats->pDefaultTransform = pTransform;
 
-  pSprite->pTexture = AEGfxTextureLoad("Blank.png");
+  pSprite->pTexture = AEGfxTextureLoad("TestAnimation.png");
+  pSprite->Animated = TRUE;
+  pSprite->RowCol.x = 2;
+  pSprite->RowCol.y = 5;
   pSprite->Offset = zeroVector;
+
   pSprite->AnimationSpeed = 0;
+
   pSprite->pComponent = NULL;
 
   pStats->pDefaultSprite = pSprite;
