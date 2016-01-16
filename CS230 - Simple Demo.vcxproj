@@ -19,6 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Animation.c" />
+    <ClCompile Include="GSMBigSix.c" />
+    <ClCompile Include="Behavior.c" />
     <ClCompile Include="SoulEngine.c" />
     <ClCompile Include="GameStateManager.c" />
     <ClCompile Include="Main.c" />
@@ -27,8 +30,12 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Blank.png" />
+    <Image Include="TestAnimation.png" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Animation.h" />
+    <ClInclude Include="Behaviors.h" />
+    <ClInclude Include="GSMBigSix.h" />
     <ClInclude Include="PlatformerGame.h" />
     <ClInclude Include="SoulEngine.h" />
     <ClInclude Include="System.h" />
