@@ -1,4 +1,7 @@
 #include "SoulEngine.h"
+#include "GSMBigSix.h"
+
+
 #define CURRENT_LEVEL pTheGame->pGameStats->currentLevel
 #define NEXT_LEVEL pTheGame->pGameStats->nextLevel
 #define PREVIOUS_LEVEL pTheGame->pGameStats->previousLevel
@@ -46,8 +49,8 @@ void MainLoopGSM(void)
 		while (CURRENT_LEVEL == NEXT_LEVEL)
 		{
 			//Input
-			//Update Level
-			//Draw Level
+      UpdateLevel();
+      DrawLevel();
 		}
 
 		//Free Level
@@ -63,42 +66,3 @@ void MainLoopGSM(void)
 }
 
 
-void InitializeLevel()
-{
-  UNIT * temp = pRunningLevel->nextUnit;
-  numBehaviors = 0;
-  while (temp)
-  {
-    InitializeUnit(temp);
-
-    if (FindComponentStruct(temp->pArchetype, Behavior))
-    {
-      numBehaviors++;
-    }
-    temp = temp->nextUnit;
-  }
-
-  if (numBehaviors > 0)
-  {
-    int i = 0;
-    pBehaviorArray = (BEHAVIOR**)calloc(numBehaviors, sizeof(BEHAVIOR*));
-    temp = pRunningLevel->nextUnit;
-
-    while (temp)
-    {
-      BEHAVIOR * pBehavior = FindComponentStruct(temp->pArchetype, Behavior);
-      if (pBehavior)
-      {
-        pBehaviorArray[i] = pBehavior;
-        i++;
-      }
-      temp = temp->nextUnit;
-    }
-
-  }
-}
-
-void UpdateLevel()
-{
-
-}
