@@ -49,7 +49,7 @@ LEVEL * CreateLevelZero(GAME * pGame)
 
   UNIT * Anim = AddUnit(pLevelZero, pAnimArchetype, "Anim");
 
-  Anim->pInitTransform->Position.x = -300;
+  Anim->pInitTransform->Position.x = -1;
 
   return pLevelZero;
 }

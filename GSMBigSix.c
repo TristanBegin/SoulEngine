@@ -143,12 +143,12 @@ void DrawLevel()
 void DrawObject(MESH * pMesh, SPRITE * pSprite)
 {
   TRANSFORM * pMyTransform = pSprite->pArchetype->pUnit->pTransform;
-
+  float gridMultiplier = pTheGame->pGameStats->GridSize;
   //Drawing object
   AEGfxSetRenderMode(AE_GFX_RM_TEXTURE);
 
   //Set Position of object
-  AEGfxSetPosition(pMyTransform->Position.x, pMyTransform->Position.y);
+  AEGfxSetPosition(pMyTransform->Position.x * gridMultiplier, pMyTransform->Position.y * gridMultiplier);
 
   //Set texture for object
   AEGfxTextureSet(pSprite->pTexture, 0, 0);

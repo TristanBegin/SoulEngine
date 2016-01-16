@@ -95,7 +95,7 @@ GAMESTATS * SetDefaults(GAME * pGame)
   pStats->pDefaultBehavior = NULL;
   pStats->Points = 0;
   pStats->SpawnPoint = zeroVector;
-
+  pStats->GridSize = 32;
 
   return pStats;
 }

@@ -173,6 +173,8 @@ typedef struct GAMESTATS
   VECTOR SpawnPoint;  //(Placeholder)
   float Points;       //(Placeholder)
 
+  float GridSize; //Multiplier for position * pixels.
+
   unsigned int currentLevel;  //GSM current level state
   unsigned int nextLevel;     //GSM next level state
   unsigned int previousLevel; //GSM previous level state
