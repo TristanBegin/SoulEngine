@@ -317,6 +317,9 @@ void InitializeUnit(UNIT * pUnit);
 
 ARCHETYPE * CreateInstanceOfArchetype(ARCHETYPE * pArchetype, UNIT * pUnit);
 
+//Returns a new vector with given x and y.
+VECTOR NewVector(float x, float y);
+
 //Adds a new VAR to a behavior. (UNFINISHED DO NOT USE)
 VAR * AddVar(BEHAVIOR * pBehavior);
 
