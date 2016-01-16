@@ -21,7 +21,10 @@
   <ItemGroup>
     <ClCompile Include="Animation.c" />
     <ClCompile Include="GSMBigSix.c" />
-    <ClCompile Include="Behavior.c" />
+    <ClCompile Include="PlayerBehavior.c">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="SoulEngine.c" />
     <ClCompile Include="GameStateManager.c" />
     <ClCompile Include="Main.c" />

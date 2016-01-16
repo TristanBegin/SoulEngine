@@ -1,0 +1,15 @@
+<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Item">
+  <TemplateData>
+    <DefaultName>Behavior.c</DefaultName>
+    <Name>Behavior</Name>
+    <Description>Template for a behavior, an individual script for an object.</Description>
+    <ProjectType>VC</ProjectType>
+    <SortOrder>10</SortOrder>
+    <Icon>__TemplateIcon.png</Icon>
+    <ShowByDefault> true </ShowByDefault>
+  </TemplateData>
+  <TemplateContent>
+    <References />
+    <ProjectItem SubType="" TargetFileName="$fileinputname$.c" ReplaceParameters="true">Behavior.c</ProjectItem>
+  </TemplateContent>
+</VSTemplate>
