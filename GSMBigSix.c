@@ -77,7 +77,7 @@ void UpdateLevel()
         break;
 
       case Behavior:
-        pMesh = (BEHAVIOR *)tempComp->pStruct;
+        pBehavior = (BEHAVIOR *)tempComp->pStruct;
         break;
 
       default:
@@ -86,7 +86,7 @@ void UpdateLevel()
 
       tempComp = tempComp->nextComponent;
     }
-
+    //pBehavior->BehaviorScript(pBehavior, "Update");
     tempUnit = tempUnit->nextUnit;
   }
 }

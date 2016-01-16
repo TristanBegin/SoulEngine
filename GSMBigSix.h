@@ -7,4 +7,4 @@ void DrawLevel();
 void FreeLevel();
 void UnloadLevel();
 
-void DrawObject();
+void DrawObject(); 
