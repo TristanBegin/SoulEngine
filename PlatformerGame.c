@@ -16,7 +16,7 @@ ARCHETYPE * CreatePlayerArchetype(GAME * pGame)
   ARCHETYPE * paPlayer;
   paPlayer = CreateArchetype(pGame, "Player");
   AddComponent(paPlayer, Sprite);
-  AddComponent(paPlayer, SquareMesh);
+  AddComponent(paPlayer, Mesh);
   AddBehaviorComponent(paPlayer, PlayerUpdate);
 
   return paPlayer;

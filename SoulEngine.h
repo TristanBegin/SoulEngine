@@ -9,7 +9,7 @@ typedef struct TRANSFORM TRANSFORM;
 typedef struct ARCHETYPE ARCHETYPE;
 typedef struct COMPONENT COMPONENT;
 typedef struct SPRITE SPRITE;
-typedef struct MESH SQUAREMESH;
+typedef struct MESH MESH;
 typedef struct GAMESTATS GAMESTATS;
 typedef struct GAME GAME;
 typedef struct UNIT UNIT;
@@ -130,7 +130,7 @@ typedef struct MESH
   ARCHETYPE *pArchetype;  //The original archetype this came from.
   VECTOR Size;            //The scale of the mesh (read only).
   AEGfxVertexList *pMesh; //The actual mesh.
-}SQUAREMESH;
+}MESH;
 
 
 // COMPONENT STRUCT
@@ -177,7 +177,7 @@ typedef struct GAMESTATS
 
   LEVEL * pRunningLevel; //Level currently running.
 
-  SQUAREMESH *pDefaultSquareMesh; //Default square mesh. (32x32 square).
+  MESH *pDefaultMesh; //Default square mesh. (32x32 square).
   SPRITE *pDefaultSprite;         //Default sprite.   (White square)
   TRANSFORM *pDefaultTransform;   //Default Transform. (P:(0,0) R:(0) S:(1,1))
   BEHAVIOR *pDefaultBehavior;     //Default Behavior (currently NULL)
@@ -239,7 +239,7 @@ typedef struct VAR
 typedef enum COMPONENTTYPE
 {
   Sprite,
-  SquareMesh,
+  Mesh,
   Behavior
 }COMPONENTTYPE;
 

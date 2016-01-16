@@ -62,7 +62,7 @@ void UpdateLevel()
   {
     COMPONENT * tempComp = tempUnit->pArchetype->nextComponent;
     SPRITE * pSprite = NULL;
-    SQUAREMESH * pMesh = NULL;
+    MESH * pMesh = NULL;
     BEHAVIOR * pBehavior = NULL;
     while (tempComp)
     {
@@ -72,8 +72,8 @@ void UpdateLevel()
         pSprite = (SPRITE *)tempComp->pStruct;
         break;
 
-      case SquareMesh:
-        pMesh = (SQUAREMESH *)tempComp->pStruct;
+      case Mesh:
+        pMesh = (MESH *)tempComp->pStruct;
         break;
 
       case Behavior:
@@ -103,7 +103,7 @@ void DrawLevel()
   {
     COMPONENT * tempComp = tempUnit->pArchetype->nextComponent;
     SPRITE * pSprite = NULL;
-    SQUAREMESH * pMesh = NULL;
+    MESH * pMesh = NULL;
     while (tempComp)
     {
       switch (tempComp->Type)
@@ -113,7 +113,7 @@ void DrawLevel()
           break;
 
         case SquareMesh:
-          pMesh = (SQUAREMESH *) tempComp->pStruct;
+          pMesh = (MESH *) tempComp->pStruct;
           break;
 
         default:
@@ -133,7 +133,7 @@ void DrawLevel()
   }
 }
 
-void DrawObject(SQUAREMESH * pMesh, SPRITE * pSprite)
+void DrawObject(MESH * pMesh, SPRITE * pSprite)
 {
   TRANSFORM * pMyTransform = pSprite->pArchetype->pUnit->pTransform;
 

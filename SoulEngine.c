@@ -42,7 +42,7 @@ GAMESTATS * SetDefaults(GAME * pGame)
   GAMESTATS * pStats = malloc(sizeof(GAMESTATS));
 
   SPRITE * pSprite = malloc(sizeof(SPRITE));
-  SQUAREMESH * pSquareMesh = malloc(sizeof(SQUAREMESH));
+  MESH * pMesh = malloc(sizeof(MESH));
   VECTOR zeroVector = { 0, 0 };
   VECTOR meshSizeVector = { 32, 32 };
   VECTOR oneVector = { 1, 1 };
@@ -77,10 +77,10 @@ GAMESTATS * SetDefaults(GAME * pGame)
   pMesh = AEGfxMeshEnd();
   AE_ASSERT_MESG(pMesh, "Failed to create default mesh");
 
-  pSquareMesh->pMesh = pMesh;
-  pSquareMesh->Size = meshSizeVector;
+  pMesh->pMesh = pMesh;
+  pMesh->Size = meshSizeVector;
 
-  pStats->pDefaultSquareMesh = pSquareMesh;
+  pStats->pDefaultMesh = pMesh;
 
   pStats->pRunningLevel = NULL;
   pStats->Health = 100;
@@ -138,14 +138,14 @@ COMPONENT * AddComponent(ARCHETYPE *pArchetype, COMPONENTTYPE DesiredType)
     pNewSprite->pArchetype = pArchetype;
   }
 
-  if (DesiredType == SquareMesh)
+  if (DesiredType == Mesh)
   {
-    SQUAREMESH * pNewSquareMesh = malloc(sizeof(SQUAREMESH));
-    pNewComponent->Type = SquareMesh;
-    *pNewSquareMesh = *(pArchetype->pGame->pGameStats->pDefaultSquareMesh);
-    pNewComponent->pStruct = pNewSquareMesh;
-    pNewSquareMesh->pComponent = pNewComponent;
-    pNewSquareMesh->pArchetype = pArchetype;
+    MESH * pNewMesh = malloc(sizeof(MESH));
+    pNewComponent->Type = Mesh;
+    *pNewMesh = *(pArchetype->pGame->pGameStats->pDefaultMesh);
+    pNewComponent->pStruct = pNewMesh;
+    pNewMesh->pComponent = pNewComponent;
+    pNewMesh->pArchetype = pArchetype;
   }
 
   return pNewComponent;
@@ -312,10 +312,10 @@ ARCHETYPE * CreateInstanceOfArchetype(ARCHETYPE * pArchetype, UNIT * pUnit)
       spriteCopy->pComponent = compCopy;
       compCopy->pStruct = spriteCopy;
     }
-    else if (temp->Type == SquareMesh)
+    else if (temp->Type == Mesh)
     {
-      SQUAREMESH * sqmeshCopy = malloc(sizeof(SQUAREMESH));
-      *sqmeshCopy = *((SQUAREMESH *)temp->pStruct);
+      MESH * sqmeshCopy = malloc(sizeof(MESH));
+      *sqmeshCopy = *((MESH *)temp->pStruct);
       sqmeshCopy->pArchetype = pNewArchetype;
       sqmeshCopy->pComponent = compCopy;
       compCopy->pStruct = sqmeshCopy;
