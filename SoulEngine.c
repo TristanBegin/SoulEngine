@@ -113,22 +113,38 @@ ARCHETYPE * CreateArchetype(GAME * pGame, char *Name)
 
 void FreeGame(GAME * pGame)
 {
-  ARCHETYPE * temp = NULL;
-  LEVEL * tempLevel = NULL;
+  ARCHETYPE * temp = pGame->nextArchetype;
+  LEVEL * tempLevel = pGame->nextLevel;
   if (pGame != NULL)
   {
     while (pGame->nextArchetype)
     {
+      COMPONENT * tempComp = temp->nextComponent;
+      while (temp->nextComponent)
+      {
+        free(tempComp->pStruct);
+
+        tempComp = temp->nextComponent->nextComponent;
+        free(temp->nextComponent);
+        temp->nextComponent = tempComp;
+      }
       temp = pGame->nextArchetype->nextArchetype;
       free(pGame->nextArchetype);
       pGame->nextArchetype = temp;
     }
+
     while (pGame->nextLevel)
     {
-      //while (tempLevel->nextUnit)
-      //{
-
-      //}
+      UNIT * tempUnit = tempLevel->nextUnit;
+      while (tempLevel->nextUnit)
+      {
+        //free(tempUnit->pInitArchetype);
+        free(tempUnit->pInitTransform);
+        
+        tempUnit = tempLevel->nextUnit->nextUnit;
+        free(tempLevel->nextUnit);
+        tempLevel->nextUnit = tempUnit;
+      }
       tempLevel = pGame->nextLevel->nextLevel;
       free(pGame->nextLevel);
       pGame->nextLevel = tempLevel;
@@ -138,6 +154,7 @@ void FreeGame(GAME * pGame)
     
     // Freeing the texture
     AEGfxTextureUnload(pGame->pGameStats->pDefaultSprite->pTexture);
+
     free(pGame->pGameStats->pDefaultTransform);
     free(pGame->pGameStats);
     free(pGame);
