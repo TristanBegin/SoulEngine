@@ -66,13 +66,13 @@ GAMESTATS * SetDefaults(GAME * pGame)
 
   //This shape has 2 triangles.
   AEGfxTriAdd(
-    -16.0f, -16.0f, 0x00FF00FF, 0.0f, 1.0f,
-    16.0f, -16.0f, 0x00FFFF00, 1.0f, 1.0f,
-    -16.0f, 16.0f, 0x00F00FFF, 0.0f, 0.0f);
+    -16.0f, -16.0f, 0xFFFFFFFF, 0.0f, 1.0f,
+    16.0f, -16.0f, 0xFFFFFFFF, 1.0f, 1.0f,
+    -16.0f, 16.0f, 0xFFFFFFFF, 0.0f, 0.0f);
   AEGfxTriAdd(
-    16.0f, -16.0f, 0x00FF00FF, 1.0f, 1.0f,
-    16.0f, 16.0f, 0x00FFFF00, 1.0f, 0.0f,
-    -16.0f, 16.0f, 0x00F00FFF, 0.0f, 0.0f);
+    16.0f, -16.0f, 0xFFFFFFFF, 1.0f, 1.0f,
+    16.0f, 16.0f, 0xFFFFFFFF, 1.0f, 0.0f,
+    -16.0f, 16.0f, 0xFFFFFFFF, 0.0f, 0.0f);
 
   pMesh = AEGfxMeshEnd();
   AE_ASSERT_MESG(pMesh, "Failed to create default mesh");
@@ -82,12 +82,12 @@ GAMESTATS * SetDefaults(GAME * pGame)
 
   pStats->pDefaultSquareMesh = pSquareMesh;
 
+  pStats->pRunningLevel = NULL;
   pStats->Health = 100;
   pStats->currentLevel = Level0;
   pStats->nextLevel = Level0;
   pStats->previousLevel = Level0;
   pStats->pDefaultBehavior = NULL;
-  pStats->pDefaultTransform = NULL;
   pStats->Points = 0;
   pStats->SpawnPoint = zeroVector;
 
@@ -165,6 +165,8 @@ COMPONENT * AddBehaviorComponent(ARCHETYPE *pArchetype, void(*BehaviorScript)(BE
   pNewBehavior->BehaviorScript = BehaviorScript;
   pNewBehavior->pComponent = pNewComponent;
   pNewBehavior->pArchetype = pArchetype;
+
+  return pNewComponent;
 }
 
 COMPONENT * FindComponent(ARCHETYPE * pArchetype, COMPONENTTYPE DesiredType)
@@ -206,6 +208,7 @@ ARCHETYPE * FindArchetypeByName(GAME *pGame, char *Name)
 //Creates an empty Level.
 LEVEL * AddLevel(GAME * pGame, char *Name, int Order)
 {
+
 	LEVEL * pNewLevel = malloc(sizeof(LEVEL));
 	pNewLevel->Name = Name;
 	pNewLevel->Order = Order;
@@ -214,22 +217,29 @@ LEVEL * AddLevel(GAME * pGame, char *Name, int Order)
   pNewLevel->pGame = pGame;
 	pNewLevel->nextLevel = pGame->nextLevel;
 	pGame->nextLevel = pNewLevel;
+
+  return pNewLevel;
 }
 
 //Adds a Unit of the given Archetype to the given level with the default Transform.
 UNIT * AddUnit(LEVEL *pLevel, ARCHETYPE *pArchetype, char *Name)
 {
+
 	UNIT * pNewUnit = malloc(sizeof(UNIT));
 	pNewUnit->Name = Name;
 	pNewUnit->pInitArchetype = pArchetype;
+  pNewUnit->pInitTransform = pArchetype->pGame->pGameStats->pDefaultTransform;
 	pNewUnit->pTransform = pArchetype->pGame->pGameStats->pDefaultTransform;
 	pNewUnit->pLevel = pLevel;
 	pNewUnit->nextUnit = pLevel->nextUnit;
 	pLevel->nextUnit = pNewUnit;
+
+  return pNewUnit;
 }
 
 LEVEL * FindLevelByOrder(GAME *pGame, int Order)
 {
+
 	LEVEL * temp = pGame->nextLevel;
 	while (temp)
 	{
@@ -239,6 +249,8 @@ LEVEL * FindLevelByOrder(GAME *pGame, int Order)
 		}
 		temp = temp->nextLevel;
 	}
+
+  printf("Couldn't find level");
 	return NULL;
 }
 
@@ -270,7 +282,9 @@ void InitializeUnit(UNIT * pUnit)
     if (temp->Type == Behavior)
     {
       ((BEHAVIOR*)temp->pStruct)->BehaviorScript(((BEHAVIOR*)temp->pStruct), "Start");
+      break;
     }
+    temp = temp->nextComponent;
   }
 
 }
@@ -279,7 +293,8 @@ ARCHETYPE * CreateInstanceOfArchetype(ARCHETYPE * pArchetype, UNIT * pUnit)
 {
   ARCHETYPE * pNewArchetype = malloc(sizeof(ARCHETYPE));
   COMPONENT * temp = pArchetype->nextComponent;
-  pNewArchetype->Name = strcat(pArchetype->Name, "(Instance)");
+  //pNewArchetype->Name = strcat(pArchetype->Name, "(Instance)");
+  pNewArchetype->nextComponent = NULL;
   pNewArchetype->nextArchetype = NULL;
   pNewArchetype->pGame = pArchetype->pGame;
   pNewArchetype->pUnit = pUnit;
@@ -319,6 +334,8 @@ ARCHETYPE * CreateInstanceOfArchetype(ARCHETYPE * pArchetype, UNIT * pUnit)
 
     temp = temp->nextComponent;
   }
+
+  return pNewArchetype;
 }
 
 // ---------------------------------------------------------------------------

@@ -7,7 +7,7 @@
 #define PREVIOUS_LEVEL pTheGame->pGameStats->previousLevel
 
 extern GAME * pTheGame;
-LEVEL * pRunningLevel;
+
 BEHAVIOR ** pBehaviorArray = NULL;
 int numBehaviors;
 
@@ -26,7 +26,8 @@ void InitializeGSM(void)
 
 void UpdateGSM(void)
 {
-	LEVEL *pRunningLevel = FindLevelByOrder(pTheGame, CURRENT_LEVEL);
+	pTheGame->pGameStats->pRunningLevel = FindLevelByOrder(pTheGame, CURRENT_LEVEL);
+
 }
 
 void MainLoopGSM(void)
@@ -48,9 +49,23 @@ void MainLoopGSM(void)
 
 		while (CURRENT_LEVEL == NEXT_LEVEL)
 		{
-			//Input
+
+      //Informing the system about the loop's start.
+      AESysFrameStart();
+
+      AEInputUpdate();
+
+
+      //InputFunction?
       UpdateLevel();
       DrawLevel();
+
+      if (AEInputCheckTriggered(VK_ESCAPE) || 0 == AESysDoesWindowExist())
+      {
+        NEXT_LEVEL = Quit;
+      }
+
+      AESysFrameEnd();
 		}
 
 		//Free Level

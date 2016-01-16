@@ -1,8 +1,8 @@
 #include "SoulEngine.h"
 #include "GSMBigSix.h"
 
-extern LEVEL * pRunningLevel;
-extern BEHAVIOR ** pBehaviorArray = NULL;
+extern GAME * pTheGame;
+extern BEHAVIOR ** pBehaviorArray;
 extern int numBehaviors;
 
 
@@ -12,7 +12,8 @@ extern int numBehaviors;
 
 void InitializeLevel()
 {
-  UNIT * temp = pRunningLevel->nextUnit;
+  LEVEL * pTheLevel = pTheGame->pGameStats->pRunningLevel;
+  UNIT * temp = pTheLevel->nextUnit;
   numBehaviors = 0;
   while (temp)
   {
@@ -29,7 +30,7 @@ void InitializeLevel()
   {
     int i = 0;
     pBehaviorArray = (BEHAVIOR**)calloc(numBehaviors, sizeof(BEHAVIOR*));
-    temp = pRunningLevel->nextUnit;
+    temp = pTheLevel->nextUnit;
 
     while (temp)
     {
@@ -62,12 +63,13 @@ void UpdateLevel()
 *********************************************************/
 void DrawLevel()
 {
-  UNIT * tempUnit = pRunningLevel->nextUnit;
+  LEVEL * pTheLevel = pTheGame->pGameStats->pRunningLevel;
+  UNIT * tempUnit = pTheLevel->nextUnit;
   while (tempUnit)
   {
     COMPONENT * tempComp = tempUnit->pArchetype->nextComponent;
-    SPRITE * pSprite;
-    SQUAREMESH * pMesh;
+    SPRITE * pSprite = NULL;
+    SQUAREMESH * pMesh = NULL;
     while (tempComp)
     {
       switch (tempComp->Type)
@@ -81,13 +83,17 @@ void DrawLevel()
         default:
           break;
       }
-      
-      if (pMesh && pSprite)
-      {
-        DrawObject(pMesh, pSprite);
-      }
-      
+
+      tempComp = tempComp->nextComponent;
     }
+      
+    if (pMesh && pSprite)
+    {
+      DrawObject(pMesh, pSprite);
+    }
+    
+    tempUnit = tempUnit->nextUnit;
+    
   }
 }
 
@@ -96,7 +102,6 @@ void DrawObject(SQUAREMESH * pMesh, SPRITE * pSprite)
   TRANSFORM * pMyTransform = pSprite->pArchetype->pUnit->pTransform;
 
   //Drawing object
-
   AEGfxSetRenderMode(AE_GFX_RM_COLOR);
 
   //Set Position of object
@@ -106,6 +111,7 @@ void DrawObject(SQUAREMESH * pMesh, SPRITE * pSprite)
   AEGfxTextureSet(pSprite->pTexture, 0, 0);
 
   //Drawing the mesh (list of triangles)
-  AEGfxSetTransparency(0.0);
+  AEGfxSetTransparency(1.0);
   AEGfxMeshDraw(pMesh->pMesh, AE_GFX_MDM_TRIANGLES);
+
 }

@@ -1,4 +1,4 @@
-GAME * InitializePlatformerGame(void);
+void InitializePlatformerGame(void);
 
 ARCHETYPE * CreatePlayerArchetype(GAME * pGame);
 

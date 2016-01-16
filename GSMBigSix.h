@@ -6,3 +6,5 @@ void UpdateLevel();
 void DrawLevel();
 void FreeLevel();
 void UnloadLevel();
+
+void DrawObject();

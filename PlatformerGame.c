@@ -1,13 +1,14 @@
 #include "SoulEngine.h"
 #include "PlatformerGame.h"
 
-GAME * InitializePlatformerGame(void)
+extern GAME * pTheGame;
+
+void InitializePlatformerGame(void)
 {
-  GAME * pGame; 
-  pGame = InitializeGame("Platformer");
-  CreatePlayerArchetype(pGame);
+  pTheGame = InitializeGame("Platformer");
+  CreatePlayerArchetype(pTheGame);
   
-  CreateLevelZero(pGame);
+  CreateLevelZero(pTheGame);
 }
 
 ARCHETYPE * CreatePlayerArchetype(GAME * pGame)
@@ -16,6 +17,7 @@ ARCHETYPE * CreatePlayerArchetype(GAME * pGame)
   paPlayer = CreateArchetype(pGame, "Player");
   AddComponent(paPlayer, Sprite);
   AddComponent(paPlayer, SquareMesh);
+  AddBehaviorComponent(paPlayer, PlayerUpdate);
 
   return paPlayer;
 }
@@ -25,8 +27,9 @@ LEVEL * CreateLevelZero(GAME * pGame)
 	LEVEL * pLevelZero = AddLevel(pGame, "Tutorial", 0);
 	
 	ARCHETYPE * pPlayerArchetype = FindArchetypeByName(pGame, "Player");
+
 	UNIT * Player = AddUnit(pLevelZero, pPlayerArchetype, "Player");
-  AddBehaviorComponent(Player, PlayerUpdate);
+  
 }
 
 void PlayerUpdate(BEHAVIOR * Owner, char * Trigger)
