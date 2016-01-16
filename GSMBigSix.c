@@ -90,7 +90,10 @@ void UpdateLevel()
 	  }
       tempComp = tempComp->nextComponent;
     }
-    //pBehavior->BehaviorScript(pBehavior, "Update");
+    if (pBehavior)
+    {
+      pBehavior->BehaviorScript(pBehavior, "Update");
+    }
     tempUnit = tempUnit->nextUnit;
   }
 }

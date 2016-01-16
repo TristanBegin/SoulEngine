@@ -1,5 +1,6 @@
 #include "SoulEngine.h"
 #include "PlatformerGame.h"
+#include "Behaviors.h"
 
 extern GAME * pTheGame;
 
@@ -18,7 +19,7 @@ ARCHETYPE * CreatePlayerArchetype(GAME * pGame)
   paPlayer = CreateArchetype(pGame, "Player");
   AddComponent(paPlayer, Sprite);
   AddComponent(paPlayer, Mesh);
-  AddBehaviorComponent(paPlayer, PlayerUpdate);
+  AddBehaviorComponent(paPlayer, PlayerBehavior);
 
   return paPlayer;
 }
@@ -50,13 +51,5 @@ LEVEL * CreateLevelZero(GAME * pGame)
 
   Anim->pInitTransform->Position.x = -300;
 
-  
-}
-
-void PlayerUpdate(BEHAVIOR * Owner, char * Trigger)
-{
-  if (Trigger == "Update")
-  {
-    Owner->pArchetype->pUnit->pTransform->Position.x += 1;
-  }
+  return pLevelZero;
 }
