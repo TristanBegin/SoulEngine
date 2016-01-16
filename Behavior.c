@@ -10,7 +10,7 @@ static GAMESTATS * pMyGameStats;
 void Start();
 void Update();
 
-void PlayerBehavior(BEHAVIOR * Owner, char * Trigger)
+void $BehaviorName$(BEHAVIOR * Owner, char * Trigger)
 {
   pMyUnit = Owner->pArchetype->pUnit;
   pMyTransform = pMyUnit->pTransform;
@@ -32,10 +32,12 @@ void PlayerBehavior(BEHAVIOR * Owner, char * Trigger)
 
 void Start()
 {
-  pMyTransform->Position = NewVector(4, -2);
+  
+
 }
 
 void Update()
 {
+
 
 }
