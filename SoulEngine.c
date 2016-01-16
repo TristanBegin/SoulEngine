@@ -46,7 +46,7 @@ GAMESTATS * SetDefaults(GAME * pGame)
   VECTOR zeroVector = { 0, 0 };
   VECTOR meshSizeVector = { 32, 32 };
   VECTOR oneVector = { 1, 1 };
-  AEGfxVertexList * pMesh;
+  AEGfxVertexList * pLMesh;
   TRANSFORM * pTransform = malloc(sizeof(TRANSFORM));
 
   pTransform->Position = zeroVector;
@@ -77,7 +77,7 @@ GAMESTATS * SetDefaults(GAME * pGame)
   pMesh = AEGfxMeshEnd();
   AE_ASSERT_MESG(pMesh, "Failed to create default mesh");
 
-  pMesh->pMesh = pMesh;
+  pMesh->pMeshLit = pMesh;
   pMesh->Size = meshSizeVector;
 
   pStats->pDefaultMesh = pMesh;

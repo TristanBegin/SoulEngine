@@ -129,7 +129,7 @@ typedef struct MESH
   COMPONENT *pComponent;  //The component that holds this Sprite.
   ARCHETYPE *pArchetype;  //The original archetype this came from.
   VECTOR Size;            //The scale of the mesh (read only).
-  AEGfxVertexList *pMesh; //The actual mesh.
+  AEGfxVertexList *pMeshLit; //The actual mesh.
 }MESH;
 
 
