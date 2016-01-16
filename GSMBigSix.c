@@ -112,7 +112,7 @@ void DrawLevel()
           pSprite = (SPRITE *)tempComp->pStruct;
           break;
 
-        case SquareMesh:
+        case Mesh:
           pMesh = (MESH *) tempComp->pStruct;
           break;
 
