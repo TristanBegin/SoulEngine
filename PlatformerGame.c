@@ -1,6 +1,7 @@
 #include "SoulEngine.h"
 #include "PlatformerGame.h"
 #include "Behaviors.h"
+#include "FileInterpreter.h"
 
 extern GAME * pTheGame;
 
@@ -11,6 +12,7 @@ void InitializePlatformerGame(void)
   CreatePlayerArchetype(pTheGame);
   CreateAnimArchetype(pTheGame);
   CreateLevelZero(pTheGame);
+  InterpretArchetypeFiles();
 }
 
 ARCHETYPE * CreatePlayerArchetype(GAME * pGame)

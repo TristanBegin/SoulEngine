@@ -32,12 +32,15 @@ void PlayerBehavior(BEHAVIOR * Owner, char * Trigger)
 
 void Start()
 {
-  
+  pMyTransform->Position = NewVector(2, 2);
 
 }
 
 void Update()
 {
-
+  if (AEInputCheckCurr(VK_SPACE))
+  {
+    pMyTransform->Position.x += 0.1;
+  }
 
 }
