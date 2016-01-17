@@ -40,7 +40,7 @@ void Update()
 {
   if (AEInputCheckCurr(VK_SPACE))
   {
-    pMyTransform->Position.x += 0.1;
+    pMyTransform->Position.x -= 0.1;
   }
 
 }

@@ -1,4 +1,4 @@
-<PlayerArchetype.txt>
-
+PlayerArchetype.txt
+bad <5>
 
 <DONE>

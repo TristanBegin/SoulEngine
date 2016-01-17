@@ -2,15 +2,35 @@
 #include "Behaviors.h"
 #include <stdio.h>
 
+#define MAX_LENGTH 50
+
+void AddNull(char * buffer)
+{
+  buffer[strlen(buffer) - 1] = '\0';
+}
 void InterpretArchetypeFiles()
 {
   FILE * ArchList = NULL;
-  char * nextArch = "DONE";
-  errno_t err = fopen_s(&ArchList, "ArchetypeList.txt", "r");
+  FILE * curArch = NULL;
+  char buffer[MAX_LENGTH];
+  char nextArch[MAX_LENGTH];
+  int myint = 0;
+  char mychar = 'a';
 
-  //if (err == 0) 
-  //  fscanf_s(ArchList, "<%s>", &nextArch);
+  ArchList = fopen("ArchetypeList.txt", "r");
+
+  if (fgets(buffer, MAX_LENGTH, ArchList))
+  {
+    AddNull(buffer);
+    //sscanf(buffer, "%s", &nextArch); <-WORKS :D
+    curArch = fopen(buffer, "r");
+
+  }
+
+
+  
+  OutputDebugString(nextArch);
 
   fclose(ArchList);
-  OutputDebugString(nextArch);
+  
 }
