@@ -72,13 +72,14 @@ GAMESTATS * SetDefaults(GAME * pGame)
 
   //This shape has 2 triangles.
   AEGfxTriAdd(
-    -16.0f, -16.0f, 0xFFFFFFFF, 0.0f, 1.0f,
-    16.0f, -16.0f, 0xFFFFFFFF, 1.0f, 1.0f,
-    -16.0f, 16.0f, 0xFFFFFFFF, 0.0f, 0.0f);
+	  -16.0f, -16.0f, 0xFFFFFFFF, 0.0f, 0.5f,
+	  16.0f, -16.0f, 0xFFFFFFFF, 0.2f, 0.5f,
+	  -16.0f, 16.0f, 0xFFFFFFFF, 0.0f, 0.0f);
   AEGfxTriAdd(
-    16.0f, -16.0f, 0xFFFFFFFF, 1.0f, 1.0f,
-    16.0f, 16.0f, 0xFFFFFFFF, 1.0f, 0.0f,
-    -16.0f, 16.0f, 0xFFFFFFFF, 0.0f, 0.0f);
+	  16.0f, -16.0f, 0xFFFFFFFF, 0.2f, 0.5f,
+	  16.0f, 16.0f, 0xFFFFFFFF, 0.2f, 0.0f,
+	  -16.0f, 16.0f, 0xFFFFFFFF, 0.0f, 0.0f);
+
 
   pLMesh = AEGfxMeshEnd();
   AE_ASSERT_MESG(pMesh, "Failed to create default mesh");

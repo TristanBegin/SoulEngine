@@ -1,2 +1,2 @@
-//#include "SoulEngine.h"
-//void Animate(SPRITE* pSprite);
+#include "SoulEngine.h"
+void Animate(SPRITE* pSprite);

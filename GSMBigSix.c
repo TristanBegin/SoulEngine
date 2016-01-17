@@ -84,12 +84,13 @@ void UpdateLevel()
       default:
         break;
       }
-	  if (pSprite->Animated == TRUE)
-	  {
-		  //Animate(pSprite);
-	  }
+
       tempComp = tempComp->nextComponent;
     }
+	if (pSprite->Animated == TRUE)
+	{
+		Animate(pSprite);
+	}
     if (pBehavior)
     {
       pBehavior->BehaviorScript(pBehavior, "Update");
@@ -151,7 +152,7 @@ void DrawObject(MESH * pMesh, SPRITE * pSprite)
   AEGfxSetPosition(pMyTransform->Position.x * gridMultiplier, pMyTransform->Position.y * gridMultiplier);
 
   //Set texture for object
-  AEGfxTextureSet(pSprite->pTexture, 0, 0);
+  AEGfxTextureSet(pSprite->pTexture, pSprite->Offset.x, pSprite->Offset.y);
 
   //Drawing the mesh (list of triangles)
   AEGfxSetTransparency(1.0);
