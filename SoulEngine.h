@@ -117,6 +117,7 @@ typedef struct SPRITE
   COMPONENT *pComponent;  //The component that holds this Sprite.
   ARCHETYPE *pArchetype;  //The original archetype this came from.
   AEGfxTexture *pTexture; //The texture to display.
+  char * TextureFile;
   BOOL Animated;          //The Boolean that tells if it is animated.
   VECTOR RowCol;          //The number of rows and columns in the sprite sheet. 
   VECTOR Offset;          //The offset of the texture on the object.

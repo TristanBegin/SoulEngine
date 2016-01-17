@@ -9,10 +9,10 @@ void InitializePlatformerGame(void)
 {
 
   pTheGame = InitializeGame("Platformer");
+  InterpretArchetypeFiles();
   CreatePlayerArchetype(pTheGame);
   CreateAnimArchetype(pTheGame);
   CreateLevelZero(pTheGame);
-  InterpretArchetypeFiles();
 }
 
 ARCHETYPE * CreatePlayerArchetype(GAME * pGame)
@@ -44,13 +44,19 @@ LEVEL * CreateLevelZero(GAME * pGame)
 	LEVEL * pLevelZero = AddLevel(pGame, "Tutorial", 0);
 	
 	ARCHETYPE * pPlayerArchetype = FindArchetypeByName(pGame, "Player");
+  ARCHETYPE * pPlayer2Archetype = FindArchetypeByName(pGame, "Player2");
 
   ARCHETYPE * pAnimArchetype = FindArchetypeByName(pGame, "Anim");
 
 	UNIT * Player = AddUnit(pLevelZero, pPlayerArchetype, "Player");
 
-  UNIT * Anim = AddUnit(pLevelZero, pAnimArchetype, "Anim");
+  UNIT * Player2 = AddUnit(pLevelZero, pPlayer2Archetype, "Player2");
 
+  UNIT * Anim = AddUnit(pLevelZero, pAnimArchetype, "Anim");
+  SPRITE * pPlayer2Sprite = (SPRITE*)FindComponentStruct(pPlayer2Archetype, Sprite);
+//  BEHAVIOR * pPlayer2Behavior = (BEHAVIOR*)FindComponentStruct(pPlayer2Archetype, Behavior);
+  pPlayer2Sprite->pTexture = AEGfxTextureLoad(pPlayer2Sprite->TextureFile);
+  Player2->pInitTransform->Position.y = -2;
   Anim->pInitTransform->Position.x = -1;
 
   return pLevelZero;

@@ -13,6 +13,7 @@
 
 #include "SoulEngine.h"
 #include <string.h>
+#include "FileInterpreter.h"
 // ---------------------------------------------------------------------------
 
 // Libraries
@@ -105,6 +106,7 @@ ARCHETYPE * CreateArchetype(GAME * pGame, char *Name)
   ARCHETYPE * pNewArchetype = malloc(sizeof(ARCHETYPE));
   pNewArchetype->Name = Name;
   pNewArchetype->nextComponent = NULL;
+  pNewArchetype->pUnit = NULL;
   pNewArchetype->pGame = pGame;
   pNewArchetype->nextArchetype = pGame->nextArchetype;
   pGame->nextArchetype = pNewArchetype;
@@ -174,6 +176,7 @@ COMPONENT * AddComponent(ARCHETYPE *pArchetype, COMPONENTTYPE DesiredType)
     pNewComponent->Type = Sprite;
     *pNewSprite = *(pArchetype->pGame->pGameStats->pDefaultSprite);
     pNewComponent->pStruct = pNewSprite;
+    pNewSprite->TextureFile = NULL;
     pNewSprite->pComponent = pNewComponent;
     pNewSprite->pArchetype = pArchetype;
   }
@@ -186,6 +189,16 @@ COMPONENT * AddComponent(ARCHETYPE *pArchetype, COMPONENTTYPE DesiredType)
     pNewComponent->pStruct = pNewMesh;
     pNewMesh->pComponent = pNewComponent;
     pNewMesh->pArchetype = pArchetype;
+  }
+
+  if (DesiredType == Behavior)
+  {
+    BEHAVIOR * pNewBehavior = malloc(sizeof(BEHAVIOR));
+    pNewComponent->Type = Behavior;
+    pNewComponent->pStruct = pNewBehavior;
+    pNewBehavior->BehaviorScript = NULL;
+    pNewBehavior->pComponent = pNewComponent;
+    pNewBehavior->pArchetype = pArchetype;
   }
 
   return pNewComponent;
@@ -236,7 +249,7 @@ ARCHETYPE * FindArchetypeByName(GAME *pGame, char *Name)
 	ARCHETYPE * temp = pGame->nextArchetype;
 	while (temp)
 	{
-		if (temp->Name == Name)
+		if (myStrCmp(temp->Name, Name) <= 0)
 		{
 			return temp;
 		}
@@ -301,7 +314,7 @@ LEVEL * FindLevelByName(GAME *pGame, char * Name)
 	LEVEL * temp = pGame->nextLevel;
 	while (temp)
 	{
-		if (temp->Name == Name)
+		if (myStrCmp(temp->Name, Name) <= 0)
 		{
 			return temp;
 		}

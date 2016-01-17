@@ -32,7 +32,7 @@ void PlayerBehavior(BEHAVIOR * Owner, char * Trigger)
 
 void Start()
 {
-  pMyTransform->Position = NewVector(2, 2);
+  //pMyTransform->Position = NewVector(2, 2);
 
 }
 
