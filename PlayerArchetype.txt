@@ -1,0 +1,49 @@
+GLOBAL ARCHETYPE CREATION FILE
+
+Name = <Player>
+
+
+---------------------------------------------
+ - COMPONENTS -
+---------------------------------------------
+
+Another? = <1>
+
+COMPONENT |Sprite|
+
+	DefaultAll? = <0>
+
+	TextureFile = <Blank.png>
+	
+	Animated? = <0>
+
+	RowCol = <(1, 1)>
+
+	Offset = <(0, 0)>
+
+	AnimationSpeed = <1>
+
+
+---------------------------------------------
+Another? = <1>
+
+COMPONENT |Mesh|
+
+	DefaultAll? = <0>
+
+	Size = <(2, 2)>
+
+
+---------------------------------------------
+Another? = <1>
+
+COMPONENT |Behavior|
+	
+	DefaultAll? = <0>
+
+	BehaviorScript = <PlayerBehavior>
+
+Another? = <0>
+
+
+

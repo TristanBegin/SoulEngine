@@ -1,10 +1,16 @@
 #include "SoulEngine.h"
+#include "GSMBigSix.h"
+
+
 #define CURRENT_LEVEL pTheGame->pGameStats->currentLevel
 #define NEXT_LEVEL pTheGame->pGameStats->nextLevel
 #define PREVIOUS_LEVEL pTheGame->pGameStats->previousLevel
 
 extern GAME * pTheGame;
-LEVEL * pRunningLevel;
+
+BEHAVIOR ** pBehaviorArray = NULL;
+int numBehaviors;
+
 
 void LoadLevel();
 void InitializeLevel();
@@ -20,7 +26,8 @@ void InitializeGSM(void)
 
 void UpdateGSM(void)
 {
-	LEVEL *pRunningLevel = FindLevelByOrder(pTheGame, CURRENT_LEVEL);
+	pTheGame->pGameStats->pRunningLevel = FindLevelByOrder(pTheGame, CURRENT_LEVEL);
+
 }
 
 void MainLoopGSM(void)
@@ -38,13 +45,27 @@ void MainLoopGSM(void)
 			//Load Level
 		}
 
-		//Initialize Level
+    InitializeLevel();
 
 		while (CURRENT_LEVEL == NEXT_LEVEL)
 		{
-			//Input
-			//Update Level
-			//Draw Level
+
+      //Informing the system about the loop's start.
+      AESysFrameStart();
+
+      AEInputUpdate();
+
+
+      //InputFunction?
+      UpdateLevel();
+      DrawLevel();
+
+      if (AEInputCheckTriggered(VK_ESCAPE) || 0 == AESysDoesWindowExist())
+      {
+        NEXT_LEVEL = Quit;
+      }
+
+      AESysFrameEnd();
 		}
 
 		//Free Level
@@ -60,12 +81,3 @@ void MainLoopGSM(void)
 }
 
 
-void InitializeLevel()
-{
-  UNIT * temp = pRunningLevel->nextUnit;
-  while (temp)
-  {
-    InitializeUnit(temp);
-    temp = temp->nextUnit;
-  }
-}

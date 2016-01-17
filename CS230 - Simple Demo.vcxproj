@@ -19,6 +19,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Animation.c" />
+    <ClCompile Include="BehaviorStrings.c" />
+    <ClCompile Include="FileInterpreter.c" />
+    <ClCompile Include="GSMBigSix.c" />
+    <ClCompile Include="PlayerBehavior.c">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="SoulEngine.c" />
     <ClCompile Include="GameStateManager.c" />
     <ClCompile Include="Main.c" />
@@ -27,11 +35,20 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Blank.png" />
+    <Image Include="TestAnimation.png" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Animation.h" />
+    <ClInclude Include="Behaviors.h" />
+    <ClInclude Include="FileInterpreter.h" />
+    <ClInclude Include="GSMBigSix.h" />
     <ClInclude Include="PlatformerGame.h" />
     <ClInclude Include="SoulEngine.h" />
     <ClInclude Include="System.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="PlayerArchetype.txt" />
+    <Text Include="ArchetypeList.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{99C44468-B6FA-417A-818E-F61E863B4D40}</ProjectGuid>

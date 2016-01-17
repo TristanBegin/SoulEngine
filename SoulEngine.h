@@ -9,7 +9,7 @@ typedef struct TRANSFORM TRANSFORM;
 typedef struct ARCHETYPE ARCHETYPE;
 typedef struct COMPONENT COMPONENT;
 typedef struct SPRITE SPRITE;
-typedef struct SQUAREMESH SQUAREMESH;
+typedef struct MESH MESH;
 typedef struct GAMESTATS GAMESTATS;
 typedef struct GAME GAME;
 typedef struct UNIT UNIT;
@@ -117,6 +117,8 @@ typedef struct SPRITE
   COMPONENT *pComponent;  //The component that holds this Sprite.
   ARCHETYPE *pArchetype;  //The original archetype this came from.
   AEGfxTexture *pTexture; //The texture to display.
+  BOOL Animated;          //The Boolean that tells if it is animated.
+  VECTOR RowCol;          //The number of rows and columns in the sprite sheet. 
   VECTOR Offset;          //The offset of the texture on the object.
   float AnimationSpeed;   //The speed of the animation.
 }SPRITE;
@@ -124,13 +126,13 @@ typedef struct SPRITE
 
 // COMPONENT STRUCT
 // Holds information to render a mesh.
-typedef struct SQUAREMESH
+typedef struct MESH
 {
   COMPONENT *pComponent;  //The component that holds this Sprite.
   ARCHETYPE *pArchetype;  //The original archetype this came from.
   VECTOR Size;            //The scale of the mesh (read only).
-  AEGfxVertexList *pMesh; //The actual mesh.
-}SQUAREMESH;
+  AEGfxVertexList *pMeshLit; //The actual mesh.
+}MESH;
 
 
 // COMPONENT STRUCT
@@ -171,11 +173,15 @@ typedef struct GAMESTATS
   VECTOR SpawnPoint;  //(Placeholder)
   float Points;       //(Placeholder)
 
+  float GridSize; //Multiplier for position * pixels.
+
   unsigned int currentLevel;  //GSM current level state
   unsigned int nextLevel;     //GSM next level state
   unsigned int previousLevel; //GSM previous level state
 
-  SQUAREMESH *pDefaultSquareMesh; //Default square mesh. (32x32 square).
+  LEVEL * pRunningLevel; //Level currently running.
+
+  MESH *pDefaultMesh; //Default square mesh. (32x32 square).
   SPRITE *pDefaultSprite;         //Default sprite.   (White square)
   TRANSFORM *pDefaultTransform;   //Default Transform. (P:(0,0) R:(0) S:(1,1))
   BEHAVIOR *pDefaultBehavior;     //Default Behavior (currently NULL)
@@ -237,7 +243,7 @@ typedef struct VAR
 typedef enum COMPONENTTYPE
 {
   Sprite,
-  SquareMesh,
+  Mesh,
   Behavior
 }COMPONENTTYPE;
 
@@ -274,7 +280,7 @@ void FreeGame(GAME * pGame);
 COMPONENT * AddComponent(ARCHETYPE *pArchetype, COMPONENTTYPE DesiredType);
 
 //Adds a Behavior component with the given function as it's script. (Use AddComponent to simply add default Behavior).
-COMPONENT * AddBehaviorComponent(ARCHETYPE *pUnit, void(*BehaviorScript)(BEHAVIOR * Owner, char * Trigger));
+COMPONENT * AddBehaviorComponent(ARCHETYPE *pArchetype, void(*BehaviorScript)(BEHAVIOR * Owner, char * Trigger));
 
 //Finds the first component of a given type on an archetype and returns the component.
 COMPONENT * FindComponent(ARCHETYPE * pArchetype, COMPONENTTYPE DesiredType);
@@ -312,6 +318,9 @@ LEVEL * FindLevelByOrder(GAME *pGame, int Order);
 void InitializeUnit(UNIT * pUnit);
 
 ARCHETYPE * CreateInstanceOfArchetype(ARCHETYPE * pArchetype, UNIT * pUnit);
+
+//Returns a new vector with given x and y.
+VECTOR NewVector(float x, float y);
 
 //Adds a new VAR to a behavior. (UNFINISHED DO NOT USE)
 VAR * AddVar(BEHAVIOR * pBehavior);

@@ -1,13 +1,18 @@
 #include "SoulEngine.h"
 #include "PlatformerGame.h"
+#include "Behaviors.h"
+#include "FileInterpreter.h"
 
-GAME * InitializePlatformerGame(void)
+extern GAME * pTheGame;
+
+void InitializePlatformerGame(void)
 {
-  GAME * pGame; 
-  pGame = InitializeGame("Platformer");
-  CreatePlayerArchetype(pGame);
-  
-  CreateLevelZero(pGame);
+
+  pTheGame = InitializeGame("Platformer");
+  CreatePlayerArchetype(pTheGame);
+  CreateAnimArchetype(pTheGame);
+  CreateLevelZero(pTheGame);
+  InterpretArchetypeFiles();
 }
 
 ARCHETYPE * CreatePlayerArchetype(GAME * pGame)
@@ -15,9 +20,23 @@ ARCHETYPE * CreatePlayerArchetype(GAME * pGame)
   ARCHETYPE * paPlayer;
   paPlayer = CreateArchetype(pGame, "Player");
   AddComponent(paPlayer, Sprite);
-  AddComponent(paPlayer, SquareMesh);
+  AddComponent(paPlayer, Mesh);
+  AddBehaviorComponent(paPlayer, PlayerBehavior);
 
   return paPlayer;
+}
+
+ARCHETYPE * CreateAnimArchetype(GAME * pGame)
+{
+  ARCHETYPE * paAnim;
+  COMPONENT * pComp;
+  paAnim = CreateArchetype(pGame, "Anim");
+  pComp = AddComponent(paAnim, Sprite);
+  AddComponent(paAnim, Mesh);
+
+  ((SPRITE*)pComp->pStruct)->pTexture = AEGfxTextureLoad("TestAnimation.png");
+
+  return paAnim;
 }
 
 LEVEL * CreateLevelZero(GAME * pGame)
@@ -25,14 +44,14 @@ LEVEL * CreateLevelZero(GAME * pGame)
 	LEVEL * pLevelZero = AddLevel(pGame, "Tutorial", 0);
 	
 	ARCHETYPE * pPlayerArchetype = FindArchetypeByName(pGame, "Player");
-	UNIT * Player = AddUnit(pLevelZero, pPlayerArchetype, "Player");
-  AddBehaviorComponent(Player, PlayerUpdate);
-}
 
-void PlayerUpdate(BEHAVIOR * Owner, char * Trigger)
-{
-  if (Trigger == "Update")
-  {
-    Owner->pArchetype->pUnit->pTransform->Position.x += 1;
-  }
+  ARCHETYPE * pAnimArchetype = FindArchetypeByName(pGame, "Anim");
+
+	UNIT * Player = AddUnit(pLevelZero, pPlayerArchetype, "Player");
+
+  UNIT * Anim = AddUnit(pLevelZero, pAnimArchetype, "Anim");
+
+  Anim->pInitTransform->Position.x = -1;
+
+  return pLevelZero;
 }
