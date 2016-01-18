@@ -14,7 +14,7 @@ static float lastPosY;
 static VECTOR Velocity;
 static float friction = 0.05;
 static int collidingY = 0;
-static float maxSpeed = 0.3;
+static float maxSpeed = 0.4;
 
 void Start();
 void Update();
@@ -62,7 +62,7 @@ static void Update()
   // Jumping
   if (AEInputCheckCurr('W') && pMyTransform->Position.y <= 0)
   {
-    Velocity.y += 0.4;
+    Velocity.y = 0.7;
   }
 
   if (AEInputCheckCurr('S'))
