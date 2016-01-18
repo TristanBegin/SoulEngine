@@ -1,0 +1,17 @@
+# List of all archetype files to be loaded.
+# Add file to this list when creating new 
+# Archetype file.
+
+# Name = Player
+# The archetype for the player.
+Player_Arch.txt
+
+# Name = GoRight
+# A large square that moves right.
+GoRight_Arch.txt
+
+# Name = Anim
+# Test Archetype for animation.
+Anim_Arch.txt
+
+# No more archetypes.

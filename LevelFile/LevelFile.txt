@@ -1,0 +1,30 @@
+
+#-----------------------------------------------
+# LEVEL CREATION FILE
+# Remember to add your level to the LevelList!
+#-----------------------------------------------
+
+Name = $LevelName$
+
+Order = 0
+
+#-----------------------------------------------
+# - UNITS -
+# All values not specified will be set to
+# default. Delete text of any units
+# you do not want.
+#
+# Declare as "UNIT < ArchetypeName > UnitName"
+#-----------------------------------------------
+
+UNIT < $ArchetypeName$ > $UnitName$
+
+	#InitTransform:
+	InitialPosition = (0, 0)
+	InitialRotation = 0
+	InitialScale = (1, 1)
+
+EndUnit
+#-----------------------------------------------
+
+
