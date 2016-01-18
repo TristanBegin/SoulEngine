@@ -30,13 +30,13 @@ void $BehaviorName$(BEHAVIOR * Owner, char * Trigger)
   }
 }
 
-void Start()
+static void Start()
 {
   
 
 }
 
-void Update()
+static void Update()
 {
 
 

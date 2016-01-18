@@ -1,16 +1,17 @@
 #GLOBAL ARCHETYPE CREATION FILE
 
-Name = Player2
+Name = GoRightArchetype
 
 #-----------------------------------------------
 # - COMPONENTS -
 # All values not specified will be set to
-# default. 
+# default. Delete text of any components
+# you do not want.
 #-----------------------------------------------
 
 COMPONENT | Sprite |
 
-	TextureFile = TestAnimation.png
+	TextureFile = Blank.png
 	
 	Animated = 0
 
@@ -32,9 +33,7 @@ EndComponent
 
 COMPONENT | Behavior |
 
-	BehaviorScript = PlayerBehavior
+	BehaviorScript = GoRightBehavior
 
 EndComponent
-
-
 

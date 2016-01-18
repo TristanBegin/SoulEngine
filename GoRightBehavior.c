@@ -10,7 +10,7 @@ static GAMESTATS * pMyGameStats;
 void Start();
 void Update();
 
-void PlayerBehavior(BEHAVIOR * Owner, char * Trigger)
+void GoRightBehavior(BEHAVIOR * Owner, char * Trigger)
 {
   pMyUnit = Owner->pArchetype->pUnit;
   pMyTransform = pMyUnit->pTransform;
@@ -32,15 +32,12 @@ void PlayerBehavior(BEHAVIOR * Owner, char * Trigger)
 
 static void Start()
 {
-  //pMyTransform->Position = NewVector(2, 2);
+  
 
 }
 
 static void Update()
 {
-  if (AEInputCheckCurr(VK_SPACE))
-  {
-    pMyTransform->Position.x -= 0.1;
-  }
+  pMyTransform->Position.x += 0.1;
 
 }

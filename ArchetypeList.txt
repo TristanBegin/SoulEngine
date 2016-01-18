@@ -1,1 +1,10 @@
+# List of all archetype files to be loaded.
+# Add file to this list when creating new Archetype file.
+
+# Name = Player2
 PlayerArchetype.txt
+
+# Name = GoRight
+GoRightArchetype.txt
+
+# No more archetypes.

@@ -44,7 +44,7 @@ LEVEL * CreateLevelZero(GAME * pGame)
 	LEVEL * pLevelZero = AddLevel(pGame, "Tutorial", 0);
 	
 	ARCHETYPE * pPlayerArchetype = FindArchetypeByName(pGame, "Player");
-  ARCHETYPE * pPlayer2Archetype = FindArchetypeByName(pGame, "Player2");
+  ARCHETYPE * pPlayer2Archetype = FindArchetypeByName(pGame, "GoRight");
 
   ARCHETYPE * pAnimArchetype = FindArchetypeByName(pGame, "Anim");
 

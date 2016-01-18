@@ -21,8 +21,16 @@
   <ItemGroup>
     <ClCompile Include="Animation.c" />
     <ClCompile Include="BehaviorStrings.c" />
+    <ClCompile Include="DefaultBehavior.c">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="FileInterpreter.c" />
     <ClCompile Include="GSMBigSix.c" />
+    <ClCompile Include="GoRightBehavior.c">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="PlayerBehavior.c">
       <SubType>
       </SubType>
@@ -47,8 +55,13 @@
     <ClInclude Include="System.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="GoRightArchetype.txt">
+      <SubType>
+      </SubType>
+    </Text>
     <Text Include="PlayerArchetype.txt" />
     <Text Include="ArchetypeList.txt" />
+    <Text Include="LevelFile.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{99C44468-B6FA-417A-818E-F61E863B4D40}</ProjectGuid>

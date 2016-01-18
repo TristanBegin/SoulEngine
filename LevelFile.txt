@@ -1,16 +1,19 @@
-#GLOBAL ARCHETYPE CREATION FILE
+#LEVEL CREATION FILE
 
-Name = Player2
+Name = TextLevel
+
+Order = 0
 
 #-----------------------------------------------
-# - COMPONENTS -
+# - UNITS -
 # All values not specified will be set to
-# default. 
+# default. Delete text of any units
+# you do not want.
 #-----------------------------------------------
 
-COMPONENT | Sprite |
+UNIT
 
-	TextureFile = TestAnimation.png
+	TextureFile = Blank.png
 	
 	Animated = 0
 
@@ -20,21 +23,19 @@ COMPONENT | Sprite |
 
 	AnimationSpeed = 1
 
-EndComponent
+EndUnit
 #-----------------------------------------------
 
-COMPONENT | Mesh |
+UNIT
 
 	Size = (2, 2)
 
-EndComponent
+EndUnit
 #-----------------------------------------------
 
-COMPONENT | Behavior |
+UNIT
 
-	BehaviorScript = PlayerBehavior
+	BehaviorScript = DefaultBehavior
 
 EndComponent
-
-
 

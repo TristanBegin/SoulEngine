@@ -27,7 +27,7 @@ void InterpretArchetypeFiles()
   {
     while (!feof(fpArchList))
     {
-      if (fgets(buffer, MAX_LENGTH, fpArchList))
+      if (fgets(buffer, MAX_LENGTH, fpArchList) && buffer[0] != '#')
       {
         AddNull(buffer);
         //sscanf(buffer, "%s", &nextArch); <-WORKS :D
