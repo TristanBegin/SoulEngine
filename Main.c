@@ -13,7 +13,6 @@
 
 #include "SoulEngine.h"
 #include "System.h"
-#include "PlatformerGame.h"
 #include "FileInterpreter.h"
 // ---------------------------------------------------------------------------
 
