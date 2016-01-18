@@ -22,28 +22,26 @@ void LoadLevel()
 		MESH * pMesh = ((MESH*)FindComponentStruct(tempUnit->pInitArchetype, Mesh));
 		SPRITE * pSprite = ((SPRITE*)FindComponentStruct(tempUnit->pInitArchetype, Sprite));
 
-		if (pMesh->pMeshLit != NULL)
-		{
-			break;
-		}
-		// Informing the library that we're about to start adding triangles.
-		AEGfxMeshStart();
-		//This shape has 2 triangles.
-		AEGfxTriAdd(
-			-(pMesh->Size.x) * gridSize, -(pMesh->Size.y) * gridSize, 0xFFFFFFFF, 0.0f                 , 1 / pSprite->RowCol.y,
-			(pMesh->Size.x) * gridSize, -(pMesh->Size.y) * gridSize, 0xFFFFFFFF,  1 / pSprite->RowCol.x, 1 / pSprite->RowCol.y,
-			-(pMesh->Size.x) * gridSize, (pMesh->Size.y) * gridSize, 0xFFFFFFFF,  0.0f, 0.0f);
-		AEGfxTriAdd(
-			(pMesh->Size.x) * gridSize, -(pMesh->Size.y) * gridSize, 0xFFFFFFFF,  1 / pSprite->RowCol.x, 1 / pSprite->RowCol.y,
-			(pMesh->Size.x) * gridSize, (pMesh->Size.y) * gridSize, 0xFFFFFFFF,   1 / pSprite->RowCol.x, 0.0f,
-			-(pMesh->Size.x) * gridSize, (pMesh->Size.y) * gridSize, 0xFFFFFFFF,  0.0f, 0.0f);
+    pSprite->pTexture = AEGfxTextureLoad(pSprite->TextureFile);
 
+    if (pMesh->pMeshLit == NULL)
+    {
+      // Informing the library that we're about to start adding triangles.
+      AEGfxMeshStart();
+      //This shape has 2 triangles.
+      AEGfxTriAdd(
+        -(pMesh->Size.x) * gridSize, -(pMesh->Size.y) * gridSize, 0xFFFFFFFF, 0.0f, 1 / pSprite->RowCol.y,
+        (pMesh->Size.x) * gridSize, -(pMesh->Size.y) * gridSize, 0xFFFFFFFF, 1 / pSprite->RowCol.x, 1 / pSprite->RowCol.y,
+        -(pMesh->Size.x) * gridSize, (pMesh->Size.y) * gridSize, 0xFFFFFFFF, 0.0f, 0.0f);
+      AEGfxTriAdd(
+        (pMesh->Size.x) * gridSize, -(pMesh->Size.y) * gridSize, 0xFFFFFFFF, 1 / pSprite->RowCol.x, 1 / pSprite->RowCol.y,
+        (pMesh->Size.x) * gridSize, (pMesh->Size.y) * gridSize, 0xFFFFFFFF, 1 / pSprite->RowCol.x, 0.0f,
+        -(pMesh->Size.x) * gridSize, (pMesh->Size.y) * gridSize, 0xFFFFFFFF, 0.0f, 0.0f);
 
-		pLMesh = AEGfxMeshEnd();
-		AE_ASSERT_MESG(pLMesh, "Failed to create default mesh");
-		pMesh->pMeshLit = pLMesh;
-
-
+      pLMesh = AEGfxMeshEnd();
+      AE_ASSERT_MESG(pLMesh, "Failed to create default mesh");
+      pMesh->pMeshLit = pLMesh;
+    }
 		tempUnit = tempUnit->nextUnit;
 	}
 

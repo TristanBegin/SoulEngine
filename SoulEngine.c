@@ -14,6 +14,7 @@
 #include "SoulEngine.h"
 #include <string.h>
 #include "FileInterpreter.h"
+#include "Behaviors.h"
 // ---------------------------------------------------------------------------
 
 // Libraries
@@ -197,7 +198,7 @@ COMPONENT * AddComponent(ARCHETYPE *pArchetype, COMPONENTTYPE DesiredType)
     BEHAVIOR * pNewBehavior = malloc(sizeof(BEHAVIOR));
     pNewComponent->Type = Behavior;
     pNewComponent->pStruct = pNewBehavior;
-    pNewBehavior->BehaviorScript = NULL;
+    pNewBehavior->BehaviorScript = DefaultBehavior;
     pNewBehavior->pComponent = pNewComponent;
     pNewBehavior->pArchetype = pArchetype;
   }

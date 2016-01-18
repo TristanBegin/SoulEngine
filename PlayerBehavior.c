@@ -41,13 +41,13 @@ void PlayerBehavior(BEHAVIOR * Owner, char * Trigger)
   }
 }
 
-void Start()
+static void Start()
 {
   //pMyTransform->Position = NewVector(2, 2);
 
 }
 
-void Update()
+static void Update()
 {
   //Checking for collision with a platform at y = 0
   if (pMyTransform->Position.y <= 0)
@@ -64,7 +64,7 @@ void Update()
   // Jumping
   if (AEInputCheckCurr('W') && pMyTransform->Position.y <= 0)
   {
-    Velocity.y += 0.4;
+    Velocity.y = 0.7;
   }
 
   if (AEInputCheckCurr('S'))
@@ -93,24 +93,24 @@ void Update()
 
   ////////////////////////////////////////////
   
-                   
+
   /******* Apply Friction to Velocity *******/
 
-  Velocity.x -= (friction * Velocity.x);
-  Velocity.y -= (friction * Velocity.y);
+    Velocity.x -= (friction * Velocity.x);
+    Velocity.y -= (friction * Velocity.y);
 
   ////////////////////////////////////////////
 
   
   /*************** Collision ****************/
 
-  if (collidingY)
-  {
-    if (Velocity.y < 0)
+    if (collidingY)
     {
-      Velocity.y = 0;
+      if (Velocity.y < 0)
+      {
+        Velocity.y = 0;
+      }
     }
-  }
 
   ////////////////////////////////////////////
 
