@@ -35,7 +35,9 @@ ARCHETYPE * CreateAnimArchetype(GAME * pGame)
   AddComponent(paAnim, Mesh);
 
   ((SPRITE*)pComp->pStruct)->pTexture = AEGfxTextureLoad("TestAnimation.png");
-
+  ((SPRITE*)pComp->pStruct)->Animated = TRUE;
+  ((SPRITE*)pComp->pStruct)->RowCol.x = 5;
+  ((SPRITE*)pComp->pStruct)->RowCol.y = 2;
   return paAnim;
 }
 

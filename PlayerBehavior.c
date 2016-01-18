@@ -7,6 +7,15 @@ static LEVEL * pMyLevel;
 static GAME * pMyGame;
 static GAMESTATS * pMyGameStats;
 
+static float gravityRate = 0;
+static float gravityMax = 0.5;
+static float lastPosX;
+static float lastPosY;
+static VECTOR Velocity;
+static float friction = 0.05;
+static int collidingY = 0;
+static float maxSpeed = 0.3;
+
 void Start();
 void Update();
 
@@ -38,9 +47,83 @@ static void Start()
 
 static void Update()
 {
-  if (AEInputCheckCurr(VK_SPACE))
+  //Checking for collision with a platform at y = 0
+  if (pMyTransform->Position.y <= 0)
   {
-    pMyTransform->Position.x -= 0.1;
+    collidingY = 1;
+  }
+  else
+  {
+    collidingY = 0;
   }
 
+  /************* Player Input ***************/
+
+  // Jumping
+  if (AEInputCheckCurr('W') && pMyTransform->Position.y <= 0)
+  {
+    Velocity.y += 0.4;
+  }
+
+  if (AEInputCheckCurr('S'))
+  {
+    Velocity.y -= 0.05;
+  }
+
+  //Left movement
+  if (AEInputCheckCurr('A') && Velocity.x > -maxSpeed)
+  {
+    Velocity.x -= 0.05;
+  }
+
+  //Right movement
+  if (AEInputCheckCurr('D') && Velocity.x < maxSpeed)
+  {
+    Velocity.x += 0.05;
+  }
+
+  ////////////////////////////////////////////
+
+
+  /**************** Gravity *****************/
+  
+  Velocity.y -= 0.025;
+
+  ////////////////////////////////////////////
+  
+
+  /************ Normalize Velocity **********/
+
+
+
+  ////////////////////////////////////////////
+
+
+  /******* Apply Friction to Velocity *******/
+
+    Velocity.x -= (friction * Velocity.x);
+    Velocity.y -= (friction * Velocity.y);
+
+  ////////////////////////////////////////////
+
+  
+  /*************** Collision ****************/
+
+    if (collidingY)
+    {
+      if (Velocity.y < 0)
+      {
+        Velocity.y = 0;
+      }
+    }
+
+  ////////////////////////////////////////////
+
+
+  /******* Apply Velocity to Player *********/
+
+  pMyTransform->Position.x += Velocity.x;
+  pMyTransform->Position.y += Velocity.y;
+
+  ////////////////////////////////////////////
 }
