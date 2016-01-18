@@ -163,6 +163,7 @@ void InterpretArchetype(FILE * fpArch)
 int myStrCmp(char * Input, char * Answer)
 {
   int i = 0;
+  
   int closeness = strlen(Answer);
   for (i = 0; i < strlen(Input); i++)
   {
@@ -170,6 +171,10 @@ int myStrCmp(char * Input, char * Answer)
     {
       closeness--;
     }
+  }
+  if (strlen(Input) != strlen(Answer) && closeness <= 0)
+  {
+    return 1;
   }
   return closeness;
 }
@@ -259,10 +264,10 @@ void InterpretLevel(FILE * fpLevel)
           char archInput[MAX_LENGTH];
           char nameInput[MAX_LENGTH];
           ARCHETYPE * pArchetype = NULL;
-          sscanf(buffer, "UNIT <%s> %s", &archInput, &nameInput);
+          sscanf(buffer, "UNIT < %s > %s", &archInput, &nameInput);
           pArchetype = FindArchetypeByName(pTheGame, archInput);
           OutputDebugString("Unit");
-          pCurrUnit = AddUnit(pNewLevel, pArchetype, nameInput);
+          pCurrUnit = AddUnit(pNewLevel, pArchetype, myStrCpy(nameInput));
           continue;
         }
         

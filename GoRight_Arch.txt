@@ -1,6 +1,6 @@
 #GLOBAL ARCHETYPE CREATION FILE
 
-Name = GoRightArchetype
+Name = GoRight
 
 #-----------------------------------------------
 # - COMPONENTS -

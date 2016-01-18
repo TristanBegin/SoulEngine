@@ -19,7 +19,6 @@ Order = 0
 
 UNIT < Player > PlayerOne
 
-	#InitTransform:
 	InitialPosition = (0, 0)
 	InitialRotation = 0
 	InitialScale = (1, 1)
@@ -29,7 +28,6 @@ EndUnit
 
 UNIT < GoRight > RightMan
 
-	#InitTransform:
 	InitialPosition = (0, -2)
 	InitialRotation = 0
 	InitialScale = (1, 1)
@@ -39,8 +37,7 @@ EndUnit
 
 UNIT < Anim > AnimatedMan
 
-	#InitTransform:
-	InitialPosition = (-4, -2)
+	InitialPosition = (-4, 5)
 	InitialRotation = 0
 	InitialScale = (1, 1)
 
