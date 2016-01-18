@@ -1,49 +1,40 @@
-GLOBAL ARCHETYPE CREATION FILE
+#GLOBAL ARCHETYPE CREATION FILE
 
-Name = < Player >
+Name = Player2
 
+#-----------------------------------------------
+# - COMPONENTS -
+# All values not specified will be set to
+# default. 
+#-----------------------------------------------
 
--------------------------------------------------
- - COMPONENTS -
--------------------------------------------------
+COMPONENT | Sprite |
 
-Another? = <1>
-
-COMPONENT |Sprite|
-
-	DefaultAll? = <0>
-
-	TextureFile = < Blank.png >
+	TextureFile = Blank.png
 	
-	Animated? = <0>
+	Animated = 0
 
-	RowCol = <(1, 1)>
+	RowCol = (1, 1)
 
-	Offset = <(0, 0)>
+	Offset = (0, 0)
 
-	AnimationSpeed = <1>
+	AnimationSpeed = 1
 
+EndComponent
+#-----------------------------------------------
 
--------------------------------------------------
-Another? = <1>
+COMPONENT | Mesh |
 
-COMPONENT |Mesh|
+	Size = (20, 2)
 
-	DefaultAll? = <0>
+EndComponent
+#-----------------------------------------------
 
-	Size = <(2, 2)>
+#COMPONENT | Behavior |
 
+#	BehaviorScript = PlayerBehavior
 
--------------------------------------------------
-Another? = <1>
-
-COMPONENT |Behavior|
-	
-	DefaultAll? = <0>
-
-	BehaviorScript = < PlayerBehavior >
-
-Another? = <0>
+#EndComponent
 
 
 

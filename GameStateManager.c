@@ -42,7 +42,7 @@ void MainLoopGSM(void)
 		else
 		{
 			UpdateGSM();
-			//Load Level
+			LoadLevel();
 		}
 
     InitializeLevel();
