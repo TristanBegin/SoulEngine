@@ -13,6 +13,8 @@ static float lastPosX;
 static float lastPosY;
 static VECTOR Velocity;
 static float friction = 0.05;
+static int collidingY = 0;
+static float maxSpeed = 0.3;
 
 void Start();
 void Update();
@@ -45,17 +47,22 @@ void Start()
 
 void Update()
 {
-  
-  //Save position of the player before moving
-  lastPosX = pMyTransform->Position.x;
-  lastPosY = pMyTransform->Position.y;
+  //Checking for collision with a platform at y = 0
+  if (pMyTransform->Position.y <= 0)
+  {
+    collidingY = 1;
+  }
+  else
+  {
+    collidingY = 0;
+  }
 
   /************* Player Input ***************/
 
   // Jumping
-  if (AEInputCheckCurr('W'))
+  if (AEInputCheckCurr('W') && pMyTransform->Position.y <= 0)
   {
-    Velocity.y += 0.05;
+    Velocity.y += 0.4;
   }
 
   if (AEInputCheckCurr('S'))
@@ -64,13 +71,13 @@ void Update()
   }
 
   //Left movement
-  if (AEInputCheckCurr('A'))
+  if (AEInputCheckCurr('A') && Velocity.x > -maxSpeed)
   {
     Velocity.x -= 0.05;
   }
 
   //Right movement
-  if (AEInputCheckCurr('D'))
+  if (AEInputCheckCurr('D') && Velocity.x < maxSpeed)
   {
     Velocity.x += 0.05;
   }
@@ -79,13 +86,18 @@ void Update()
 
 
   /**************** Gravity *****************/
+  
+  Velocity.y -= 0.025;
+
   ////////////////////////////////////////////
   
-  /*************** Collision ****************/
-  ////////////////////////////////////////////
-  
+
   /************ Normalize Velocity **********/
+
+
+
   ////////////////////////////////////////////
+
 
   /******* Apply Friction to Velocity *******/
 
@@ -94,42 +106,24 @@ void Update()
 
   ////////////////////////////////////////////
 
+  
+  /*************** Collision ****************/
+
+    if (collidingY)
+    {
+      if (Velocity.y < 0)
+      {
+        Velocity.y = 0;
+      }
+    }
+
+  ////////////////////////////////////////////
+
+
   /******* Apply Velocity to Player *********/
 
   pMyTransform->Position.x += Velocity.x;
   pMyTransform->Position.y += Velocity.y;
 
   ////////////////////////////////////////////
-
-
-
-  
-
-  
-  //////Otherwise, if the player's position is greater than 0
-  ////else if (pMyTransform->Position.y >= 0)
-  ////{
-  ////  //If the rate of gravity isn't at max
-  ////  if (gravityRate < gravityMax)
-  ////  {
-  ////    //Increase the rate 
-  ////    
-  ////    gravityRate += 0.005;
-  ////  }
-
-  ////  //Apply gravity to the player
-  ////  pMyTransform->Position.y -= gravityRate;
-  ////}
-
-  //If the player is grounded
-  //if (pMyTransform->Position.y <= 0.0001)
-  //{
-  //  //Resets the rate of gravity
-  //  gravityRate = 0;
-  //}
-
-  
-
-
-
 }
