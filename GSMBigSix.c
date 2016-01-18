@@ -11,6 +11,44 @@ extern GAME * pTheGame;
   INITIALIZE LEVEL
 *********************************************************/
 
+void LoadLevel()
+{
+	int gridSize = pTheGame->pGameStats->GridSize/2;
+	AEGfxVertexList * pLMesh;
+	LEVEL * pTheLevel = pTheGame->pGameStats->pRunningLevel;
+	UNIT * tempUnit = pTheLevel->nextUnit;
+	while (tempUnit)
+	{
+		MESH * pMesh = ((MESH*)FindComponentStruct(tempUnit->pInitArchetype, Mesh));
+		SPRITE * pSprite = ((SPRITE*)FindComponentStruct(tempUnit->pInitArchetype, Sprite));
+
+		if (pMesh->pMeshLit != NULL)
+		{
+			break;
+		}
+		// Informing the library that we're about to start adding triangles.
+		AEGfxMeshStart();
+		//This shape has 2 triangles.
+		AEGfxTriAdd(
+			-(pMesh->Size.x) * gridSize, -(pMesh->Size.y) * gridSize, 0xFFFFFFFF, 0.0f                 , 1 / pSprite->RowCol.y,
+			(pMesh->Size.x) * gridSize, -(pMesh->Size.y) * gridSize, 0xFFFFFFFF,  1 / pSprite->RowCol.x, 1 / pSprite->RowCol.y,
+			-(pMesh->Size.x) * gridSize, (pMesh->Size.y) * gridSize, 0xFFFFFFFF,  0.0f, 0.0f);
+		AEGfxTriAdd(
+			(pMesh->Size.x) * gridSize, -(pMesh->Size.y) * gridSize, 0xFFFFFFFF,  1 / pSprite->RowCol.x, 1 / pSprite->RowCol.y,
+			(pMesh->Size.x) * gridSize, (pMesh->Size.y) * gridSize, 0xFFFFFFFF,   1 / pSprite->RowCol.x, 0.0f,
+			-(pMesh->Size.x) * gridSize, (pMesh->Size.y) * gridSize, 0xFFFFFFFF,  0.0f, 0.0f);
+
+
+		pLMesh = AEGfxMeshEnd();
+		AE_ASSERT_MESG(pLMesh, "Failed to create default mesh");
+		pMesh->pMeshLit = pLMesh;
+
+
+		tempUnit = tempUnit->nextUnit;
+	}
+
+}
+
 void InitializeLevel()
 {
   LEVEL * pTheLevel = pTheGame->pGameStats->pRunningLevel;
