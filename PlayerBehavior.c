@@ -7,6 +7,13 @@ static LEVEL * pMyLevel;
 static GAME * pMyGame;
 static GAMESTATS * pMyGameStats;
 
+static float gravityRate = 0;
+static float gravityMax = 0.5;
+static float lastPosX;
+static float lastPosY;
+static VECTOR Velocity;
+static float friction = 0.05;
+
 void Start();
 void Update();
 
@@ -38,9 +45,91 @@ void Start()
 
 void Update()
 {
-  if (AEInputCheckCurr(VK_SPACE))
+  
+  //Save position of the player before moving
+  lastPosX = pMyTransform->Position.x;
+  lastPosY = pMyTransform->Position.y;
+
+  /************* Player Input ***************/
+
+  // Jumping
+  if (AEInputCheckCurr('W'))
   {
-    pMyTransform->Position.x -= 0.1;
+    Velocity.y += 0.05;
   }
+
+  if (AEInputCheckCurr('S'))
+  {
+    Velocity.y -= 0.05;
+  }
+
+  //Left movement
+  if (AEInputCheckCurr('A'))
+  {
+    Velocity.x -= 0.05;
+  }
+
+  //Right movement
+  if (AEInputCheckCurr('D'))
+  {
+    Velocity.x += 0.05;
+  }
+
+  ////////////////////////////////////////////
+
+
+  /**************** Gravity *****************/
+  ////////////////////////////////////////////
+  
+  /*************** Collision ****************/
+  ////////////////////////////////////////////
+  
+  /************ Normalize Velocity **********/
+  ////////////////////////////////////////////
+
+  /******* Apply Friction to Velocity *******/
+
+    Velocity.x -= (friction * Velocity.x);
+    Velocity.y -= (friction * Velocity.y);
+
+  ////////////////////////////////////////////
+
+  /******* Apply Velocity to Player *********/
+
+  pMyTransform->Position.x += Velocity.x;
+  pMyTransform->Position.y += Velocity.y;
+
+  ////////////////////////////////////////////
+
+
+
+  
+
+  
+  //////Otherwise, if the player's position is greater than 0
+  ////else if (pMyTransform->Position.y >= 0)
+  ////{
+  ////  //If the rate of gravity isn't at max
+  ////  if (gravityRate < gravityMax)
+  ////  {
+  ////    //Increase the rate 
+  ////    
+  ////    gravityRate += 0.005;
+  ////  }
+
+  ////  //Apply gravity to the player
+  ////  pMyTransform->Position.y -= gravityRate;
+  ////}
+
+  //If the player is grounded
+  //if (pMyTransform->Position.y <= 0.0001)
+  //{
+  //  //Resets the rate of gravity
+  //  gravityRate = 0;
+  //}
+
+  
+
+
 
 }
