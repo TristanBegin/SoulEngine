@@ -1,4 +1,5 @@
 #include "SoulEngine.h"
+#include <math.h>
 
 static UNIT * pMyUnit;
 static TRANSFORM * pMyTransform;
@@ -15,6 +16,7 @@ static VECTOR Velocity;
 static float friction = 0.05;
 static int collidingY = 0;
 static float maxSpeed = 0.3;
+static float mineVar = 0;
 
 void Start();
 void Update();
@@ -91,31 +93,38 @@ void Update()
 
   ////////////////////////////////////////////
   
-
-  /************ Normalize Velocity **********/
-
-
-
-  ////////////////////////////////////////////
-
-
+                   
   /******* Apply Friction to Velocity *******/
 
-    Velocity.x -= (friction * Velocity.x);
-    Velocity.y -= (friction * Velocity.y);
+  Velocity.x -= (friction * Velocity.x);
+  Velocity.y -= (friction * Velocity.y);
 
   ////////////////////////////////////////////
 
   
   /*************** Collision ****************/
 
-    if (collidingY)
+  if (collidingY)
+  {
+    if (Velocity.y < 0)
     {
-      if (Velocity.y < 0)
-      {
-        Velocity.y = 0;
-      }
+      Velocity.y = 0;
     }
+  }
+
+  ////////////////////////////////////////////
+
+
+  /************ Normalize Velocity **********/
+
+  if (Velocity.x != 0 && Velocity.y != 0)
+  {
+    mineVar = sqrt( (Velocity.x * Velocity.x) + (Velocity.y * Velocity.y) );
+    
+    Velocity.x = (Velocity.x) / mineVar;
+    Velocity.y = (Velocity.y) / mineVar;
+
+  }
 
   ////////////////////////////////////////////
 
