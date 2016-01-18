@@ -12,45 +12,37 @@ void AddNull(char * buffer)
 {
   buffer[strlen(buffer) - 1] = '\0';
 }
+
 void InterpretArchetypeFiles()
 {
   FILE * fpArchList = NULL;
   FILE * fpCurArch = NULL;
   char buffer[MAX_LENGTH];
-  char archBuffer[MAX_LENGTH];
-  
-  int myint = 0;
-  char mychar = 'a';
 
-  fpArchList = fopen("ArchetypeList.txt", "r");
+  fpArchList = fopen("_ArchetypeList.txt", "r");
   if (fpArchList)
   {
     while (!feof(fpArchList))
     {
-      if (fgets(buffer, MAX_LENGTH, fpArchList) && buffer[0] != '#')
+      if (fgets(buffer, MAX_LENGTH, fpArchList) && buffer[0] != '#' && strlen(buffer) >= 2)
       {
         AddNull(buffer);
-        //sscanf(buffer, "%s", &nextArch); <-WORKS :D
         fpCurArch = fopen(buffer, "r");
         if (fpCurArch)
         {
           InterpretArchetype(fpCurArch);
+          fclose(fpCurArch);
         }
       }
     }
+
+    fclose(fpArchList);
   }
-
-
-  
-  //OutputDebugString(nextArch);
-
-  fclose(fpArchList);
 }
 
 void InterpretArchetype(FILE * fpArch)
 {
   char buffer[MAX_LENGTH];
-  BOOL readingComp = False;
   ARCHETYPE * pNewArchetype = malloc(sizeof(ARCHETYPE));
   COMPONENT * pCurrComp = NULL;
   pNewArchetype->Name = "Untitled";
@@ -84,7 +76,7 @@ void InterpretArchetype(FILE * fpArch)
         {
           COMPONENTTYPE theType;
           char typeInput[MAX_LENGTH];
-          sscanf(buffer, "\tCOMPONENT |%s|", &typeInput);
+          sscanf(buffer, "COMPONENT |%s|", &typeInput);
           if (myStrCmp(typeInput, "Sprite") <= 0) theType = Sprite;
           if (myStrCmp(typeInput, "Mesh") <= 0) theType = Mesh;
           if (myStrCmp(typeInput, "Behavior") <= 0) theType = Behavior;
@@ -130,7 +122,7 @@ void InterpretArchetype(FILE * fpArch)
 
             if (myStrCmp(question, "Animated") <= 0)
             {
-              sscanf(buffer, "Animated = %i", &inputInt);
+              sscanf(buffer, "\tAnimated = %i", &inputInt);
               pSprite->Animated = inputInt;
               continue;
             }
@@ -192,4 +184,120 @@ char * myStrCpy(char * theString)
   }
   newString[strlen(theString)] = '\0';
   return newString;
+}
+
+void InterpretLevelFiles()
+{
+  FILE * fpLevelList = NULL;
+  FILE * fpCurLevel = NULL;
+  char buffer[MAX_LENGTH];
+
+  fpLevelList = fopen("_LevelList.txt", "r");
+  if (fpLevelList)
+  {
+    while (!feof(fpLevelList))
+    {
+      if (fgets(buffer, MAX_LENGTH, fpLevelList) && buffer[0] != '#' && strlen(buffer) >= 2)
+      {
+        AddNull(buffer);
+        fpCurLevel = fopen(buffer, "r");
+        if (fpCurLevel)
+        {
+          InterpretLevel(fpCurLevel);
+          fclose(fpCurLevel);
+        }
+      }
+    }
+
+    fclose(fpLevelList);
+  }
+  
+}
+
+void InterpretLevel(FILE * fpLevel)
+{
+  char buffer[MAX_LENGTH];
+  LEVEL * pNewLevel = malloc(sizeof(LEVEL));
+  UNIT * pCurrUnit = NULL;
+  pNewLevel->Name = "Untitled";
+  pNewLevel->Order = 0;
+  pNewLevel->pCamera = NULL;
+  pNewLevel->nextUnit = NULL;
+  pNewLevel->pGame = pTheGame;
+  pNewLevel->nextLevel = pTheGame->nextLevel;
+  pTheGame->nextLevel = pNewLevel;
+  while (!feof(fpLevel))
+  {
+    if (fgets(buffer, MAX_LENGTH, fpLevel))
+    {
+      char question[MAX_LENGTH];
+      int inputInt = 0;
+      float inputFloat = 0.0f;
+      VECTOR inputVector = NewVector(0, 0);
+      AddNull(buffer);
+      if (buffer[0] != '#' && strlen(buffer) > 2)
+      {
+        sscanf(buffer, "%s", &question);
+        if ((myStrCmp(question, "Name") <= 0) && pCurrUnit == NULL)
+        {
+          char nameInput[MAX_LENGTH];
+          sscanf(buffer, "Name = %s", nameInput);
+          pNewLevel->Name = myStrCpy(nameInput);
+          continue;
+        }
+        
+        if (myStrCmp(question, "Order") <= 0)
+        {
+          char nameInput[MAX_LENGTH];
+          sscanf(buffer, "Order = %i", &inputInt);
+          pNewLevel->Order = inputInt;
+          continue;
+        }
+        
+        if (myStrCmp(question, "UNIT") <= 0)
+        {
+          char archInput[MAX_LENGTH];
+          char nameInput[MAX_LENGTH];
+          ARCHETYPE * pArchetype = NULL;
+          sscanf(buffer, "UNIT <%s> %s", &archInput, &nameInput);
+          pArchetype = FindArchetypeByName(pTheGame, archInput);
+          OutputDebugString("Unit");
+          pCurrUnit = AddUnit(pNewLevel, pArchetype, nameInput);
+          continue;
+        }
+        
+        if (pCurrUnit)
+        {
+          if (myStrCmp(question, "InitialPosition") <= 0)
+          {
+            sscanf(buffer, "\tInitialPosition = (%f, %f)", &inputVector.x, &inputVector.y);
+            pCurrUnit->pInitTransform->Position = inputVector;
+            continue;
+          }
+
+          if (myStrCmp(question, "InitialRotation") <= 0)
+          {
+            sscanf(buffer, "\tInitialRotation = %f", &inputFloat);
+            pCurrUnit->pInitTransform->Rotation = inputFloat;
+            continue;
+          }
+
+          if (myStrCmp(question, "InitialScale") <= 0)
+          {
+            sscanf(buffer, "\tInitialScale = (%f, %f)", &inputVector.x, &inputVector.y);
+            pCurrUnit->pInitTransform->Scale = inputVector;
+            continue;
+          }
+        }
+        
+
+        if (myStrCmp(question, "EndUnit") <= 0)
+        {
+            pCurrUnit = NULL;
+            continue;
+        }
+        
+      }
+    }
+  }
 }

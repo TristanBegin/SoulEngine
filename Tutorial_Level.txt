@@ -4,9 +4,9 @@
 # Remember to add your level to the LevelList!
 #-----------------------------------------------
 
-Name = $LevelName$
+Name = Tutorial
 
-Order = 1
+Order = 0
 
 #-----------------------------------------------
 # - UNITS -
@@ -17,10 +17,30 @@ Order = 1
 # Declare as "UNIT < ArchetypeName > UnitName"
 #-----------------------------------------------
 
-UNIT < $ArchetypeName$ > $UnitName$
+UNIT < Player > PlayerOne
 
 	#InitTransform:
 	InitialPosition = (0, 0)
+	InitialRotation = 0
+	InitialScale = (1, 1)
+
+EndUnit
+#-----------------------------------------------
+
+UNIT < GoRight > RightMan
+
+	#InitTransform:
+	InitialPosition = (0, -2)
+	InitialRotation = 0
+	InitialScale = (1, 1)
+
+EndUnit
+#-----------------------------------------------
+
+UNIT < Anim > AnimatedMan
+
+	#InitTransform:
+	InitialPosition = (-4, -2)
 	InitialRotation = 0
 	InitialScale = (1, 1)
 

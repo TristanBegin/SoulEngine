@@ -1,0 +1,33 @@
+#GLOBAL ARCHETYPE CREATION FILE
+
+Name = Anim
+
+#-----------------------------------------------
+# - COMPONENTS -
+# All values not specified will be set to
+# default. Delete text of any components
+# you do not want.
+#-----------------------------------------------
+
+COMPONENT | Sprite |
+
+	TextureFile = TestAnimation.png
+	
+	Animated = 1
+
+	RowCol = (5, 2)
+
+	Offset = (0, 0)
+
+	AnimationSpeed = 1
+
+EndComponent
+#-----------------------------------------------
+
+COMPONENT | Mesh |
+
+	Size = (1, 1)
+
+EndComponent
+
+

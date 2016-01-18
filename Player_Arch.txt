@@ -1,6 +1,6 @@
 #GLOBAL ARCHETYPE CREATION FILE
 
-Name = Player2
+Name = Player
 
 #-----------------------------------------------
 # - COMPONENTS -
@@ -10,7 +10,7 @@ Name = Player2
 
 COMPONENT | Sprite |
 
-	TextureFile = TestAnimation.png
+	TextureFile = Blank.png
 	
 	Animated = 0
 
@@ -25,7 +25,7 @@ EndComponent
 
 COMPONENT | Mesh |
 
-	Size = (20, 2)
+	Size = (1, 1)
 
 EndComponent
 #-----------------------------------------------

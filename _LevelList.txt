@@ -1,0 +1,10 @@
+# All level files to be loaded.
+# When creating a new level file, add it to 
+# this list. ALL lines (including comments)
+# should not excede 50 characters.
+
+# Name = TextLevel
+# Order = 0
+Tutorial_Level.txt
+
+# No more levels :(

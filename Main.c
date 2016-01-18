@@ -14,6 +14,7 @@
 #include "SoulEngine.h"
 #include "System.h"
 #include "PlatformerGame.h"
+#include "FileInterpreter.h"
 // ---------------------------------------------------------------------------
 
 // Libraries
@@ -38,7 +39,11 @@ int WINAPI WinMain(HINSTANCE instanceH, HINSTANCE prevInstanceH, LPSTR command_l
   SystemInitialize(instanceH, show);
 
   // Initialize Game
-  InitializePlatformerGame();
+  pTheGame = InitializeGame("Platformer");
+
+  //Add Archetypes and Levels using .txt files.
+  InterpretArchetypeFiles();
+  InterpretLevelFiles();
 
   //Change background color.
   AEGfxSetBackgroundColor(0.0f, 0.15f, 0.25f);
