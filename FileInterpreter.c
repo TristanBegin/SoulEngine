@@ -80,7 +80,7 @@ void InterpretArchetype(FILE * fpArch)
           if (myStrCmp(typeInput, "Sprite") <= 0) theType = Sprite;
           if (myStrCmp(typeInput, "Mesh") <= 0) theType = Mesh;
           if (myStrCmp(typeInput, "Behavior") <= 0) theType = Behavior;
-          if (myStrCmp(typeInput, "RigidBody") <= 0) theType = RigidBody;
+          if (myStrCmp(typeInput, "Physics") <= 0) theType = Physics;
           
           pCurrComp = AddComponent(pNewArchetype, theType);
           continue;
@@ -111,34 +111,34 @@ void InterpretArchetype(FILE * fpArch)
             }
           }
 
-          if (pCurrComp->Type == RigidBody)
+          if (pCurrComp->Type == Physics)
           {
-            RIGIDBODY * pRigidBody = (RIGIDBODY*)pCurrComp->pStruct;
+            PHYSICS * pPhysics = (PHYSICS*)pCurrComp->pStruct;
             if (myStrCmp(question, "Gravity") <= 0)
             {
               sscanf(buffer, "\tGravity = %f", &inputFloat);
-              pRigidBody->Gravity = inputFloat;
+              pPhysics->Gravity = inputFloat;
               continue;
             }
 
             if (myStrCmp(question, "MaxSpeed") <= 0)
             {
               sscanf(buffer, "\tMaxSpeed = %f", &inputFloat);
-              pRigidBody->MaxSpeed = inputFloat;
+              pPhysics->MaxSpeed = inputFloat;
               continue;
             }
 
             if (myStrCmp(question, "Friction") <= 0)
             {
               sscanf(buffer, "\tFriction = %f", &inputFloat);
-              pRigidBody->Friction = inputFloat;
+              pPhysics->Friction = inputFloat;
               continue;
             }
 
             if (myStrCmp(question, "Velocity") <= 0)
             {
               sscanf(buffer, "\tVelocity = (%f, %f)", &inputVector.x, &inputVector.y);
-              pRigidBody->Velocity = inputVector;
+              pPhysics->Velocity = inputVector;
               continue;
             }
           }

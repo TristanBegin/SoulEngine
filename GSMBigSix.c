@@ -6,8 +6,8 @@ extern GAME * pTheGame;
 //extern BEHAVIOR ** pBehaviorArray;
 //extern int numBehaviors;
 
-//Prototype the UpdateRigidBody function
-void UpdateRigidBody(RIGIDBODY * pRigidBody);
+//Prototype the UpdatePhysics function
+void UpdatePhysics(PHYSICS * pPhysics);
 
 
 
@@ -77,7 +77,7 @@ void UpdateLevel()
     SPRITE * pSprite = NULL;
     MESH * pMesh = NULL;
     BEHAVIOR * pBehavior = NULL;
-    RIGIDBODY * pRigidBody = NULL;
+    PHYSICS * pPhysics = NULL;
 
     while (tempComp)
     {
@@ -95,8 +95,8 @@ void UpdateLevel()
         pBehavior = (BEHAVIOR *)tempComp->pStruct;
         break;
 
-      case RigidBody:
-        pRigidBody = (RIGIDBODY *)tempComp->pStruct;
+      case Physics:
+        pPhysics = (PHYSICS *)tempComp->pStruct;
         break;
 
       default:
@@ -116,9 +116,9 @@ void UpdateLevel()
       pBehavior->BehaviorScript(pBehavior, "Update");
     }
 
-    if (pRigidBody)
+    if (pPhysics)
     {
-      UpdateRigidBody(pRigidBody);
+      UpdatePhysics(pPhysics);
     }
 
     tempUnit = tempUnit->nextUnit;
@@ -128,17 +128,17 @@ void UpdateLevel()
 }
 
 
-void UpdateRigidBody(RIGIDBODY * pRigidBody)
+void UpdatePhysics(PHYSICS * pPhysics)
 {
-  UNIT * pOwner = pRigidBody->pArchetype->pUnit;
+  UNIT * pOwner = pPhysics->pArchetype->pUnit;
   TRANSFORM * pMyTransform = pOwner->pTransform;
-  VECTOR * pVelocity = &(pRigidBody->Velocity);
+  VECTOR * pVelocity = &(pPhysics->Velocity);
 
-  float gravityRate = pRigidBody->Gravity;
+  float gravityRate = pPhysics->Gravity;
   float gravityMax = 0.5;
-  float friction = pRigidBody->Friction;
+  float friction = pPhysics->Friction;
   int collidingY = 0;
-  float maxSpeed = pRigidBody->MaxSpeed;
+  float maxSpeed = pPhysics->MaxSpeed;
 
   //Checking for collision with a platform at y = 0
   if (pMyTransform->Position.y <= 0)
