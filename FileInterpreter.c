@@ -80,6 +80,8 @@ void InterpretArchetype(FILE * fpArch)
           if (myStrCmp(typeInput, "Sprite") <= 0) theType = Sprite;
           if (myStrCmp(typeInput, "Mesh") <= 0) theType = Mesh;
           if (myStrCmp(typeInput, "Behavior") <= 0) theType = Behavior;
+          if (myStrCmp(typeInput, "RigidBody") <= 0) theType = RigidBody;
+          
           pCurrComp = AddComponent(pNewArchetype, theType);
           continue;
         }
@@ -105,6 +107,38 @@ void InterpretArchetype(FILE * fpArch)
               char scriptInput[MAX_LENGTH];
               sscanf(buffer, "\tBehaviorScript = %s", &scriptInput);
               pBehavior->BehaviorScript = GetBehaviorFromString(scriptInput);
+              continue;
+            }
+          }
+
+          if (pCurrComp->Type == RigidBody)
+          {
+            RIGIDBODY * pRigidBody = (RIGIDBODY*)pCurrComp->pStruct;
+            if (myStrCmp(question, "Gravity") <= 0)
+            {
+              sscanf(buffer, "\tGravity = %f", &inputFloat);
+              pRigidBody->Gravity = inputFloat;
+              continue;
+            }
+
+            if (myStrCmp(question, "MaxSpeed") <= 0)
+            {
+              sscanf(buffer, "\tMaxSpeed = %f", &inputFloat);
+              pRigidBody->MaxSpeed = inputFloat;
+              continue;
+            }
+
+            if (myStrCmp(question, "Friction") <= 0)
+            {
+              sscanf(buffer, "\tFriction = %f", &inputFloat);
+              pRigidBody->Friction = inputFloat;
+              continue;
+            }
+
+            if (myStrCmp(question, "Velocity") <= 0)
+            {
+              sscanf(buffer, "\tVelocity = (%f, %f)", &inputVector.x, &inputVector.y);
+              pRigidBody->Velocity = inputVector;
               continue;
             }
           }

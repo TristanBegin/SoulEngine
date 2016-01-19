@@ -203,6 +203,22 @@ COMPONENT * AddComponent(ARCHETYPE *pArchetype, COMPONENTTYPE DesiredType)
     pNewBehavior->pArchetype = pArchetype;
   }
 
+  if (DesiredType == RigidBody)
+  {
+    RIGIDBODY * pNewRigidBody = malloc(sizeof(RIGIDBODY));
+    
+    pNewComponent->Type = RigidBody;
+    pNewComponent->pStruct = pNewRigidBody;
+    
+    pNewRigidBody->Velocity = NewVector(0, 0);
+    pNewRigidBody->Gravity = 0.5;
+    pNewRigidBody->Friction = 0.1;
+    pNewRigidBody->MaxSpeed = 0.5;
+
+    pNewRigidBody->pComponent = pNewComponent;
+    pNewRigidBody->pArchetype = pArchetype;
+  }
+
   return pNewComponent;
 }
 
@@ -384,6 +400,14 @@ ARCHETYPE * CreateInstanceOfArchetype(ARCHETYPE * pArchetype, UNIT * pUnit)
       behCopy->pArchetype = pNewArchetype;
       behCopy->pComponent = compCopy;
       compCopy->pStruct = behCopy;
+    }
+    else if (temp->Type == RigidBody)
+    {
+      RIGIDBODY * rbCopy = malloc(sizeof(RIGIDBODY));
+      *rbCopy = *((RIGIDBODY *)temp->pStruct);
+      rbCopy->pArchetype = pNewArchetype;
+      rbCopy->pComponent = compCopy;
+      compCopy->pStruct = rbCopy;
     }
 
 		compCopy->nextComponent = pNewArchetype->nextComponent;

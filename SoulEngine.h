@@ -8,6 +8,7 @@ typedef struct VECTOR VECTOR;
 typedef struct TRANSFORM TRANSFORM;
 typedef struct ARCHETYPE ARCHETYPE;
 typedef struct COMPONENT COMPONENT;
+typedef struct RIGIDBODY RIGIDBODY;
 typedef struct SPRITE SPRITE;
 typedef struct MESH MESH;
 typedef struct GAMESTATS GAMESTATS;
@@ -108,6 +109,20 @@ typedef struct COMPONENT
   ARCHETYPE *pArchetype;    //The Archetpye that owns this component.
   COMPONENT *nextComponent; //The next Component in a linked list of components.
 }COMPONENT;
+
+
+// COMPONENT STRUCT
+// Adds physics functionality to an object.
+typedef struct RIGIDBODY
+{
+  COMPONENT *pComponent;  //The component that holds this RigidBody.
+  ARCHETYPE *pArchetype;  //The original archetype this came from.
+  VECTOR Velocity;
+  float Gravity;
+  float Friction;
+  float MaxSpeed;
+
+}RIGIDBODY;
 
 
 // COMPONENT STRUCT
@@ -258,7 +273,8 @@ typedef enum COMPONENTTYPE
 {
   Sprite,
   Mesh,
-  Behavior
+  Behavior,
+  RigidBody
 }COMPONENTTYPE;
 
 typedef enum BOOL
