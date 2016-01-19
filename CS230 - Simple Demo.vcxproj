@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="Animation.c" />
     <ClCompile Include="BehaviorStrings.c" />
+    <ClCompile Include="Collision.c" />
     <ClCompile Include="DefaultBehavior.c">
       <SubType>
       </SubType>
@@ -31,6 +32,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="MatrixMath.c" />
     <ClCompile Include="PlayerBehavior.c">
       <SubType>
       </SubType>
@@ -38,7 +40,9 @@
     <ClCompile Include="SoulEngine.c" />
     <ClCompile Include="GameStateManager.c" />
     <ClCompile Include="Main.c" />
+    <ClCompile Include="SoulMath.c" />
     <ClCompile Include="System.c" />
+    <ClCompile Include="VectorMath.c" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Blank.png" />
@@ -47,10 +51,14 @@
   <ItemGroup>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Behaviors.h" />
+    <ClInclude Include="Collision.h" />
     <ClInclude Include="FileInterpreter.h" />
     <ClInclude Include="GSMBigSix.h" />
+    <ClInclude Include="MatrixMath.h" />
     <ClInclude Include="SoulEngine.h" />
+    <ClInclude Include="SoulMath.h" />
     <ClInclude Include="System.h" />
+    <ClInclude Include="VectorMath.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Anim_Arch.txt">

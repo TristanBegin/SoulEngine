@@ -30,9 +30,22 @@ COMPONENT | Mesh |
 EndComponent
 #-----------------------------------------------
 
-COMPONENT | RigidBody |
+COMPONENT | Physics |
 
 	Gravity = 0.05
+  
+  MaxSpeed = 0.5
+  
+  Friction = 0.1
+
+  Velocity = (0, 0)
+
+EndComponent
+#-----------------------------------------------
+
+COMPONENT | Collider |
+
+	Offset = 0.05
   
   MaxSpeed = 0.5
   
