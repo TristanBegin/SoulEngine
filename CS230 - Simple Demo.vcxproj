@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="Animation.c" />
     <ClCompile Include="BehaviorStrings.c" />
+    <ClCompile Include="Collision.c" />
     <ClCompile Include="FileInterpreter.c" />
     <ClCompile Include="GSMBigSix.c" />
     <ClCompile Include="PlayerBehavior.c">
@@ -31,6 +32,7 @@
     <ClCompile Include="GameStateManager.c" />
     <ClCompile Include="Main.c" />
     <ClCompile Include="PlatformerGame.c" />
+    <ClCompile Include="SoulMath.c" />
     <ClCompile Include="System.c" />
   </ItemGroup>
   <ItemGroup>
@@ -40,10 +42,12 @@
   <ItemGroup>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Behaviors.h" />
+    <ClInclude Include="Collision.h" />
     <ClInclude Include="FileInterpreter.h" />
     <ClInclude Include="GSMBigSix.h" />
     <ClInclude Include="PlatformerGame.h" />
     <ClInclude Include="SoulEngine.h" />
+    <ClInclude Include="SoulMath.h" />
     <ClInclude Include="System.h" />
   </ItemGroup>
   <ItemGroup>
