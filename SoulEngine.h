@@ -10,6 +10,7 @@ typedef struct ARCHETYPE ARCHETYPE;
 typedef struct COMPONENT COMPONENT;
 typedef struct PHYSICS PHYSICS;
 typedef struct COLLIDER COLLIDER;
+typedef struct SOUND SOUND;
 typedef struct SPRITE SPRITE;
 typedef struct MESH MESH;
 typedef struct GAMESTATS GAMESTATS;
@@ -131,16 +132,31 @@ typedef struct PHYSICS
 
 
 // COMPONENT STRUCT
-// Adds physics functionality to an object.
+// Adds collision functionality to an object.
 typedef struct COLLIDER
 {
-  COMPONENT *pComponent;  //The component that holds this RigidBody.
+  COMPONENT *pComponent;  //The component that holds this Collider.
   ARCHETYPE *pArchetype;  //The original archetype this came from.
   VECTOR Offset;
   float Height;
   float Width;
 
 }COLLIDER;
+
+
+// COMPONENT STRUCT
+// Adds sound to an object.
+typedef struct SOUND
+{
+  COMPONENT *pComponent;  //The component that holds this Sound.
+  ARCHETYPE *pArchetype;  //The original archetype this came from.
+  float Volume;
+  BOOL Positional;
+  float Radius;
+  char * SoundFile;
+  BOOL PlayOnStart;
+
+}SOUND;
 
 
 // COMPONENT STRUCT
@@ -305,7 +321,8 @@ typedef enum COMPONENTTYPE
   Mesh,
   Behavior,
   Physics,
-  Collider
+  Collider,
+  Sound
 }COMPONENTTYPE;
 
 typedef enum BOOL
