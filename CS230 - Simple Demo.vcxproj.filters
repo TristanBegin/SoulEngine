@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="BehaviorStrings.c">
+      <Filter>Behaviors</Filter>
+    </ClCompile>
+    <ClCompile Include="DefaultBehavior.c">
+      <Filter>Behaviors</Filter>
+    </ClCompile>
+    <ClCompile Include="GoRightBehavior.c">
+      <Filter>Behaviors</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBehavior.c">
+      <Filter>Behaviors</Filter>
+    </ClCompile>
+    <ClCompile Include="FileInterpreter.c">
+      <Filter>GameFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation.c">
+      <Filter>SoulEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="GameStateManager.c">
+      <Filter>SoulEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="GSMBigSix.c">
+      <Filter>SoulEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.c">
+      <Filter>SoulEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="SoulEngine.c">
+      <Filter>SoulEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="System.c">
+      <Filter>SoulEngine</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Behaviors.h">
+      <Filter>Behaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="FileInterpreter.h">
+      <Filter>GameFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>SoulEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="GSMBigSix.h">
+      <Filter>SoulEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="SoulEngine.h">
+      <Filter>SoulEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="System.h">
+      <Filter>SoulEngine</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Blank.png">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="TestAnimation.png">
+      <Filter>Resources</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Anim_Arch.txt">
+      <Filter>GameFiles</Filter>
+    </Text>
+    <Text Include="_LevelList.txt">
+      <Filter>GameFiles</Filter>
+    </Text>
+    <Text Include="_ArchetypeList.txt">
+      <Filter>GameFiles</Filter>
+    </Text>
+    <Text Include="GoRight_Arch.txt">
+      <Filter>GameFiles</Filter>
+    </Text>
+    <Text Include="LevelFile.txt">
+      <Filter>GameFiles</Filter>
+    </Text>
+    <Text Include="Player_Arch.txt">
+      <Filter>GameFiles</Filter>
+    </Text>
+    <Text Include="Tutorial_Level.txt">
+      <Filter>GameFiles</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Behaviors">
+      <UniqueIdentifier>{2cd24493-bf69-422c-b2cc-ba27f0fffdaa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{67d77a0e-c6bd-4af4-b417-7e92f01d6945}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SoulEngine">
+      <UniqueIdentifier>{e46d0013-951c-40f0-b26f-a19e38b79fd3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameFiles">
+      <UniqueIdentifier>{6097c594-e807-4dd5-a423-340ce83abccf}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
