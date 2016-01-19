@@ -13,7 +13,7 @@ void UpdateRigidBody(RIGIDBODY * pRigidBody);
 
 void LoadLevel()
 {
-	int gridSize = pTheGame->pGameStats->GridSize/2;
+	float gridSize = pTheGame->pGameStats->GridSize/2;
 	AEGfxVertexList * pLMesh;
 	LEVEL * pTheLevel = pTheGame->pGameStats->pRunningLevel;
 	UNIT * tempUnit = pTheLevel->nextUnit;
@@ -54,40 +54,13 @@ void InitializeLevel()
 {
   LEVEL * pTheLevel = pTheGame->pGameStats->pRunningLevel;
   UNIT * temp = pTheLevel->nextUnit;
-  //numBehaviors = 0;
+
   while (temp)
   {
     InitializeUnit(temp);
-    /*
-    if (FindComponentStruct(temp->pArchetype, Behavior))
-    {
-      numBehaviors++;
-    }
-    */
     temp = temp->nextUnit;
   }
-  /*
-  if (numBehaviors > 0)
-  {
-    int i = 0;
-    pBehaviorArray = (BEHAVIOR**)calloc(numBehaviors, sizeof(BEHAVIOR*));
-    temp = pTheLevel->nextUnit;
-
-    while (temp)
-    {
-      BEHAVIOR * pBehavior = FindComponentStruct(temp->pArchetype, Behavior);
-      if (pBehavior)
-      {
-        pBehaviorArray[i] = pBehavior;
-        i++;
-      }
-      temp = temp->nextUnit;
-    }
-  }
-  */
 }
-
-
 
 
 /********************************************************
