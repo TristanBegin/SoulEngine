@@ -282,6 +282,7 @@ void * AddVar(VTYPE Type, char * Name, BEHAVIOR * Owner)
 {
   VAR * pNewVar = malloc(sizeof(VAR));
   pNewVar->Name = myStrCpy(Name);
+  pNewVar->Type = Float;
 
   if (Type = Int)
   {
@@ -334,6 +335,7 @@ void * AddVar(VTYPE Type, char * Name, BEHAVIOR * Owner)
   }
   pNewVar->nextVar = Owner->nextVar;
   Owner->nextVar = pNewVar;
+  return pNewVar->Data;
 }
 
 void * GetVar(char * Name, BEHAVIOR * Owner)
