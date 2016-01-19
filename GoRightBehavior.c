@@ -6,6 +6,7 @@ static ARCHETYPE * pMyArchetype;
 static LEVEL * pMyLevel;
 static GAME * pMyGame;
 static GAMESTATS * pMyGameStats;
+static BEHAVIOR * pMyBehavior;
 
 void Start();
 void Update();
@@ -18,6 +19,7 @@ void GoRightBehavior(BEHAVIOR * Owner, char * Trigger)
   pMyLevel = pMyUnit->pLevel;
   pMyGame = pMyLevel->pGame;
   pMyGameStats = pMyGame->pGameStats;
+  pMyBehavior = Owner;
 
   if (Trigger == "Start")
   {
@@ -32,12 +34,25 @@ void GoRightBehavior(BEHAVIOR * Owner, char * Trigger)
 
 static void Start()
 {
-  
+  AddVar(Float, "exampleFloat", pMyBehavior);
+
+  AddVar(Vector, "exampleVector", pMyBehavior);
+
+  AddVar(String, "exampleString", pMyBehavior);
 
 }
 
 static void Update()
 {
-  pMyTransform->Position.x += 0.1;
+  float * exampleFloat = GetVar("exampleFloat", pMyBehavior);
+  *exampleFloat = 0.3;
+
+  VECTOR * exampleVector = GetVar("exampleVector", pMyBehavior);
+  *exampleVector = NewVector(0, 0);
+
+  char ** exampleString = GetVar("exampleString", pMyBehavior);
+  *exampleString = "Hello World";
+
+  pMyTransform->Position.x += *exampleFloat;
 
 }

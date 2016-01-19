@@ -68,22 +68,6 @@ GAMESTATS * SetDefaults(GAME * pGame)
 
   pStats->pDefaultSprite = pSprite;
   
-  ////Informing the library that we're about to start adding triangles.
-  //AEGfxMeshStart();
-  //
-  ////This shape has 2 triangles.
-  //AEGfxTriAdd(
-	//  -16.0f, -16.0f, 0xFFFFFFFF, 0.0f, 0.5f,
-	//  16.0f, -16.0f, 0xFFFFFFFF, 0.2f, 0.5f,
-	//  -16.0f, 16.0f, 0xFFFFFFFF, 0.0f, 0.0f);
-  //AEGfxTriAdd(
-	//  16.0f, -16.0f, 0xFFFFFFFF, 0.2f, 0.5f,
-	//  16.0f, 16.0f, 0xFFFFFFFF, 0.2f, 0.0f,
-	//  -16.0f, 16.0f, 0xFFFFFFFF, 0.0f, 0.0f);
-  //
-  //
-  //pLMesh = AEGfxMeshEnd();
-  //AE_ASSERT_MESG(pMesh, "Failed to create default mesh");
 
   pMesh->pMeshLit = NULL;
   pMesh->Size = meshSizeVector;
@@ -262,6 +246,79 @@ void * FindComponentStruct(ARCHETYPE * pArchetype, COMPONENTTYPE DesiredType)
   return pComponent->pStruct;
 }
 
+void * AddVar(VTYPE Type, char * Name, BEHAVIOR * Owner)
+{
+  VAR * pNewVar = malloc(sizeof(VAR));
+  pNewVar->Name = myStrCpy(Name);
+
+  if (Type = Int)
+  {
+    int *x = malloc(sizeof(int));
+    *x = 0;
+    pNewVar->Data = x;
+  }
+  else if (Type = Float)
+  {
+    float *x = malloc(sizeof(float));
+    *x = 0.0;
+    pNewVar->Data = x;
+  }
+  else if (Type = Vector)
+  {
+    VECTOR *x = malloc(sizeof(VECTOR));
+    *x = NewVector(0,0);
+    pNewVar->Data = x;
+  }
+  else if (Type = String)
+  {
+    char **x = malloc(sizeof(char*));
+    *x = NULL;
+    pNewVar->Data = x;
+  }
+  else if (Type = Color)
+  {
+    COLOR newCol = { 1, 1, 1, 1 };
+    COLOR *x = malloc(sizeof(COLOR));
+    *x = newCol;
+    pNewVar->Data = x;
+  }
+  else if (Type = Bool)
+  {
+    BOOL *x = malloc(sizeof(BOOL));
+    *x = False;
+    pNewVar->Data = x;
+  }
+  else if (Type = Char)
+  {
+    char *x = malloc(sizeof(char));
+    *x = '\0';
+    pNewVar->Data = x;
+  }
+  else if (Type = Matrix)
+  {
+    MATRIX *temp = (MATRIX*)malloc(sizeof(MATRIX));
+    SecureZeroMemory(temp->m, sizeof(float)* 9);
+    pNewVar->Data = temp;
+  }
+  pNewVar->nextVar = Owner->nextVar;
+  Owner->nextVar = pNewVar;
+}
+
+void * GetVar(char * Name, BEHAVIOR * Owner)
+{
+  VAR * temp = Owner->nextVar;
+  while (temp)
+  {
+    if (myStrCmp(temp->Name, Name) <= 0)
+    {
+      return temp->Data;
+    }
+    temp = temp->nextVar;
+  }
+  return NULL;
+}
+
+
 ARCHETYPE * FindArchetypeByName(GAME *pGame, char *Name)
 {
 	ARCHETYPE * temp = pGame->nextArchetype;
@@ -281,7 +338,7 @@ LEVEL * AddLevel(GAME * pGame, char *Name, int Order)
 {
 
 	LEVEL * pNewLevel = malloc(sizeof(LEVEL));
-	pNewLevel->Name = Name;
+	pNewLevel->Name = myStrCpy(Name);
 	pNewLevel->Order = Order;
 	pNewLevel->pCamera = NULL;
 	pNewLevel->nextUnit = NULL;
@@ -299,7 +356,7 @@ UNIT * AddUnit(LEVEL *pLevel, ARCHETYPE *pArchetype, char *Name)
 	UNIT * pNewUnit = malloc(sizeof(UNIT));
   pNewUnit->pInitTransform = malloc(sizeof(TRANSFORM));
   pNewUnit->pTransform = malloc(sizeof(TRANSFORM));
-	pNewUnit->Name = Name;
+	pNewUnit->Name = myStrCpy(Name);
 	pNewUnit->pInitArchetype = pArchetype;
   *(pNewUnit->pInitTransform) = *(pArchetype->pGame->pGameStats->pDefaultTransform);
 	*(pNewUnit->pTransform) = *(pArchetype->pGame->pGameStats->pDefaultTransform);

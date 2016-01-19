@@ -18,8 +18,12 @@ typedef struct LEVEL LEVEL;
 typedef struct CAMERA CAMERA;
 typedef struct BEHAVIOR BEHAVIOR;
 typedef struct VAR VAR;
+typedef struct COLOR COLOR;
+typedef struct MATRIX MATRIX;
 typedef enum COMPONENTTYPE COMPONENTTYPE;
 typedef enum BOOL BOOL;
+typedef enum VARTYPE VTYPE;
+typedef enum GAMESTATE GAMESTATE;
 
 
 // Vector, pretty self explanatory.
@@ -247,17 +251,29 @@ typedef struct CAMERA
   TRANSFORM *pTransform;
 }CAMERA;
 
+typedef struct COLOR
+{
+  float r;
+  float g;
+  float b;
+  float a;
+}COLOR;
+
+typedef struct MATRIX
+{
+  float m[3][3];
+}MATRIX;
 
 //Used to have custom variables.
 typedef struct VAR
 {
   char * Name;
   void * Data;
-  VARTYPE Type;
+  VTYPE Type;
   VAR * nextVar;
 }VAR;
 
-typedef enum VARTYPE
+enum VARTYPE
 {
   Int,
   Float,
@@ -267,7 +283,7 @@ typedef enum VARTYPE
   Bool,
   Char,
   Matrix
-}VARTYPE;
+};
 
 typedef enum COMPONENTTYPE
 {
@@ -294,9 +310,11 @@ typedef enum GAMESTATE
   Quit
 }GAMESTATE;
 
-//VAR * AddVar(void * InitData, )
-int x = 3;
-void * px = &x;
+void * AddVar(VTYPE Type, char * Name, BEHAVIOR * Owner);
+
+void * GetVar(char * Name, BEHAVIOR * Owner);
+
+
 
 // Creates a new game with the given name and sets it's defaults.
 GAME * InitializeGame(char * Name);
@@ -355,9 +373,6 @@ ARCHETYPE * CreateInstanceOfArchetype(ARCHETYPE * pArchetype, UNIT * pUnit);
 
 //Returns a new vector with given x and y.
 VECTOR NewVector(float x, float y);
-
-//Adds a new VAR to a behavior. (UNFINISHED DO NOT USE)
-VAR * AddVar(BEHAVIOR * pBehavior);
 
 //Destroys a given unit (UNFINISHED DO NOT USE)
 void DestroyUnit(UNIT *pUnit);
