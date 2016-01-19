@@ -273,6 +273,7 @@ void InterpretLevel(FILE * fpLevel)
       int inputInt = 0;
       float inputFloat = 0.0f;
       VECTOR inputVector = NewVector(0, 0);
+     
       AddNull(buffer);
       if (buffer[0] != '#' && strlen(buffer) > 2)
       {
@@ -327,16 +328,129 @@ void InterpretLevel(FILE * fpLevel)
             pCurrUnit->pInitTransform->Scale = inputVector;
             continue;
           }
+
+          if (myStrCmp(question, "VAR") <= 0)
+          {
+            VTYPE theType;
+            VAR * newVar;
+            char varInput[MAX_LENGTH];
+            char typeInput[MAX_LENGTH];
+            char dataInput[MAX_LENGTH];
+            void * data;
+            sscanf(buffer, "\tVAR %s : %s = %s", &varInput, &typeInput, &dataInput);
+            theType = GetVTypeFromString(typeInput);
+
+            newVar = AddUnitVar(theType, varInput, pCurrUnit);
+
+            if (theType == Float)
+            {
+              float x;
+              sscanf(dataInput, "%f", &x);
+              data = malloc(sizeof(x));
+              *((float*)newVar->Data) = x;
+            }
+            else if (theType == Int)
+            {
+              int x;
+              sscanf(dataInput, "%i", &x);
+              data = malloc(sizeof(x));
+              *(int*)newVar->Data = x;
+            }
+            else if (theType == Vector)
+            {
+              VECTOR x;
+              sscanf(dataInput, "(%f, %f)", &x.x, &x.y);
+              data = malloc(sizeof(x));
+              *(VECTOR*)newVar->Data = x;
+            }
+            else if (theType == String)
+            {
+              char * x;
+              x = myStrCpy(dataInput);
+              data = malloc(sizeof(x));
+              *(char**)newVar->Data = x;
+            }
+            else if (theType == Bool)
+            {
+              BOOL x;
+              sscanf(dataInput, "%i", &x);
+              data = malloc(sizeof(x));
+              *(BOOL*)newVar->Data = x;
+            }
+            else if (theType == Color)
+            {
+              COLOR x;
+              sscanf(dataInput, "(%f, %f, %f, %f)", &x.r, &x.g, &x.b, &x.a);
+              data = malloc(sizeof(x));
+              *(COLOR*)newVar->Data = x;
+            }
+            else if (theType == Char)
+            {
+              char x;
+              sscanf(dataInput, "%c", &x);
+              data = malloc(sizeof(x));
+              *(char*)newVar->Data = x;
+            }
+            else if (theType == Matrix)
+            {
+              MATRIX x;
+              sscanf(dataInput, "{ {%f, %f, %f} {%f, %f, %f} {%f, %f, %f} }", 
+                            &x.m[0][0], &x.m[0][1], &x.m[0][2], 
+                            &x.m[1][0], &x.m[1][1], &x.m[1][2],
+                            &x.m[2][0], &x.m[2][1], &x.m[2][2]);
+              data = malloc(sizeof(x));
+              *(MATRIX*)newVar->Data = x;
+            }
+            
+            
+          }
         }
         
 
         if (myStrCmp(question, "EndUnit") <= 0)
         {
+
             pCurrUnit = NULL;
             continue;
         }
         
       }
     }
+  }
+}
+
+VTYPE GetVTypeFromString(char * theString)
+{
+  if (myStrCmp(theString, "Float") <= 0)
+  {
+    return Float;
+  }
+  if (myStrCmp(theString, "Int") <= 0)
+  {
+    return Int;
+  }
+  if (myStrCmp(theString, "Vector") <= 0)
+  {
+    return Vector;
+  }
+  if (myStrCmp(theString, "String") <= 0)
+  {
+    return String;
+  }
+  if (myStrCmp(theString, "Bool") <= 0)
+  {
+    return Bool;
+  }
+  if (myStrCmp(theString, "Color") <= 0)
+  {
+    return Color;
+  }
+  if (myStrCmp(theString, "Char") <= 0)
+  {
+    return Char;
+  }
+  if (myStrCmp(theString, "Matrix") <= 0)
+  {
+    return Matrix;
   }
 }

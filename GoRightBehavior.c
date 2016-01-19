@@ -37,7 +37,7 @@ static void Start()
   float * exampleFloat = (float*)AddVar(Float, "exampleFloat", pMyBehavior);
   *exampleFloat = -0.3;
 
-  AddVar(Vector, "exampleVector", pMyBehavior);
+  //AddVar(Vector, "exampleVector", pMyBehavior);
 
   AddVar(String, "exampleString", pMyBehavior);
 
@@ -46,13 +46,11 @@ static void Start()
 static void Update()
 {
   float * exampleFloat = GetVar("exampleFloat", pMyBehavior);
-  //*exampleFloat = 0.3;
 
-  VECTOR * exampleVector = GetVar("exampleVector", pMyBehavior);
-  *exampleVector = NewVector(0, 0);
+  //VECTOR * exampleVector = GetVar("exampleVector", pMyBehavior);
 
-  char ** exampleString = GetVar("exampleString", pMyBehavior);
-  *exampleString = "Hello World";
+  //char ** exampleString = GetVar("exampleString", pMyBehavior);
+  //*exampleString = "Hello World";
 
   pMyTransform->Position.x += *exampleFloat;
 

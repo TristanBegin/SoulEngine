@@ -183,6 +183,7 @@ COMPONENT * AddComponent(ARCHETYPE *pArchetype, COMPONENTTYPE DesiredType)
     pNewComponent->Type = Behavior;
     pNewComponent->pStruct = pNewBehavior;
     pNewBehavior->BehaviorScript = DefaultBehavior;
+    pNewBehavior->nextVar = NULL;
     pNewBehavior->pComponent = pNewComponent;
     pNewBehavior->pArchetype = pArchetype;
   }
@@ -218,6 +219,7 @@ COMPONENT * AddBehaviorComponent(ARCHETYPE *pArchetype, void(*BehaviorScript)(BE
   pNewComponent->Type = Behavior;
   pNewComponent->pStruct = pNewBehavior;
   pNewBehavior->BehaviorScript = BehaviorScript;
+  pNewBehavior->nextVar = NULL;
   pNewBehavior->pComponent = pNewComponent;
   pNewBehavior->pArchetype = pArchetype;
 
@@ -252,50 +254,50 @@ void * AddVar(VTYPE Type, char * Name, BEHAVIOR * Owner)
   pNewVar->Name = myStrCpy(Name);
   pNewVar->Type = Float;
 
-  if (Type = Int)
+  if (Type == Int)
   {
     int *x = malloc(sizeof(int));
     *x = 0;
     pNewVar->Data = x;
   }
-  else if (Type = Float)
+  else if (Type == Float)
   {
     float *x = malloc(sizeof(float));
     *x = 0.0;
     pNewVar->Data = x;
   }
-  else if (Type = Vector)
+  else if (Type == Vector)
   {
     VECTOR *x = malloc(sizeof(VECTOR));
     *x = NewVector(0,0);
     pNewVar->Data = x;
   }
-  else if (Type = String)
+  else if (Type == String)
   {
     char **x = malloc(sizeof(char*));
     *x = NULL;
     pNewVar->Data = x;
   }
-  else if (Type = Color)
+  else if (Type == Color)
   {
     COLOR newCol = { 1, 1, 1, 1 };
     COLOR *x = malloc(sizeof(COLOR));
     *x = newCol;
     pNewVar->Data = x;
   }
-  else if (Type = Bool)
+  else if (Type == Bool)
   {
     BOOL *x = malloc(sizeof(BOOL));
     *x = False;
     pNewVar->Data = x;
   }
-  else if (Type = Char)
+  else if (Type == Char)
   {
     char *x = malloc(sizeof(char));
     *x = '\0';
     pNewVar->Data = x;
   }
-  else if (Type = Matrix)
+  else if (Type == Matrix)
   {
     MATRIX *temp = (MATRIX*)malloc(sizeof(MATRIX));
     SecureZeroMemory(temp->m, sizeof(float)* 9);
@@ -306,14 +308,80 @@ void * AddVar(VTYPE Type, char * Name, BEHAVIOR * Owner)
   return pNewVar->Data;
 }
 
+VAR * AddUnitVar(VTYPE Type, char * Name, UNIT * Owner)
+{
+  VAR * pNewVar = malloc(sizeof(VAR));
+  pNewVar->Name = myStrCpy(Name);
+  pNewVar->Type = Float;
+
+  if (Type == Int)
+  {
+    int *x = malloc(sizeof(int));
+    *x = 0;
+    pNewVar->Data = x;
+  }
+  else if (Type == Float)
+  {
+    float *x = malloc(sizeof(float));
+    *x = 0.0;
+    pNewVar->Data = x;
+  }
+  else if (Type == Vector)
+  {
+    VECTOR *x = malloc(sizeof(VECTOR));
+    *x = NewVector(0, 0);
+    pNewVar->Data = x;
+  }
+  else if (Type == String)
+  {
+    char **x = malloc(sizeof(char*));
+    *x = NULL;
+    pNewVar->Data = x;
+  }
+  else if (Type == Color)
+  {
+    COLOR newCol = { 1, 1, 1, 1 };
+    COLOR *x = malloc(sizeof(COLOR));
+    *x = newCol;
+    pNewVar->Data = x;
+  }
+  else if (Type == Bool)
+  {
+    BOOL *x = malloc(sizeof(BOOL));
+    *x = False;
+    pNewVar->Data = x;
+  }
+  else if (Type == Char)
+  {
+    char *x = malloc(sizeof(char));
+    *x = '\0';
+    pNewVar->Data = x;
+  }
+  else if (Type == Matrix)
+  {
+    MATRIX *temp = (MATRIX*)malloc(sizeof(MATRIX));
+    SecureZeroMemory(temp->m, sizeof(float) * 9);
+    pNewVar->Data = temp;
+  }
+  pNewVar->nextVar = Owner->nextVar;
+  Owner->nextVar = pNewVar;
+  return pNewVar;
+  return NULL;
+}
+
 void * GetVar(char * Name, BEHAVIOR * Owner)
+{
+  return GetActualVar(Name, Owner)->Data;
+}
+
+VAR * GetActualVar(char * Name, BEHAVIOR * Owner)
 {
   VAR * temp = Owner->nextVar;
   while (temp)
   {
     if (myStrCmp(temp->Name, Name) <= 0)
     {
-      return temp->Data;
+      return temp;
     }
     temp = temp->nextVar;
   }
@@ -363,6 +431,7 @@ UNIT * AddUnit(LEVEL *pLevel, ARCHETYPE *pArchetype, char *Name)
   *(pNewUnit->pInitTransform) = *(pArchetype->pGame->pGameStats->pDefaultTransform);
 	*(pNewUnit->pTransform) = *(pArchetype->pGame->pGameStats->pDefaultTransform);
 	pNewUnit->pLevel = pLevel;
+  pNewUnit->nextVar = NULL;
 	pNewUnit->nextUnit = pLevel->nextUnit;
 	pLevel->nextUnit = pNewUnit;
 
@@ -413,7 +482,25 @@ void InitializeUnit(UNIT * pUnit)
   {
     if (temp->Type == Behavior)
     {
-      ((BEHAVIOR*)temp->pStruct)->BehaviorScript(((BEHAVIOR*)temp->pStruct), "Start");
+      VAR *tempVar = pUnit->nextVar;
+      BEHAVIOR * pBehavior = ((BEHAVIOR*)temp->pStruct);
+      pBehavior->BehaviorScript(((BEHAVIOR*)temp->pStruct), "Start");
+      while (tempVar)
+      {
+        VAR * pBVar = GetActualVar(tempVar->Name, pBehavior);
+        if (pBVar)
+        {
+          float f = *(float*)tempVar->Data;
+          pBVar->Data = tempVar->Data;
+          f = *(float*)pBVar->Data;
+          f = *(float*)pBVar->Data;
+        }
+        else 
+        {
+          //AddVar(tempVar->Type, tempVar->Name, pBehavior);
+        }
+        tempVar = tempVar->nextVar;
+      }
       break;
     }
     temp = temp->nextComponent;

@@ -4,3 +4,4 @@ void InterpretArchetype(FILE * fpArch);
 void InterpretLevel(FILE * fpLevel);
 int myStrCmp(char * Input, char * Answer);
 char * myStrCpy(char * theString);
+VTYPE GetVTypeFromString(char * theString);

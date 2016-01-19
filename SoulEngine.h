@@ -327,8 +327,11 @@ typedef enum GAMESTATE
 
 void * AddVar(VTYPE Type, char * Name, BEHAVIOR * Owner);
 
+VAR * AddUnitVar(VTYPE Type, char * Name, UNIT * Owner);
+
 void * GetVar(char * Name, BEHAVIOR * Owner);
 
+VAR * GetActualVar(char * Name, BEHAVIOR * Owner);
 
 
 // Creates a new game with the given name and sets it's defaults.

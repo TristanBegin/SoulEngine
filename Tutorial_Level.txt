@@ -32,6 +32,8 @@ UNIT < GoRight > RightMan
 	InitialRotation = 0
 	InitialScale = (1, 1)
 
+	VAR exampleFloat : Float = 0.1
+
 EndUnit
 #-----------------------------------------------
 
