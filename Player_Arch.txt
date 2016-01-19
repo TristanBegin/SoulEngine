@@ -1,0 +1,53 @@
+#GLOBAL ARCHETYPE CREATION FILE
+
+Name = Player
+
+#-----------------------------------------------
+# - COMPONENTS -
+# All values not specified will be set to
+# default. 
+#-----------------------------------------------
+
+COMPONENT | Sprite |
+
+	TextureFile = Blank.png
+	
+	Animated = 0
+
+	RowCol = (1, 1)
+
+	Offset = (0, 0)
+
+	AnimationSpeed = 1
+
+EndComponent
+#-----------------------------------------------
+
+COMPONENT | Mesh |
+
+	Size = (1, 1)
+
+EndComponent
+#-----------------------------------------------
+
+COMPONENT | RigidBody |
+
+	Gravity = 0.05
+  
+  MaxSpeed = 0.5
+  
+  Friction = 0.1
+
+  Velocity = (0, 0)
+
+EndComponent
+#-----------------------------------------------
+
+COMPONENT | Behavior |
+
+	BehaviorScript = PlayerBehavior
+
+EndComponent
+
+
+

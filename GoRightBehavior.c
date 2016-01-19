@@ -10,7 +10,7 @@ static GAMESTATS * pMyGameStats;
 void Start();
 void Update();
 
-void $BehaviorName$(BEHAVIOR * Owner, char * Trigger)
+void GoRightBehavior(BEHAVIOR * Owner, char * Trigger)
 {
   pMyUnit = Owner->pArchetype->pUnit;
   pMyTransform = pMyUnit->pTransform;
@@ -38,6 +38,6 @@ static void Start()
 
 static void Update()
 {
-
+  pMyTransform->Position.x += 0.1;
 
 }

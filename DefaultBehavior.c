@@ -10,7 +10,7 @@ static GAMESTATS * pMyGameStats;
 void Start();
 void Update();
 
-void $BehaviorName$(BEHAVIOR * Owner, char * Trigger)
+void DefaultBehavior(BEHAVIOR * Owner, char * Trigger)
 {
   pMyUnit = Owner->pArchetype->pUnit;
   pMyTransform = pMyUnit->pTransform;

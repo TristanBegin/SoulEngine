@@ -21,9 +21,16 @@
   <ItemGroup>
     <ClCompile Include="Animation.c" />
     <ClCompile Include="BehaviorStrings.c" />
-    <ClCompile Include="Collision.c" />
+    <ClCompile Include="DefaultBehavior.c">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="FileInterpreter.c" />
     <ClCompile Include="GSMBigSix.c" />
+    <ClCompile Include="GoRightBehavior.c">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="PlayerBehavior.c">
       <SubType>
       </SubType>
@@ -31,8 +38,6 @@
     <ClCompile Include="SoulEngine.c" />
     <ClCompile Include="GameStateManager.c" />
     <ClCompile Include="Main.c" />
-    <ClCompile Include="PlatformerGame.c" />
-    <ClCompile Include="SoulMath.c" />
     <ClCompile Include="System.c" />
   </ItemGroup>
   <ItemGroup>
@@ -42,17 +47,28 @@
   <ItemGroup>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Behaviors.h" />
-    <ClInclude Include="Collision.h" />
     <ClInclude Include="FileInterpreter.h" />
     <ClInclude Include="GSMBigSix.h" />
-    <ClInclude Include="PlatformerGame.h" />
     <ClInclude Include="SoulEngine.h" />
-    <ClInclude Include="SoulMath.h" />
     <ClInclude Include="System.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="PlayerArchetype.txt" />
-    <Text Include="ArchetypeList.txt" />
+    <Text Include="Anim_Arch.txt">
+      <SubType>
+      </SubType>
+    </Text>
+    <Text Include="GoRight_Arch.txt">
+      <SubType>
+      </SubType>
+    </Text>
+    <Text Include="_LevelList.txt" />
+    <Text Include="Player_Arch.txt" />
+    <Text Include="_ArchetypeList.txt" />
+    <Text Include="LevelFile.txt" />
+    <Text Include="Tutorial_Level.txt">
+      <SubType>
+      </SubType>
+    </Text>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{99C44468-B6FA-417A-818E-F61E863B4D40}</ProjectGuid>

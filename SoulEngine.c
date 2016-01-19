@@ -14,6 +14,7 @@
 #include "SoulEngine.h"
 #include <string.h>
 #include "FileInterpreter.h"
+#include "Behaviors.h"
 // ---------------------------------------------------------------------------
 
 // Libraries
@@ -45,7 +46,7 @@ GAMESTATS * SetDefaults(GAME * pGame)
   SPRITE * pSprite = malloc(sizeof(SPRITE));
   MESH * pMesh = malloc(sizeof(MESH));
   VECTOR zeroVector = { 0, 0 };
-  VECTOR meshSizeVector = { 32, 32 };
+  VECTOR meshSizeVector = { 1, 1 };
   VECTOR oneVector = { 1, 1 };
   AEGfxVertexList * pLMesh;
   TRANSFORM * pTransform = malloc(sizeof(TRANSFORM));
@@ -67,24 +68,24 @@ GAMESTATS * SetDefaults(GAME * pGame)
 
   pStats->pDefaultSprite = pSprite;
   
-  //Informing the library that we're about to start adding triangles.
-  AEGfxMeshStart();
+  ////Informing the library that we're about to start adding triangles.
+  //AEGfxMeshStart();
+  //
+  ////This shape has 2 triangles.
+  //AEGfxTriAdd(
+	//  -16.0f, -16.0f, 0xFFFFFFFF, 0.0f, 0.5f,
+	//  16.0f, -16.0f, 0xFFFFFFFF, 0.2f, 0.5f,
+	//  -16.0f, 16.0f, 0xFFFFFFFF, 0.0f, 0.0f);
+  //AEGfxTriAdd(
+	//  16.0f, -16.0f, 0xFFFFFFFF, 0.2f, 0.5f,
+	//  16.0f, 16.0f, 0xFFFFFFFF, 0.2f, 0.0f,
+	//  -16.0f, 16.0f, 0xFFFFFFFF, 0.0f, 0.0f);
+  //
+  //
+  //pLMesh = AEGfxMeshEnd();
+  //AE_ASSERT_MESG(pMesh, "Failed to create default mesh");
 
-  //This shape has 2 triangles.
-  AEGfxTriAdd(
-	  -16.0f, -16.0f, 0xFFFFFFFF, 0.0f, 0.5f,
-	  16.0f, -16.0f, 0xFFFFFFFF, 0.2f, 0.5f,
-	  -16.0f, 16.0f, 0xFFFFFFFF, 0.0f, 0.0f);
-  AEGfxTriAdd(
-	  16.0f, -16.0f, 0xFFFFFFFF, 0.2f, 0.5f,
-	  16.0f, 16.0f, 0xFFFFFFFF, 0.2f, 0.0f,
-	  -16.0f, 16.0f, 0xFFFFFFFF, 0.0f, 0.0f);
-
-
-  pLMesh = AEGfxMeshEnd();
-  AE_ASSERT_MESG(pMesh, "Failed to create default mesh");
-
-  pMesh->pMeshLit = pLMesh;
+  pMesh->pMeshLit = NULL;
   pMesh->Size = meshSizeVector;
   
   pStats->pDefaultMesh = pMesh;
@@ -197,9 +198,25 @@ COMPONENT * AddComponent(ARCHETYPE *pArchetype, COMPONENTTYPE DesiredType)
     BEHAVIOR * pNewBehavior = malloc(sizeof(BEHAVIOR));
     pNewComponent->Type = Behavior;
     pNewComponent->pStruct = pNewBehavior;
-    pNewBehavior->BehaviorScript = NULL;
+    pNewBehavior->BehaviorScript = DefaultBehavior;
     pNewBehavior->pComponent = pNewComponent;
     pNewBehavior->pArchetype = pArchetype;
+  }
+
+  if (DesiredType == RigidBody)
+  {
+    RIGIDBODY * pNewRigidBody = malloc(sizeof(RIGIDBODY));
+    
+    pNewComponent->Type = RigidBody;
+    pNewComponent->pStruct = pNewRigidBody;
+    
+    pNewRigidBody->Velocity = NewVector(0, 0);
+    pNewRigidBody->Gravity = 0.5;
+    pNewRigidBody->Friction = 0.1;
+    pNewRigidBody->MaxSpeed = 0.5;
+
+    pNewRigidBody->pComponent = pNewComponent;
+    pNewRigidBody->pArchetype = pArchetype;
   }
 
   return pNewComponent;
@@ -383,6 +400,14 @@ ARCHETYPE * CreateInstanceOfArchetype(ARCHETYPE * pArchetype, UNIT * pUnit)
       behCopy->pArchetype = pNewArchetype;
       behCopy->pComponent = compCopy;
       compCopy->pStruct = behCopy;
+    }
+    else if (temp->Type == RigidBody)
+    {
+      RIGIDBODY * rbCopy = malloc(sizeof(RIGIDBODY));
+      *rbCopy = *((RIGIDBODY *)temp->pStruct);
+      rbCopy->pArchetype = pNewArchetype;
+      rbCopy->pComponent = compCopy;
+      compCopy->pStruct = rbCopy;
     }
 
 		compCopy->nextComponent = pNewArchetype->nextComponent;

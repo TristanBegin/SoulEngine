@@ -1,0 +1,47 @@
+
+#-----------------------------------------------
+# LEVEL CREATION FILE
+# Remember to add your level to the LevelList!
+#-----------------------------------------------
+
+Name = Tutorial
+
+Order = 0
+
+#-----------------------------------------------
+# - UNITS -
+# All values not specified will be set to
+# default. Delete text of any units
+# you do not want.
+#
+# Declare as "UNIT < ArchetypeName > UnitName"
+#-----------------------------------------------
+
+UNIT < Player > PlayerOne
+
+	InitialPosition = (0, 0)
+	InitialRotation = 0
+	InitialScale = (1, 1)
+
+EndUnit
+#-----------------------------------------------
+
+UNIT < GoRight > RightMan
+
+	InitialPosition = (0, -2)
+	InitialRotation = 0
+	InitialScale = (1, 1)
+
+EndUnit
+#-----------------------------------------------
+
+UNIT < Anim > AnimatedMan
+
+	InitialPosition = (-4, 5)
+	InitialRotation = 0
+	InitialScale = (1, 1)
+
+EndUnit
+#-----------------------------------------------
+
+
