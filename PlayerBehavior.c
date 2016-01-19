@@ -50,89 +50,88 @@ static void Start()
 static void Update()
 {
   //Checking for collision with a platform at y = 0
-  if (pMyTransform->Position.y <= 0)
-  {
-    collidingY = 1;
-  }
-  else
-  {
-    collidingY = 0;
-  }
-
-  /************* Player Input ***************/
-
-  // Jumping
-  if (AEInputCheckCurr('W') && pMyTransform->Position.y <= 0)
-  {
-    Velocity.y = 0.7;
-  }
-
-  if (AEInputCheckCurr('S'))
-  {
-    Velocity.y -= 0.05;
-  }
-
-  //Left movement
-  if (AEInputCheckCurr('A') && Velocity.x > -maxSpeed)
-  {
-    Velocity.x -= 0.05;
-  }
-
-  //Right movement
-  if (AEInputCheckCurr('D') && Velocity.x < maxSpeed)
-  {
-    Velocity.x += 0.05;
-  }
-
-  ////////////////////////////////////////////
-
-
-  /**************** Gravity *****************/
-  
-  Velocity.y -= 0.025;
-
-  ////////////////////////////////////////////
-  
-
-  /******* Apply Friction to Velocity *******/
-
-    Velocity.x -= (friction * Velocity.x);
-    Velocity.y -= (friction * Velocity.y);
-
-  ////////////////////////////////////////////
-
-  
-  /*************** Collision ****************/
-
-    if (collidingY)
-    {
-      if (Velocity.y < 0)
-      {
-        Velocity.y = 0;
-      }
-    }
-
-  ////////////////////////////////////////////
-
-
-  /************ Normalize Velocity **********/
-
-  if (Velocity.x != 0 && Velocity.y != 0)
-  {
-    mineVar = sqrt( (Velocity.x * Velocity.x) + (Velocity.y * Velocity.y) );
-    
-    Velocity.x = (Velocity.x) / mineVar;
-    Velocity.y = (Velocity.y) / mineVar;
-
-  }
-
-  ////////////////////////////////////////////
-
-
-  /******* Apply Velocity to Player *********/
-
-  pMyTransform->Position.x += Velocity.x;
-  pMyTransform->Position.y += Velocity.y;
-
-  ////////////////////////////////////////////
+  //if (pMyTransform->Position.y <= 0)
+  //{
+  //  collidingY = 1;
+  //}
+  //else
+  //{
+  //  collidingY = 0;
+  //}
+  //
+  ///************* Player Input ***************/
+  //
+  //// Jumping
+  //if (AEInputCheckCurr('W') && pMyTransform->Position.y <= 0)
+  //{
+  //  Velocity.y = 0.7;
+  //}
+  //
+  //if (AEInputCheckCurr('S'))
+  //{
+  //  Velocity.y -= 0.05;
+  //}
+  //
+  ////Left movement
+  //if (AEInputCheckCurr('A') && Velocity.x > -maxSpeed)
+  //{
+  //  Velocity.x -= 0.05;
+  //}
+  //
+  ////Right movement
+  //if (AEInputCheckCurr('D') && Velocity.x < maxSpeed)
+  //{
+  //  Velocity.x += 0.05;
+  //}
+  //
+  //////////////////////////////////////////////
+  //
+  //
+  ///**************** Gravity *****************/
+  //
+  //Velocity.y -= 0.025;
+  //
+  //////////////////////////////////////////////
+  //
+  //
+  ///******* Apply Friction to Velocity *******/
+  //
+  //  Velocity.x -= (friction * Velocity.x);
+  //  Velocity.y -= (friction * Velocity.y);
+  //
+  //////////////////////////////////////////////
+  //
+  //
+  ///*************** Collision ****************/
+  //
+  //  if (collidingY)
+  //  {
+  //    if (Velocity.y < 0)
+  //    {
+  //      Velocity.y = 0;
+  //    }
+  //  }
+  //
+  //////////////////////////////////////////////
+  //
+  //
+  ///************ Normalize Velocity **********/
+  //
+  ////if (Velocity.x != 0 && Velocity.y != 0)
+  ////{
+  //  //mineVar = sqrt( (Velocity.x * Velocity.x) + (Velocity.y * Velocity.y) );
+  //  
+  //  //Velocity.x = (Velocity.x) / mineVar;
+  //  //Velocity.y = (Velocity.y) / mineVar;
+  ////}
+  //
+  //////////////////////////////////////////////
+  //
+  //
+  ///******* Apply Velocity to Player *********/
+  //
+  //pMyTransform->Position.x += Velocity.x;
+  //pMyTransform->Position.y += Velocity.y;
+  //
+  //////////////////////////////////////////////
 }
