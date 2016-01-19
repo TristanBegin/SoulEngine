@@ -238,8 +238,21 @@ typedef struct VAR
 {
   char * Name;
   void * Data;
+  VARTYPE Type;
   VAR * nextVar;
 }VAR;
+
+typedef enum VARTYPE
+{
+  Int,
+  Float,
+  Vector,
+  String,
+  Color,
+  Bool,
+  Char,
+  Matrix
+}VARTYPE;
 
 typedef enum COMPONENTTYPE
 {
@@ -264,6 +277,10 @@ typedef enum GAMESTATE
   Restart,
   Quit
 }GAMESTATE;
+
+//VAR * AddVar(void * InitData, )
+int x = 3;
+void * px = &x;
 
 // Creates a new game with the given name and sets it's defaults.
 GAME * InitializeGame(char * Name);
