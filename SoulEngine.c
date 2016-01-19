@@ -226,7 +226,7 @@ COMPONENT * AddComponent(ARCHETYPE *pArchetype, COMPONENTTYPE DesiredType)
     pNewComponent->Type = Sound;
     pNewComponent->pStruct = pNewSound;
 
-    pNewSound->Volume = NewVector(0, 0);
+    pNewSound->Volume = 100;
     pNewSound->Positional = 1;
     pNewSound->Radius = 1;
     pNewSound->SoundFile = "";

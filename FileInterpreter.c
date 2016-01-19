@@ -199,6 +199,7 @@ void InterpretArchetype(FILE * fpArch)
 
             if (myStrCmp(question, "SoundFile") <= 0)
             {
+              char scriptInput[MAX_LENGTH];
               sscanf(buffer, "\tSoundFile = %s", &scriptInput);
               pSound->SoundFile = scriptInput;
               continue;
