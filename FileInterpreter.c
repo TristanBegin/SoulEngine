@@ -81,7 +81,10 @@ void InterpretArchetype(FILE * fpArch)
           if (myStrCmp(typeInput, "Mesh") <= 0) theType = Mesh;
           if (myStrCmp(typeInput, "Behavior") <= 0) theType = Behavior;
           if (myStrCmp(typeInput, "Physics") <= 0) theType = Physics;
-          
+          if (myStrCmp(typeInput, "Collider") <= 0) theType = Collider;
+          if (myStrCmp(typeInput, "Sound") <= 0) theType = Sound;
+
+
           pCurrComp = AddComponent(pNewArchetype, theType);
           continue;
         }
@@ -139,6 +142,72 @@ void InterpretArchetype(FILE * fpArch)
             {
               sscanf(buffer, "\tVelocity = (%f, %f)", &inputVector.x, &inputVector.y);
               pPhysics->Velocity = inputVector;
+              continue;
+            }
+          }
+
+          if (pCurrComp->Type == Collider)
+          {
+            COLLIDER * pCollider = (COLLIDER*)pCurrComp->pStruct;
+
+            if (myStrCmp(question, "Offset") <= 0)
+            {
+              sscanf(buffer, "\tOffset = (%f, %f)", &inputVector.x, &inputVector.y);
+              pCollider->Offset = inputVector;
+              continue;
+            }
+
+            if (myStrCmp(question, "Height") <= 0)
+            {
+              sscanf(buffer, "\tHeight = %f", &inputFloat);
+              pCollider->Height = inputFloat;
+              continue;
+            }
+
+            if (myStrCmp(question, "Width") <= 0)
+            {
+              sscanf(buffer, "\tWidth = %f", &inputFloat);
+              pCollider->Width = inputFloat;
+              continue;
+            }
+          }
+
+          if (pCurrComp->Type == Sound)
+          {
+            SOUND * pSound = (SOUND*)pCurrComp->pStruct;
+
+            if (myStrCmp(question, "Volume") <= 0)
+            {
+              sscanf(buffer, "\tVolume = %f", &inputFloat);
+              pSound->Volume = inputFloat;
+              continue;
+            }
+
+            if (myStrCmp(question, "Positional") <= 0)
+            {
+              sscanf(buffer, "\tPositional = %i", &inputInt);
+              pSound->Positional = inputInt;
+              continue;
+            }
+
+            if (myStrCmp(question, "Radius") <= 0)
+            {
+              sscanf(buffer, "\tRadius = %f", &inputFloat);
+              pSound->Radius = inputFloat;
+              continue;
+            }
+
+            if (myStrCmp(question, "SoundFile") <= 0)
+            {
+              sscanf(buffer, "\tSoundFile = %s", &scriptInput);
+              pSound->SoundFile = scriptInput;
+              continue;
+            }
+
+            if (myStrCmp(question, "PlayOnStart") <= 0)
+            {
+              sscanf(buffer, "\tPlayOnStart = %i", &inputInt);
+              pSound->PlayOnStart = inputInt;
               continue;
             }
           }

@@ -190,10 +190,10 @@ COMPONENT * AddComponent(ARCHETYPE *pArchetype, COMPONENTTYPE DesiredType)
   if (DesiredType == Physics)
   {
     PHYSICS * pNewPhysics = malloc(sizeof(PHYSICS));
-    
+
     pNewComponent->Type = Physics;
     pNewComponent->pStruct = pNewPhysics;
-    
+
     pNewPhysics->Velocity = NewVector(0, 0);
     pNewPhysics->Gravity = 0.5;
     pNewPhysics->Friction = 0.1;
@@ -201,6 +201,38 @@ COMPONENT * AddComponent(ARCHETYPE *pArchetype, COMPONENTTYPE DesiredType)
 
     pNewPhysics->pComponent = pNewComponent;
     pNewPhysics->pArchetype = pArchetype;
+  }
+
+  if (DesiredType == Collider)
+  {
+    COLLIDER * pNewCollider = malloc(sizeof(COLLIDER));
+    
+    pNewComponent->Type = Collider;
+    pNewComponent->pStruct = pNewCollider;
+    
+    pNewCollider->Offset = NewVector(0, 0);
+    pNewCollider->Height = 1;
+    pNewCollider->Width = 1;
+        
+    pNewCollider->pComponent = pNewComponent;
+    pNewCollider->pArchetype = pArchetype;
+  }
+
+  if (DesiredType == Sound)
+  {
+    SOUND * pNewSound = malloc(sizeof(SOUND));
+
+    pNewComponent->Type = Sound;
+    pNewComponent->pStruct = pNewSound;
+
+    pNewSound->Volume = NewVector(0, 0);
+    pNewSound->Positional = 1;
+    pNewSound->Radius = 1;
+    pNewSound->SoundFile = "";
+    pNewSound->PlayOnStart = FALSE;
+
+    pNewSound->pComponent = pNewComponent;
+    pNewSound->pArchetype = pArchetype;
   }
 
   return pNewComponent;
@@ -465,6 +497,22 @@ ARCHETYPE * CreateInstanceOfArchetype(ARCHETYPE * pArchetype, UNIT * pUnit)
       physCopy->pArchetype = pNewArchetype;
       physCopy->pComponent = compCopy;
       compCopy->pStruct = physCopy;
+    }
+    else if (temp->Type == Collider)
+    {
+      COLLIDER * collCopy = malloc(sizeof(COLLIDER));
+      *collCopy = *((COLLIDER *)temp->pStruct);
+      collCopy->pArchetype = pNewArchetype;
+      collCopy->pComponent = compCopy;
+      compCopy->pStruct = collCopy;
+    }
+    else if (temp->Type == Sound)
+    {
+      SOUND * soundCopy = malloc(sizeof(SOUND));
+      *soundCopy = *((SOUND *)temp->pStruct);
+      soundCopy->pArchetype = pNewArchetype;
+      soundCopy->pComponent = compCopy;
+      compCopy->pStruct = soundCopy;
     }
 
 		compCopy->nextComponent = pNewArchetype->nextComponent;

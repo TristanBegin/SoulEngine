@@ -78,6 +78,8 @@ void UpdateLevel()
     MESH * pMesh = NULL;
     BEHAVIOR * pBehavior = NULL;
     PHYSICS * pPhysics = NULL;
+    COLLIDER * pCollider = NULL;
+    SOUND * pSound = NULL;
 
     while (tempComp)
     {
@@ -97,6 +99,14 @@ void UpdateLevel()
 
       case Physics:
         pPhysics = (PHYSICS *)tempComp->pStruct;
+        break;
+
+      case Collider:
+        pCollider = (COLLIDER *)tempComp->pStruct;
+        break;
+
+      case Sound:
+        pSound = (SOUND *)tempComp->pStruct;
         break;
 
       default:
