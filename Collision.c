@@ -34,7 +34,7 @@ void UpdateCollision(COLLIDER *pCollider)
 			float height1 = tempCollider->Height;
 			float width1 = tempCollider->Width;
 
-			StaticRectToStaticRect(&pRect0, width0, height0, pRect1, height1, width1);
+			StaticRectToStaticRect(&pRect0, width0, height0, &pRect1, height1, width1);
 		}
 
 		tempUnit = tempUnit->nextUnit;
