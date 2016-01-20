@@ -5,9 +5,14 @@
 void UpdateCollision(COLLIDER *pCollider)
 {
 	UNIT *tempUnit = pCollider->pArchetype->pUnit->nextUnit;
-	VECTOR pRect0 = pCollider->Offset;
+	VECTOR pRect0 = pCollider->pArchetype->pUnit->pTransform->Position;
 	float height0 = pCollider->Height;
 	float width0 = pCollider->Width;
+	//Adding the offset to get the world pos of pRect0
+	pRect0.x += pCollider->Offset.x;
+	pRect0.y += pCollider->Offset.y;
+
+
 
 	//Walk through the list of Units in the Level, checking for collisions with current collider
 	while (tempUnit)
@@ -30,11 +35,17 @@ void UpdateCollision(COLLIDER *pCollider)
 		//If the Unit has a Collider, check for collision with current Collider
 		if (tempCollider)
 		{
-			VECTOR pRect1 = tempCollider->Offset;
+			VECTOR pRect1 = tempCollider->pArchetype->pUnit->pTransform->Position;
 			float height1 = tempCollider->Height;
 			float width1 = tempCollider->Width;
+			int collisionResult;
+			//Adding the offset to get the world pos of pRect1
+			pRect1.x += tempCollider->Offset.x;
+			pRect1.y += tempCollider->Offset.y;
 
-			StaticRectToStaticRect(&pRect0, width0, height0, pRect1, height1, width1);
+			//Checking for collision between pRect0 and pRect1
+			collisionResult = StaticRectToStaticRect(&pRect0, width0, height0, &pRect1, height1, width1);
+
 		}
 
 		tempUnit = tempUnit->nextUnit;

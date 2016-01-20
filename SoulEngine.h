@@ -140,6 +140,8 @@ typedef struct COLLIDER
   VECTOR Offset;
   float Height;
   float Width;
+  int IsGhosted;  //Bool for whether or not Units physically collide with it
+  int IsColliding; //Bool for if a collision has been detected
 
 }COLLIDER;
 
