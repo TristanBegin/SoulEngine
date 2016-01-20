@@ -1,6 +1,6 @@
 #pragma once
 #include "AEEngine.h"
-
+#include "fmod.h"
 #define FIRST 0
 #define LAST -1
 #define ERR_SURPASSED_BUFFER_SIZE -1
@@ -154,10 +154,12 @@ typedef struct SOUND
   ARCHETYPE *pArchetype;  //The original archetype this came from.
   float Volume;
   BOOL Positional;
-  float Radius;
+  BOOL Loop;
+  BOOL StreamIt; // Set TRUE for long files, FALSE for short single hits.
+  float MaxReach;
   char * SoundFile;
+  FMOD_CHANNEL * Channel;
   BOOL PlayOnStart;
-
 }SOUND;
 
 

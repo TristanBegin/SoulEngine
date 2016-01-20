@@ -226,12 +226,16 @@ COMPONENT * AddComponent(ARCHETYPE *pArchetype, COMPONENTTYPE DesiredType)
     pNewComponent->Type = Sound;
     pNewComponent->pStruct = pNewSound;
 
-    pNewSound->Volume = 100;
-    pNewSound->Positional = 1;
-    pNewSound->Radius = 1;
-    pNewSound->SoundFile = "";
+    pNewSound->Volume = 1; // Acceptable inputs: 0 - 1.0f
+    pNewSound->Positional = TRUE; // TODO : add UpdateAttenuation() function!
+    pNewSound->MaxReach = 50; // Radius (pixels) of farthest distance at which sound is hearable.
+    pNewSound->SoundFile = ""; // Name of sound file (in case we need to reallocate it.)
     pNewSound->PlayOnStart = FALSE;
+	pNewSound->Loop = FALSE;
+	pNewSound->StreamIt = FALSE;
+	// TODO : Initialize Sound if it's time to play it.
 
+	// Generic component stuff.
     pNewSound->pComponent = pNewComponent;
     pNewSound->pArchetype = pArchetype;
   }
@@ -286,6 +290,7 @@ void * AddVar(VTYPE Type, char * Name, BEHAVIOR * Owner)
   pNewVar->Name = myStrCpy(Name);
   pNewVar->Type = Float;
 
+  // NOTE: SHOULD MAKE A SWITCH CASE. MUCH CLEANER (AND SOMETIMES FASTER!)
   if (Type == Int)
   {
     int *x = malloc(sizeof(int));
