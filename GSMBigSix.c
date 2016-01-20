@@ -1,6 +1,7 @@
 #include "SoulEngine.h"
 #include "GSMBigSix.h"
 #include "Animation.h"
+#include "Collision.h"
 
 extern GAME * pTheGame;
 //extern BEHAVIOR ** pBehaviorArray;
@@ -131,6 +132,13 @@ void UpdateLevel()
       UpdatePhysics(pPhysics);
     }
 
+	if (pCollider)
+	{
+		//Currently assuming offset is the center of the collider, though I realize this is unlikely
+		//Needs to be tweaked and tested.
+		UpdateCollision(pCollider);
+	}
+
     tempUnit = tempUnit->nextUnit;
 
 
@@ -239,7 +247,6 @@ void UpdatePhysics(PHYSICS * pPhysics)
 
   ////////////////////////////////////////////
 }
-
 
 
 /********************************************************

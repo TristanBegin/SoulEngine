@@ -5,6 +5,11 @@
 #include "VectorMath.h"
 
 /*
+This function takes the current Unit and checks for collision with all other units
+*/
+void UpdateCollision(COLLIDER *pCollider);
+
+/*
 This function checks if the point P is colliding with the circle whose
 center is "Center" and radius is "Radius"
 */
