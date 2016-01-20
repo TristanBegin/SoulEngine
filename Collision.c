@@ -2,6 +2,47 @@
 
 // ---------------------------------------------------------------------------
 
+void UpdateCollision(COLLIDER *pCollider)
+{
+	UNIT *tempUnit = pCollider->pArchetype->pUnit->nextUnit;
+	VECTOR pRect0 = pCollider->Offset;
+	float height0 = pCollider->Height;
+	float width0 = pCollider->Width;
+
+	//Walk through the list of Units in the Level, checking for collisions with current collider
+	while (tempUnit)
+	{
+		COMPONENT *tempComp = tempUnit->pArchetype->nextComponent;
+		COLLIDER *tempCollider = NULL;
+
+		//Search for a Collider on the current Unit
+		while (tempComp)
+		{
+			//If we find a Collider, store it and break out
+			if (tempComp->Type == Collider)
+			{
+				tempCollider = (COLLIDER *)tempComp->pStruct;
+				break;
+			}
+			tempComp = tempComp->nextComponent;
+		}
+
+		//If the Unit has a Collider, check for collision with current Collider
+		if (tempCollider)
+		{
+			VECTOR pRect1 = tempCollider->Offset;
+			float height1 = tempCollider->Height;
+			float width1 = tempCollider->Width;
+
+			StaticRectToStaticRect(&pRect0, width0, height0, pRect1, height1, width1);
+		}
+
+		tempUnit = tempUnit->nextUnit;
+	}
+}
+
+// ---------------------------------------------------------------------------
+
 int StaticPointToStaticCircle(VECTOR *pP, VECTOR *pCenter, float Radius)
 {
 	float sqrDistance = Vector2DSquareDistance(pP, pCenter);
