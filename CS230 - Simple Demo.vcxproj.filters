@@ -34,6 +34,11 @@
     <ClCompile Include="System.c">
       <Filter>SoulEngine</Filter>
     </ClCompile>
+    <ClCompile Include="Collision.c" />
+    <ClCompile Include="MatrixMath.c" />
+    <ClCompile Include="SoulMath.c" />
+    <ClCompile Include="VectorMath.c" />
+    <ClCompile Include="KMOD_Engine.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Behaviors.h">
@@ -54,6 +59,11 @@
     <ClInclude Include="System.h">
       <Filter>SoulEngine</Filter>
     </ClInclude>
+    <ClInclude Include="Collision.h" />
+    <ClInclude Include="MatrixMath.h" />
+    <ClInclude Include="SoulMath.h" />
+    <ClInclude Include="VectorMath.h" />
+    <ClInclude Include="KMOD_Engine.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Blank.png">
