@@ -38,14 +38,20 @@ void UpdateCollision(COLLIDER *pCollider)
 			VECTOR pRect1 = tempCollider->pArchetype->pUnit->pTransform->Position;
 			float height1 = tempCollider->Height;
 			float width1 = tempCollider->Width;
-			int collisionResult;
+			BOOL colResult;
+			DIRECTION colDir;
+
 			//Adding the offset to get the world pos of pRect1
 			pRect1.x += tempCollider->Offset.x;
 			pRect1.y += tempCollider->Offset.y;
 
 			//Checking for collision between pRect0 and pRect1
-			collisionResult = StaticRectToStaticRect(&pRect0, width0, height0, &pRect1, height1, width1);
-
+			colResult = StaticRectToStaticRect(&pRect0, width0, height0, &pRect1, height1, width1);
+            
+			if (colResult)
+			{
+				colDir = CollisionDirection(&pRect0, width0, height0, &pRect1, width1, height1);
+			}
 		}
 
 		tempUnit = tempUnit->nextUnit;
@@ -115,3 +121,30 @@ int StaticRectToStaticRect(VECTOR *pRect0, float Width0, float Height0, VECTOR *
 }
 
 // ---------------------------------------------------------------------------
+
+int CollisionDirection(VECTOR *pRect0, float Width0, float Height0, VECTOR *pRect1, float Width1, float Height1)
+{
+	float left0 = pRect0->x - Width0 / 2;
+	float right0 = pRect0->x + Width0 / 2;
+	float bottom0 = pRect0->y - Height0 / 2;
+	float top0 = pRect0->y + Height0 / 2;
+
+	float left1 = pRect1->x - Width1 / 2;
+	float right1 = pRect1->x + Width1 / 2;
+	float bottom1 = pRect1->y - Height1 / 2;
+	float top1 = pRect1->y + Height1 / 2;
+
+	float bottomCol = bottom0 - top1;
+	float topCol = top0 - bottom1;
+	float leftCol = left0 - right1;
+	float rightCol = right0 - right1;
+
+	if (bottomCol < topCol && bottomCol < leftCol && bottomCol < rightCol)
+		return Bottom;
+	else if (topCol < bottomCol && topCol < leftCol && topCol < rightCol)
+		return Top;
+	else if (leftCol < topCol && leftCol < bottomCol && leftCol < rightCol)
+		return Left;
+	else if (rightCol < topCol && rightCol < bottomCol && rightCol < leftCol)
+		return Right;
+}

@@ -36,4 +36,10 @@ Rectangle1: Center is pRect1, width is "Width1" and height is "Height1"
 */
 int StaticRectToStaticRect(VECTOR *pRect0, float Width0, float Height0, VECTOR *pRect1, float Width1, float Height1);
 
+
+/*
+This function checks the direction of collision for 2 rectangles
+The direction will be based off of pRect0 (if 0 is above 1, it's a collision from below)
+*/
+int CollisionDirection(VECTOR *pRect0, float Width0, float Height0, VECTOR *pRect1, float Width1, float Height1);
 #endif

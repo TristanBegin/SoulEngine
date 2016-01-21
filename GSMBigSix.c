@@ -134,7 +134,6 @@ void UpdateLevel()
 
 	if (pCollider)
 	{
-		//Currently assuming offset is the center of the collider, though I realize this is unlikely
 		//Needs to be tweaked and tested.
 		UpdateCollision(pCollider);
 	}

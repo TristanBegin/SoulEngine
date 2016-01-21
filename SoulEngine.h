@@ -35,7 +35,6 @@ typedef struct VECTOR
   float y;
 }VECTOR;
 
-
 /* The GAME struct branches down to literally everything in the game.
 At no point should there be something that the Game cannot access.
 This is so that the entire game can be freed simply by referencing
@@ -140,8 +139,8 @@ typedef struct COLLIDER
   VECTOR Offset;
   float Height;
   float Width;
-  int IsGhosted;  //Bool for whether or not Units physically collide with it
-  int IsColliding; //Bool for if a collision has been detected
+  BOOL IsGhosted;
+  BOOL IsColliding;
 
 }COLLIDER;
 
@@ -158,6 +157,7 @@ typedef struct SOUND
   BOOL StreamIt; // Set TRUE for long files, FALSE for short single hits.
   float MaxReach;
   char * SoundFile;
+  float Radius;
   FMOD_CHANNEL * Channel;
   BOOL PlayOnStart;
 }SOUND;
@@ -334,6 +334,14 @@ typedef enum BOOL
   False,
   True
 }BOOL;
+
+typedef enum DIRECTION
+{
+	Bottom,
+	Top,
+	Left,
+	Right
+}DIRECTION;
 
 typedef enum GAMESTATE
 {
