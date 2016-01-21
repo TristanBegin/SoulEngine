@@ -86,32 +86,24 @@ void UpdateLevel()
     {
       switch (tempComp->Type)
       {
-      case Sprite:
-        pSprite = (SPRITE *)tempComp->pStruct;
-        break;
-
-      case Mesh:
-        pMesh = (MESH *)tempComp->pStruct;
-        break;
-
-      case Behavior:
-        pBehavior = (BEHAVIOR *)tempComp->pStruct;
-        break;
-
-      case Physics:
-        pPhysics = (PHYSICS *)tempComp->pStruct;
-        break;
-
-      case Collider:
-        pCollider = (COLLIDER *)tempComp->pStruct;
-        break;
-
-      case Sound:
-        pSound = (SOUND *)tempComp->pStruct;
-        break;
-
-      default:
-        break;
+		  case Sprite:
+			pSprite = (SPRITE *)tempComp->pStruct;
+			break;
+		  case Mesh:
+			pMesh = (MESH *)tempComp->pStruct;
+			break;
+		  case Behavior:
+			pBehavior = (BEHAVIOR *)tempComp->pStruct;
+			break;
+		  case Physics:
+			pPhysics = (PHYSICS *)tempComp->pStruct;
+			break;
+		  case Collider:
+			pCollider = (COLLIDER *)tempComp->pStruct;
+			break;
+		  case KSound:
+			pSound = (SOUND *)tempComp->pStruct;
+			break;
       }
 
       tempComp = tempComp->nextComponent;

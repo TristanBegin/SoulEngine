@@ -82,7 +82,7 @@ void InterpretArchetype(FILE * fpArch)
           if (myStrCmp(typeInput, "Behavior") <= 0) theType = Behavior;
           if (myStrCmp(typeInput, "Physics") <= 0) theType = Physics;
           if (myStrCmp(typeInput, "Collider") <= 0) theType = Collider;
-          if (myStrCmp(typeInput, "Sound") <= 0) theType = Sound;
+          if (myStrCmp(typeInput, "KSound") <= 0) theType = KSound;
 
 
           pCurrComp = AddComponent(pNewArchetype, theType);
@@ -172,9 +172,9 @@ void InterpretArchetype(FILE * fpArch)
             }
           }
 
-          if (pCurrComp->Type == Sound)
+          if (pCurrComp->Type == KSound)
           {
-            SOUND * pSound = (SOUND*)pCurrComp->pStruct;
+            KSOUND * pSound = (KSOUND*)pCurrComp->pStruct;
 
             if (myStrCmp(question, "Volume") <= 0)
             {
@@ -190,10 +190,10 @@ void InterpretArchetype(FILE * fpArch)
               continue;
             }
 
-            if (myStrCmp(question, "Radius") <= 0)
+            if (myStrCmp(question, "MaxReach") <= 0)
             {
-              sscanf(buffer, "\tRadius = %f", &inputFloat);
-              pSound->Radius = inputFloat;
+              sscanf(buffer, "\tMaxReach = %f", &inputFloat);
+              pSound->MaxReach = inputFloat;
               continue;
             }
 
@@ -211,6 +211,8 @@ void InterpretArchetype(FILE * fpArch)
               pSound->PlayOnStart = inputInt;
               continue;
             }
+
+			// TODO : Add the rest of the params.
           }
 
           if (pCurrComp->Type == Sprite)
