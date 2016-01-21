@@ -57,9 +57,9 @@ Description: Plays a sound with FMOD. Use for short uncompressed samples.
 
 Inputs:
 filename - The name of the file that contains the sound to play.
-vol - The volume at which the sound should play. 0.0f - 1.0f
+vol - The initial volume at which the sound should play. 0.0f - 1.0f
 
-Returns: The channel of the played sound.
+Returns: The channel of the played sound. Used to change the sound afterwards.
 
 All content © 2016 DigiPen (USA) Corporation, all rights reserved.
 ******************************************************************************/
@@ -75,7 +75,6 @@ FMOD_CHANNEL *KMOD_PlaySound(char *filename, float vol)
 		// If FMOD failed to make a sound, kill it!
 		MessageBox(NULL, filename, "Couldn't find source file:",
 			MB_ICONEXCLAMATION | MB_OK);
-		exit(-1);
 	}
 
 	// Play the sound!
@@ -85,7 +84,6 @@ FMOD_CHANNEL *KMOD_PlaySound(char *filename, float vol)
 		// If FMOD failed to play the sound, kill it!
 		MessageBox(NULL, "FMOD failed to play the sound!", filename,
 			MB_ICONEXCLAMATION | MB_OK);
-		exit(-1);
 	}
 
 	FMOD_Channel_SetVolume(channel, vol);
@@ -101,7 +99,7 @@ Inputs:
 filename - The name of the file that contains the stream to play.
 loop - A boolean to choose whether the track should automatically loop or not.
 
-Returns: The channel of the played stream.
+Returns: The channel of the played stream. Used to change it if necessary.
 
 All content © 2016 DigiPen (USA) Corporation, all rights reserved.
 ******************************************************************************/
