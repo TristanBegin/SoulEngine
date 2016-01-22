@@ -50,7 +50,10 @@ void UpdateCollision(COLLIDER *pCollider)
             
 			if (colResult)
 			{
-				colDir = CollisionDirection(&pRect0, width0, height0, &pRect1, width1, height1);
+				if (!tempCollider->IsGhosted)
+				{
+					colDir = CollisionDirection(&pRect0, width0, height0, &pRect1, width1, height1);
+				}
 			}
 		}
 
