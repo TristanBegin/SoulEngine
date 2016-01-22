@@ -39,6 +39,9 @@
     <ClCompile Include="SoulMath.c" />
     <ClCompile Include="VectorMath.c" />
     <ClCompile Include="KMOD_Engine.c" />
+    <ClCompile Include="KSOUND.c">
+      <Filter>SoulEngine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Behaviors.h">
@@ -64,6 +67,9 @@
     <ClInclude Include="SoulMath.h" />
     <ClInclude Include="VectorMath.h" />
     <ClInclude Include="KMOD_Engine.h" />
+    <ClInclude Include="KSOUND.h">
+      <Filter>SoulEngine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Blank.png">

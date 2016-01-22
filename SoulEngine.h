@@ -146,8 +146,8 @@ typedef struct COLLIDER
 
 
 // COMPONENT STRUCT
-// Adds sound to an object.
-typedef struct SOUND
+// Adds sound functionality to an object.
+typedef struct KSOUND
 {
   COMPONENT *pComponent;  //The component that holds this Sound.
   ARCHETYPE *pArchetype;  //The original archetype this came from.
@@ -160,7 +160,7 @@ typedef struct SOUND
   float Radius;
   FMOD_CHANNEL * Channel;
   BOOL PlayOnStart;
-}SOUND;
+}KSOUND;
 
 
 // COMPONENT STRUCT
@@ -326,7 +326,7 @@ typedef enum COMPONENTTYPE
   Behavior,
   Physics,
   Collider,
-  Sound
+  KSound
 }COMPONENTTYPE;
 
 typedef enum BOOL

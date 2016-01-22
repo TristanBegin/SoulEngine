@@ -15,6 +15,8 @@
 #include <string.h>
 #include "FileInterpreter.h"
 #include "Behaviors.h"
+
+#include "KSOUND.h"
 // ---------------------------------------------------------------------------
 
 // Libraries
@@ -156,15 +158,14 @@ COMPONENT * AddComponent(ARCHETYPE *pArchetype, COMPONENTTYPE DesiredType)
   pNewComponent->nextComponent = pArchetype->nextComponent;
   pArchetype->nextComponent = pNewComponent;
 
-  if (DesiredType == Sprite)
-  {
-    SPRITE * pNewSprite = malloc(sizeof(SPRITE));
-    pNewComponent->Type = Sprite;
-    *pNewSprite = *(pArchetype->pGame->pGameStats->pDefaultSprite);
-    pNewComponent->pStruct = pNewSprite;
-    pNewSprite->TextureFile = NULL;
-    pNewSprite->pComponent = pNewComponent;
-    pNewSprite->pArchetype = pArchetype;
+  if (DesiredType == Sprite) {
+	  SPRITE * pNewSprite = malloc(sizeof(SPRITE));
+	  pNewComponent->Type = Sprite;
+	  *pNewSprite = *(pArchetype->pGame->pGameStats->pDefaultSprite);
+	  pNewComponent->pStruct = pNewSprite;
+	  pNewSprite->TextureFile = NULL;
+	  pNewSprite->pComponent = pNewComponent;
+	  pNewSprite->pArchetype = pArchetype;
   }
 
   if (DesiredType == Mesh)
@@ -219,21 +220,13 @@ COMPONENT * AddComponent(ARCHETYPE *pArchetype, COMPONENTTYPE DesiredType)
     pNewCollider->pArchetype = pArchetype;
   }
 
-  if (DesiredType == Sound)
+  if (DesiredType == KSound)
   {
-    SOUND * pNewSound = malloc(sizeof(SOUND));
-
-    pNewComponent->Type = Sound;
+    KSOUND * pNewSound;
+	KSOUND_Init(pNewSound);
+    
+	pNewComponent->Type = KSound;
     pNewComponent->pStruct = pNewSound;
-
-    pNewSound->Volume = 1; // Acceptable inputs: 0 - 1.0f
-    pNewSound->Positional = TRUE; // TODO : add UpdateAttenuation() function!
-    pNewSound->MaxReach = 50; // Radius (pixels) of farthest distance at which sound is hearable.
-    pNewSound->SoundFile = ""; // Name of sound file (in case we need to reallocate it.)
-    pNewSound->PlayOnStart = FALSE;
-	pNewSound->Loop = FALSE;
-	pNewSound->StreamIt = FALSE;
-	// TODO : Initialize Sound if it's time to play it.
 
 	// Generic component stuff.
     pNewSound->pComponent = pNewComponent;
@@ -556,7 +549,7 @@ ARCHETYPE * CreateInstanceOfArchetype(ARCHETYPE * pArchetype, UNIT * pUnit)
   pNewArchetype->pUnit = pUnit;
   while (temp)
   {
-	  COMPONENT * compCopy = malloc(sizeof(COMPONENT));
+	COMPONENT * compCopy = malloc(sizeof(COMPONENT));
     compCopy->pArchetype = pNewArchetype;
     compCopy->Type = temp->Type;
 
@@ -600,10 +593,10 @@ ARCHETYPE * CreateInstanceOfArchetype(ARCHETYPE * pArchetype, UNIT * pUnit)
       collCopy->pComponent = compCopy;
       compCopy->pStruct = collCopy;
     }
-    else if (temp->Type == Sound)
+    else if (temp->Type == KSound)
     {
-      SOUND * soundCopy = malloc(sizeof(SOUND));
-      *soundCopy = *((SOUND *)temp->pStruct);
+      KSOUND * soundCopy = malloc(sizeof(KSOUND));
+      *soundCopy = *((KSOUND *)temp->pStruct);
       soundCopy->pArchetype = pNewArchetype;
       soundCopy->pComponent = compCopy;
       compCopy->pStruct = soundCopy;
