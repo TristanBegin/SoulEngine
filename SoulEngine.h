@@ -130,8 +130,9 @@ typedef struct PHYSICS
 }PHYSICS;
 
 
-// COMPONENT STRUCT
-// Adds collision functionality to an object.
+
+//COMPONENT STRUCT
+//Adds collision functionality to an object.
 typedef struct COLLIDER
 {
   COMPONENT *pComponent;  //The component that holds this Collider.

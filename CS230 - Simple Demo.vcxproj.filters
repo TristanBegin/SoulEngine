@@ -40,6 +40,7 @@
     <ClCompile Include="VectorMath.c" />
     <ClCompile Include="KMOD_Engine.c" />
     <ClCompile Include="KSOUND.c" />
+    <ClCompile Include="Physics.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Behaviors.h">
@@ -66,6 +67,7 @@
     <ClInclude Include="VectorMath.h" />
     <ClInclude Include="KMOD_Engine.h" />
     <ClInclude Include="KSOUND.h" />
+    <ClInclude Include="Physics.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Blank.png">
