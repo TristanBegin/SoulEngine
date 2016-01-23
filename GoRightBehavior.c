@@ -34,8 +34,8 @@ void GoRightBehavior(BEHAVIOR * Owner, char * Trigger)
 
 static void Start()
 {
-  float * exampleFloat = (float*)AddVar(Float, "exampleFloat", pMyBehavior);
-  *exampleFloat = -0.3;
+   (float*)AddVar(Float, "exampleFloat", pMyBehavior);
+
 
   //AddVar(Vector, "exampleVector", pMyBehavior);
 
