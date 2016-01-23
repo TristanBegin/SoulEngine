@@ -198,6 +198,7 @@ COMPONENT * AddComponent(ARCHETYPE *pArchetype, COMPONENTTYPE DesiredType)
     pNewComponent->pStruct = pNewPhysics;
 
     pNewPhysics->Velocity = NewVector(0, 0);
+    pNewPhysics->Acceleration = NewVector(0, 0);
     pNewPhysics->Gravity = 0.5;
     pNewPhysics->Friction = 0.1;
     pNewPhysics->MaxSpeed = 0.5;

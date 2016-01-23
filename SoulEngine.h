@@ -123,6 +123,7 @@ typedef struct PHYSICS
   COMPONENT *pComponent;  //The component that holds this Physics.
   ARCHETYPE *pArchetype;  //The original archetype this came from.
   VECTOR Velocity;
+  VECTOR Acceleration;
   float Gravity;
   float Friction;
   float MaxSpeed;

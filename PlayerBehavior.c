@@ -55,26 +55,26 @@ static void Update()
   /************* Player Input ***************/
 
   // Jumping
-  if (AEInputCheckCurr('W') && pMyTransform->Position.y <= 0)
+  if (AEInputCheckCurr('W'))
   {
-    pMyPhysics->Velocity.y = 1;
+    pMyPhysics->Velocity.y = 10;
   }
 
   if (AEInputCheckCurr('S'))
   {
-    pMyPhysics->Velocity.y -= 0.05;
+    pMyPhysics->Acceleration.y -= 1;
   }
 
   //Left movement
   if (AEInputCheckCurr('A') && pMyPhysics->Velocity.x > -maxSpeed)
   {
-    pMyPhysics->Velocity.x -= 0.05;
+    pMyPhysics->Acceleration.x -= 10;
   }
 
   //Right movement
   if (AEInputCheckCurr('D') && pMyPhysics->Velocity.x < maxSpeed)
   {
-    pMyPhysics->Velocity.x += 0.05;
+    pMyPhysics->Acceleration.x += 10;
   }
 
 

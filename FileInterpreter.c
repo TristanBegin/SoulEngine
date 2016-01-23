@@ -145,6 +145,13 @@ void InterpretArchetype(FILE * fpArch)
               pPhysics->Velocity = inputVector;
               continue;
             }
+
+            if (myStrCmp(question, "Acceleration") <= 0)
+            {
+              sscanf(buffer, "\tAcceleration = (%f, %f)", &inputVector.x, &inputVector.y);
+              pPhysics->Acceleration = inputVector;
+              continue;
+            }
           }
 
           if (pCurrComp->Type == Collider)
