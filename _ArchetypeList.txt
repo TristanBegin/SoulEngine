@@ -14,4 +14,8 @@ GoRight_Arch.txt
 # Test Archetype for animation.
 Anim_Arch.txt
 
+# Name = Bullet
+# BULLETS
+Bullet_Arch.txt
+
 # No more archetypes.

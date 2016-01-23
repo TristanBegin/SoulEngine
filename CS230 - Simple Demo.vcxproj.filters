@@ -38,6 +38,8 @@
     <ClCompile Include="MatrixMath.c" />
     <ClCompile Include="SoulMath.c" />
     <ClCompile Include="VectorMath.c" />
+    <ClCompile Include="KMOD_Engine.c" />
+    <ClCompile Include="KSOUND.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Behaviors.h">
@@ -62,12 +64,17 @@
     <ClInclude Include="MatrixMath.h" />
     <ClInclude Include="SoulMath.h" />
     <ClInclude Include="VectorMath.h" />
+    <ClInclude Include="KMOD_Engine.h" />
+    <ClInclude Include="KSOUND.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Blank.png">
       <Filter>Resources</Filter>
     </Image>
     <Image Include="TestAnimation.png">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="WitchWalking01.png">
       <Filter>Resources</Filter>
     </Image>
   </ItemGroup>
@@ -92,6 +99,9 @@
     </Text>
     <Text Include="Tutorial_Level.txt">
       <Filter>GameFiles\Levels</Filter>
+    </Text>
+    <Text Include="Bullet_Arch.txt">
+      <Filter>GameFiles\Archetypes</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>

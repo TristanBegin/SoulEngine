@@ -114,14 +114,16 @@ void UpdateLevel()
 	  	Animate(pSprite);
 	  }
     
-    if (pBehavior)
-    {
-      pBehavior->BehaviorScript(pBehavior, "Update");
-    }
+    
 
     if (pPhysics)
     {
       UpdatePhysics(pPhysics);
+    }
+
+    if (pBehavior)
+    {
+      pBehavior->BehaviorScript(pBehavior, "Update");
     }
 
 	if (pCollider)

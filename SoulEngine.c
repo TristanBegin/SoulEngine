@@ -24,7 +24,7 @@
 
 // ---------------------------------------------------------------------------
 // globals
-
+extern GAME * pTheGame;
 //int gGameRunning = 1;
 
 
@@ -467,6 +467,16 @@ UNIT * AddUnit(LEVEL *pLevel, ARCHETYPE *pArchetype, char *Name)
 	pLevel->nextUnit = pNewUnit;
 
   return pNewUnit;
+}
+
+UNIT * InstantiateUnit(LEVEL *pLevel, char * ArchetypeName, VECTOR position)
+{
+  ARCHETYPE * pArchetype = FindArchetypeByName(pTheGame, ArchetypeName);
+  
+  UNIT * pUnit = AddUnit(pLevel, pArchetype, ArchetypeName);
+  pUnit->pInitTransform->Position = position;
+  InitializeUnit(pUnit);
+  return pUnit;
 }
 
 LEVEL * FindLevelByOrder(GAME *pGame, int Order)

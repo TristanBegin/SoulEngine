@@ -46,4 +46,13 @@ UNIT < Anim > AnimatedMan
 EndUnit
 #-----------------------------------------------
 
+UNIT < Bullet > myBullet
+
+	InitialPosition = (5, 5)
+	InitialRotation = 0
+	InitialScale = (1, 1)
+
+EndUnit
+#-----------------------------------------------
+
 
