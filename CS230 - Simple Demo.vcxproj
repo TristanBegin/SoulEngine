@@ -50,6 +50,7 @@
   <ItemGroup>
     <Image Include="Blank.png" />
     <Image Include="TestAnimation.png" />
+    <Image Include="WitchWalking01.png" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
@@ -71,10 +72,15 @@
       <SubType>
       </SubType>
     </Text>
+    <Text Include="Bullet_Arch.txt">
+      <SubType>
+      </SubType>
+    </Text>
     <Text Include="GoRight_Arch.txt">
       <SubType>
       </SubType>
     </Text>
+    <Text Include="Level1.txt" />
     <Text Include="_LevelList.txt" />
     <Text Include="Player_Arch.txt" />
     <Text Include="_ArchetypeList.txt" />

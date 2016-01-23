@@ -1,5 +1,7 @@
 #include "SoulEngine.h"
 
+#define LEVELSWITCH 18
+
 static UNIT * pMyUnit;
 static TRANSFORM * pMyTransform;
 static ARCHETYPE * pMyArchetype;
@@ -53,5 +55,9 @@ static void Update()
   //*exampleString = "Hello World";
 
   pMyTransform->Position.x += *exampleFloat;
+
+  if (pMyTransform->Position.x > LEVELSWITCH)
+	  pMyGame->pGameStats->nextLevel = 1;
+
 
 }

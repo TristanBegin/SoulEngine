@@ -76,6 +76,9 @@
     <Image Include="TestAnimation.png">
       <Filter>Resources</Filter>
     </Image>
+    <Image Include="WitchWalking01.png">
+      <Filter>Resources</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Text Include="_ArchetypeList.txt">
@@ -98,6 +101,9 @@
     </Text>
     <Text Include="Tutorial_Level.txt">
       <Filter>GameFiles\Levels</Filter>
+    </Text>
+    <Text Include="Bullet_Arch.txt">
+      <Filter>GameFiles\Archetypes</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>

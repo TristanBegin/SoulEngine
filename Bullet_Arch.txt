@@ -1,20 +1,21 @@
 #GLOBAL ARCHETYPE CREATION FILE
 
-Name = Player
+Name = Bullet
 
 #-----------------------------------------------
 # - COMPONENTS -
 # All values not specified will be set to
-# default. 
+# default. Delete text of any components
+# you do not want.
 #-----------------------------------------------
 
 COMPONENT | Sprite |
 
-	TextureFile = WitchWalking01.png
+	TextureFile = Blank.png
 	
-	Animated = 1
+	Animated = 0
 
-	RowCol = (3, 1)
+	RowCol = (1, 1)
 
 	Offset = (0, 0)
 
@@ -25,57 +26,29 @@ EndComponent
 
 COMPONENT | Mesh |
 
-	Size = (1, 1)
+	Size = (0.25, 0.25)
 
-EndComponent
-#-----------------------------------------------
-
-COMPONENT | Physics |
-
-	Gravity = 100
-  
-	MaxSpeed = 0.5
-  
-	Friction = 0.1
-
-	Velocity = (0, 0)
-
-  Acceleration = (0, 0)
-
-EndComponent
-#-----------------------------------------------
-
-COMPONENT | Collider |
-
-	Offset = (0, 0)
-  
-	Height = 1
-  
-	Width = 1
-
-EndComponent
-#-----------------------------------------------
-
-COMPONENT | Sound |
-
-	Volume = 0
-  
-	Positional = 0
-  
-	Radius = 1
-
-	SoundFile = ""
-
-	PlayOnStart = 0
-	
 EndComponent
 #-----------------------------------------------
 
 COMPONENT | Behavior |
 
-	BehaviorScript = PlayerBehavior
+	BehaviorScript = DefaultBehavior
 
 EndComponent
 
+#-----------------------------------------------
 
+COMPONENT | Physics |
+
+	Gravity = 0
+  
+	MaxSpeed = 4
+  
+	Friction = 0
+
+	Velocity = (0, 0)
+
+EndComponent
+#-----------------------------------------------
 

@@ -51,24 +51,6 @@ int WINAPI WinMain(HINSTANCE instanceH, HINSTANCE prevInstanceH, LPSTR command_l
   //Start Game Loop
   MainLoopGSM();
 
-  
-  // Game Loop
-  while (gGameRunning)
-  {
-    // Informing the system about the loop's start
-    AESysFrameStart();
-
-    // Handling Input
-    AEInputUpdate();
-
-
-    // Informing the system about the loop's end
-    AESysFrameEnd();
-
-    // check if forcing the application to quit
-    if (AEInputCheckTriggered(VK_ESCAPE) || 0 == AESysDoesWindowExist())
-      gGameRunning = 0;
-  }
   FreeGame(pTheGame);
 	//Free the system.
 	AESysExit();
