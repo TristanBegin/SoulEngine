@@ -53,6 +53,26 @@ void UpdateCollision(COLLIDER *pCollider)
 				if (!tempCollider->IsGhosted)
 				{
 					colDir = CollisionDirection(&pRect0, width0, height0, &pRect1, width1, height1);
+					
+					switch (colDir)
+					{
+						case Bottom:
+							pCollider->Grounded = True;
+							tempCollider->TopBlocked = True;
+							break;
+						case Top:
+							pCollider->TopBlocked = True;
+							tempCollider->Grounded = True;
+							break;
+						case Left:
+							pCollider->LeftBlocked = True;
+							tempCollider->RightBlocked = True;
+							break;
+						case Right:
+							pCollider->RightBlocked = True;
+							tempCollider->LeftBlocked = True;
+							break;
+					}
 				}
 			}
 		}

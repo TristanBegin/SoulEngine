@@ -7,6 +7,7 @@ static ARCHETYPE * pMyArchetype;
 static LEVEL * pMyLevel;
 static GAME * pMyGame;
 static GAMESTATS * pMyGameStats;
+static PHYSICS * pMyPhysics;
 
 static float gravityRate = 0;
 static float gravityMax = 0.5;
@@ -29,6 +30,7 @@ void PlayerBehavior(BEHAVIOR * Owner, char * Trigger)
   pMyLevel = pMyUnit->pLevel;
   pMyGame = pMyLevel->pGame;
   pMyGameStats = pMyGame->pGameStats;
+  pMyPhysics = FindComponentStruct(pMyArchetype, Physics);
 
   if (Trigger == "Start")
   {
@@ -49,6 +51,33 @@ static void Start()
 
 static void Update()
 {
+
+  /************* Player Input ***************/
+
+  // Jumping
+  if (AEInputCheckCurr('W') && pMyTransform->Position.y <= 0)
+  {
+    pMyPhysics->Velocity.y = 1;
+  }
+
+  if (AEInputCheckCurr('S'))
+  {
+    pMyPhysics->Velocity.y -= 0.05;
+  }
+
+  //Left movement
+  if (AEInputCheckCurr('A') && pMyPhysics->Velocity.x > -maxSpeed)
+  {
+    pMyPhysics->Velocity.x -= 0.05;
+  }
+
+  //Right movement
+  if (AEInputCheckCurr('D') && pMyPhysics->Velocity.x < maxSpeed)
+  {
+    pMyPhysics->Velocity.x += 0.05;
+  }
+
+
   //Checking for collision with a platform at y = 0
   //if (pMyTransform->Position.y <= 0)
   //{
@@ -61,7 +90,7 @@ static void Update()
   //
   ///************* Player Input ***************/
   //
-  //// Jumping
+  // Jumping
   //if (AEInputCheckCurr('W') && pMyTransform->Position.y <= 0)
   //{
   //  Velocity.y = 0.7;

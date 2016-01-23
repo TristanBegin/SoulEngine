@@ -140,7 +140,10 @@ typedef struct COLLIDER
   float Height;
   float Width;
   BOOL IsGhosted;
-  BOOL IsColliding;
+  BOOL Grounded;
+  BOOL TopBlocked;
+  BOOL LeftBlocked;
+  BOOL RightBlocked;
 
 }COLLIDER;
 
