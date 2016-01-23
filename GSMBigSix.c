@@ -113,21 +113,16 @@ void UpdateLevel()
 	  {
 	  	Animate(pSprite);
 	  }
-    
-    if (pBehavior)
-    {
-      pBehavior->BehaviorScript(pBehavior, "Update");
-    }
 
-    if (pPhysics)
+    if (pPhysics && pCollider)
     {
+	  UpdateCollision(pCollider);
       UpdatePhysics(pPhysics);
     }
 
-	if (pCollider)
+	if (pBehavior)
 	{
-		//Needs to be tweaked and tested.
-		UpdateCollision(pCollider);
+		pBehavior->BehaviorScript(pBehavior, "Update");
 	}
 
     tempUnit = tempUnit->nextUnit;
