@@ -43,7 +43,3 @@ void KSOUND_SetVolume(KSOUND * s, float vol)
 void KSOUND_SetLooping(KSOUND * s, BOOL loop)
 {
 }
-
-void KSOUND_Free(KSOUND * s)
-{
-}

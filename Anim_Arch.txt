@@ -21,6 +21,8 @@ COMPONENT | Sprite |
 
 	AnimationSpeed = 1
 
+	TimeSinceLastFrame = 0
+
 EndComponent
 #-----------------------------------------------
 
