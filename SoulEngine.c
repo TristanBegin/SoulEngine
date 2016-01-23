@@ -15,6 +15,8 @@
 #include <string.h>
 #include "FileInterpreter.h"
 #include "Behaviors.h"
+
+#include "KSOUND.h"
 // ---------------------------------------------------------------------------
 
 // Libraries
@@ -63,6 +65,7 @@ GAMESTATS * SetDefaults(GAME * pGame)
   pSprite->Offset = zeroVector;
 
   pSprite->AnimationSpeed = 0;
+  pSprite->TimeSinceLastFrame = 0;
 
   pSprite->pComponent = NULL;
 
@@ -156,15 +159,14 @@ COMPONENT * AddComponent(ARCHETYPE *pArchetype, COMPONENTTYPE DesiredType)
   pNewComponent->nextComponent = pArchetype->nextComponent;
   pArchetype->nextComponent = pNewComponent;
 
-  if (DesiredType == Sprite)
-  {
-    SPRITE * pNewSprite = malloc(sizeof(SPRITE));
-    pNewComponent->Type = Sprite;
-    *pNewSprite = *(pArchetype->pGame->pGameStats->pDefaultSprite);
-    pNewComponent->pStruct = pNewSprite;
-    pNewSprite->TextureFile = NULL;
-    pNewSprite->pComponent = pNewComponent;
-    pNewSprite->pArchetype = pArchetype;
+  if (DesiredType == Sprite) {
+	  SPRITE * pNewSprite = malloc(sizeof(SPRITE));
+	  pNewComponent->Type = Sprite;
+	  *pNewSprite = *(pArchetype->pGame->pGameStats->pDefaultSprite);
+	  pNewComponent->pStruct = pNewSprite;
+	  pNewSprite->TextureFile = NULL;
+	  pNewSprite->pComponent = pNewComponent;
+	  pNewSprite->pArchetype = pArchetype;
   }
 
   if (DesiredType == Mesh)
@@ -219,19 +221,15 @@ COMPONENT * AddComponent(ARCHETYPE *pArchetype, COMPONENTTYPE DesiredType)
     pNewCollider->pArchetype = pArchetype;
   }
 
-  if (DesiredType == Sound)
+  if (DesiredType == KSound)
   {
-    SOUND * pNewSound = malloc(sizeof(SOUND));
-
-    pNewComponent->Type = Sound;
+    KSOUND * pNewSound;
+	KSOUND_Init(pNewSound);
+    
+	pNewComponent->Type = KSound;
     pNewComponent->pStruct = pNewSound;
 
-    pNewSound->Volume = 100;
-    pNewSound->Positional = 1;
-    pNewSound->Radius = 1;
-    pNewSound->SoundFile = "";
-    pNewSound->PlayOnStart = FALSE;
-
+	// Generic component stuff.
     pNewSound->pComponent = pNewComponent;
     pNewSound->pArchetype = pArchetype;
   }
@@ -286,6 +284,7 @@ void * AddVar(VTYPE Type, char * Name, BEHAVIOR * Owner)
   pNewVar->Name = myStrCpy(Name);
   pNewVar->Type = Float;
 
+  // NOTE: SHOULD MAKE A SWITCH CASE. MUCH CLEANER (AND SOMETIMES FASTER!)
   if (Type == Int)
   {
     int *x = malloc(sizeof(int));
@@ -551,7 +550,7 @@ ARCHETYPE * CreateInstanceOfArchetype(ARCHETYPE * pArchetype, UNIT * pUnit)
   pNewArchetype->pUnit = pUnit;
   while (temp)
   {
-	  COMPONENT * compCopy = malloc(sizeof(COMPONENT));
+	COMPONENT * compCopy = malloc(sizeof(COMPONENT));
     compCopy->pArchetype = pNewArchetype;
     compCopy->Type = temp->Type;
 
@@ -595,10 +594,10 @@ ARCHETYPE * CreateInstanceOfArchetype(ARCHETYPE * pArchetype, UNIT * pUnit)
       collCopy->pComponent = compCopy;
       compCopy->pStruct = collCopy;
     }
-    else if (temp->Type == Sound)
+    else if (temp->Type == KSound)
     {
-      SOUND * soundCopy = malloc(sizeof(SOUND));
-      *soundCopy = *((SOUND *)temp->pStruct);
+      KSOUND * soundCopy = malloc(sizeof(KSOUND));
+      *soundCopy = *((KSOUND *)temp->pStruct);
       soundCopy->pArchetype = pNewArchetype;
       soundCopy->pComponent = compCopy;
       compCopy->pStruct = soundCopy;

@@ -2,6 +2,67 @@
 
 // ---------------------------------------------------------------------------
 
+void UpdateCollision(COLLIDER *pCollider)
+{
+	UNIT *tempUnit = pCollider->pArchetype->pUnit->nextUnit;
+	VECTOR pRect0 = pCollider->pArchetype->pUnit->pTransform->Position;
+	float height0 = pCollider->Height;
+	float width0 = pCollider->Width;
+	//Adding the offset to get the world pos of pRect0
+	pRect0.x += pCollider->Offset.x;
+	pRect0.y += pCollider->Offset.y;
+
+
+
+	//Walk through the list of Units in the Level, checking for collisions with current collider
+	while (tempUnit)
+	{
+		COMPONENT *tempComp = tempUnit->pArchetype->nextComponent;
+		COLLIDER *tempCollider = NULL;
+
+		//Search for a Collider on the current Unit
+		while (tempComp)
+		{
+			//If we find a Collider, store it and break out
+			if (tempComp->Type == Collider)
+			{
+				tempCollider = (COLLIDER *)tempComp->pStruct;
+				break;
+			}
+			tempComp = tempComp->nextComponent;
+		}
+
+		//If the Unit has a Collider, check for collision with current Collider
+		if (tempCollider)
+		{
+			VECTOR pRect1 = tempCollider->pArchetype->pUnit->pTransform->Position;
+			float height1 = tempCollider->Height;
+			float width1 = tempCollider->Width;
+			BOOL colResult;
+			DIRECTION colDir;
+
+			//Adding the offset to get the world pos of pRect1
+			pRect1.x += tempCollider->Offset.x;
+			pRect1.y += tempCollider->Offset.y;
+
+			//Checking for collision between pRect0 and pRect1
+			colResult = StaticRectToStaticRect(&pRect0, width0, height0, &pRect1, height1, width1);
+            
+			if (colResult)
+			{
+				if (!tempCollider->IsGhosted)
+				{
+					colDir = CollisionDirection(&pRect0, width0, height0, &pRect1, width1, height1);
+				}
+			}
+		}
+
+		tempUnit = tempUnit->nextUnit;
+	}
+}
+
+// ---------------------------------------------------------------------------
+
 int StaticPointToStaticCircle(VECTOR *pP, VECTOR *pCenter, float Radius)
 {
 	float sqrDistance = Vector2DSquareDistance(pP, pCenter);
@@ -63,3 +124,30 @@ int StaticRectToStaticRect(VECTOR *pRect0, float Width0, float Height0, VECTOR *
 }
 
 // ---------------------------------------------------------------------------
+
+int CollisionDirection(VECTOR *pRect0, float Width0, float Height0, VECTOR *pRect1, float Width1, float Height1)
+{
+	float left0 = pRect0->x - Width0 / 2;
+	float right0 = pRect0->x + Width0 / 2;
+	float bottom0 = pRect0->y - Height0 / 2;
+	float top0 = pRect0->y + Height0 / 2;
+
+	float left1 = pRect1->x - Width1 / 2;
+	float right1 = pRect1->x + Width1 / 2;
+	float bottom1 = pRect1->y - Height1 / 2;
+	float top1 = pRect1->y + Height1 / 2;
+
+	float bottomCol = bottom0 - top1;
+	float topCol = top0 - bottom1;
+	float leftCol = left0 - right1;
+	float rightCol = right0 - right1;
+
+	if (bottomCol < topCol && bottomCol < leftCol && bottomCol < rightCol)
+		return Bottom;
+	else if (topCol < bottomCol && topCol < leftCol && topCol < rightCol)
+		return Top;
+	else if (leftCol < topCol && leftCol < bottomCol && leftCol < rightCol)
+		return Left;
+	else if (rightCol < topCol && rightCol < bottomCol && rightCol < leftCol)
+		return Right;
+}

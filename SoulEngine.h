@@ -1,6 +1,6 @@
 #pragma once
 #include "AEEngine.h"
-
+#include "fmod.h"
 #define FIRST 0
 #define LAST -1
 #define ERR_SURPASSED_BUFFER_SIZE -1
@@ -34,7 +34,6 @@ typedef struct VECTOR
   float x;
   float y;
 }VECTOR;
-
 
 /* The GAME struct branches down to literally everything in the game.
 At no point should there be something that the Game cannot access.
@@ -140,23 +139,28 @@ typedef struct COLLIDER
   VECTOR Offset;
   float Height;
   float Width;
+  BOOL IsGhosted;
+  BOOL IsColliding;
 
 }COLLIDER;
 
 
 // COMPONENT STRUCT
-// Adds sound to an object.
-typedef struct SOUND
+// Adds sound functionality to an object.
+typedef struct KSOUND
 {
   COMPONENT *pComponent;  //The component that holds this Sound.
   ARCHETYPE *pArchetype;  //The original archetype this came from.
   float Volume;
   BOOL Positional;
-  float Radius;
+  BOOL Loop;
+  BOOL StreamIt; // Set TRUE for long files, FALSE for short single hits.
+  float MaxReach;
   char * SoundFile;
+  float Radius;
+  FMOD_CHANNEL * Channel;
   BOOL PlayOnStart;
-
-}SOUND;
+}KSOUND;
 
 
 // COMPONENT STRUCT
@@ -171,6 +175,7 @@ typedef struct SPRITE
   VECTOR RowCol;          //The number of rows and columns in the sprite sheet. 
   VECTOR Offset;          //The offset of the texture on the object.
   float AnimationSpeed;   //The speed of the animation.
+  float TimeSinceLastFrame;   //The speed of the animation.
 }SPRITE;
 
 
@@ -322,7 +327,7 @@ typedef enum COMPONENTTYPE
   Behavior,
   Physics,
   Collider,
-  Sound
+  KSound
 }COMPONENTTYPE;
 
 typedef enum BOOL
@@ -330,6 +335,14 @@ typedef enum BOOL
   False,
   True
 }BOOL;
+
+typedef enum DIRECTION
+{
+	Bottom,
+	Top,
+	Left,
+	Right
+}DIRECTION;
 
 typedef enum GAMESTATE
 {

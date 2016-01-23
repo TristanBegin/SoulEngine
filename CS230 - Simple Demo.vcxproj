@@ -32,6 +32,8 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="KMOD_Engine.c" />
+    <ClCompile Include="KSOUND.c" />
     <ClCompile Include="MatrixMath.c" />
     <ClCompile Include="PlayerBehavior.c">
       <SubType>
@@ -54,6 +56,8 @@
     <ClInclude Include="Collision.h" />
     <ClInclude Include="FileInterpreter.h" />
     <ClInclude Include="GSMBigSix.h" />
+    <ClInclude Include="KMOD_Engine.h" />
+    <ClInclude Include="KSOUND.h" />
     <ClInclude Include="MatrixMath.h" />
     <ClInclude Include="SoulEngine.h" />
     <ClInclude Include="SoulMath.h" />
@@ -136,7 +140,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>AE LIB;..\Alpha_Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>AE LIB;..\Alpha_Engine;%(AdditionalIncludeDirectories);C:\Program Files\FMOD SoundSystem\FMOD Programmers API Windows\api\inc;</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -149,10 +153,11 @@
     </ClCompile>
     <Link>
       <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
-      <AdditionalLibraryDirectories>AE LIB;$(SolutionDir)$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>fmod_vc;AE LIB;$(SolutionDir)$(Configuration)\;%(AdditionalLibraryDirectories);</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
+      <AdditionalDependencies>fmod_vc.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

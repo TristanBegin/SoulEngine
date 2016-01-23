@@ -1,6 +1,7 @@
 #include "SoulEngine.h"
 #include "GSMBigSix.h"
 #include "Animation.h"
+#include "Collision.h"
 
 extern GAME * pTheGame;
 //extern BEHAVIOR ** pBehaviorArray;
@@ -85,32 +86,24 @@ void UpdateLevel()
     {
       switch (tempComp->Type)
       {
-      case Sprite:
-        pSprite = (SPRITE *)tempComp->pStruct;
-        break;
-
-      case Mesh:
-        pMesh = (MESH *)tempComp->pStruct;
-        break;
-
-      case Behavior:
-        pBehavior = (BEHAVIOR *)tempComp->pStruct;
-        break;
-
-      case Physics:
-        pPhysics = (PHYSICS *)tempComp->pStruct;
-        break;
-
-      case Collider:
-        pCollider = (COLLIDER *)tempComp->pStruct;
-        break;
-
-      case Sound:
-        pSound = (SOUND *)tempComp->pStruct;
-        break;
-
-      default:
-        break;
+		  case Sprite:
+			pSprite = (SPRITE *)tempComp->pStruct;
+			break;
+		  case Mesh:
+			pMesh = (MESH *)tempComp->pStruct;
+			break;
+		  case Behavior:
+			pBehavior = (BEHAVIOR *)tempComp->pStruct;
+			break;
+		  case Physics:
+			pPhysics = (PHYSICS *)tempComp->pStruct;
+			break;
+		  case Collider:
+			pCollider = (COLLIDER *)tempComp->pStruct;
+			break;
+		  case KSound:
+			pSound = (SOUND *)tempComp->pStruct;
+			break;
       }
 
       tempComp = tempComp->nextComponent;
@@ -130,6 +123,12 @@ void UpdateLevel()
     {
       UpdatePhysics(pPhysics);
     }
+
+	if (pCollider)
+	{
+		//Needs to be tweaked and tested.
+		UpdateCollision(pCollider);
+	}
 
     tempUnit = tempUnit->nextUnit;
 
@@ -239,7 +238,6 @@ void UpdatePhysics(PHYSICS * pPhysics)
 
   ////////////////////////////////////////////
 }
-
 
 
 /********************************************************
