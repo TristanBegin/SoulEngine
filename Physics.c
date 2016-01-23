@@ -1,7 +1,7 @@
 #include "SoulEngine.h"
 #include "Physics.h"
 
-void UpdatePhysics(PHYSICS * pPhysics)
+void UpdatePhysics(PHYSICS * pPhysics, COLLIDER *pCollider)
 {
   UNIT * pOwner = pPhysics->pArchetype->pUnit;
   TRANSFORM * pMyTransform = pOwner->pTransform;

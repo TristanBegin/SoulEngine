@@ -117,7 +117,7 @@ void UpdateLevel()
     if (pPhysics && pCollider)
     {
 	  UpdateCollision(pCollider);
-      UpdatePhysics(pPhysics);
+      UpdatePhysics(pPhysics, pCollider);
     }
 
 	if (pBehavior)
