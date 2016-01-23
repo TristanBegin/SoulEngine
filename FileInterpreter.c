@@ -5,6 +5,7 @@
 
 #define MAX_LENGTH 50
 
+#pragma warning(disable : 4996)
 
 extern GAME * pTheGame;
 

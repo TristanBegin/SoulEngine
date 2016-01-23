@@ -159,40 +159,13 @@ void UpdatePhysics(PHYSICS * pPhysics)
     collidingY = 0;
   }
 
-  /************* Player Input ***************/
-
-  // Jumping
-  if (AEInputCheckCurr('W') && pMyTransform->Position.y <= 0)
-  {
-    pVelocity->y = 0.7f;
-  }
-
-  if (AEInputCheckCurr('S'))
-  {
-    pVelocity->y -= 0.05f;
-  }
-
-  //Left movement
-  if (AEInputCheckCurr('A') && pVelocity->x > -maxSpeed)
-  {
-    pVelocity->x -= 0.05f;
-  }
-
-  //Right movement
-  if (AEInputCheckCurr('D') && pVelocity->x < maxSpeed)
-  {
-    pVelocity->x += 0.05f;
-  }
-
-  ////////////////////////////////////////////
-
 
   /**************** Gravity *****************/
 
-  if (pVelocity->y < gravityMax)
-  {
+  //if (pVelocity->y < gravityMax)
+  //{
     pVelocity->y -= gravityRate;
-  }
+  //}
 
   ////////////////////////////////////////////
 
