@@ -34,6 +34,10 @@
     <ClCompile Include="System.c">
       <Filter>SoulEngine</Filter>
     </ClCompile>
+    <ClCompile Include="Collision.c" />
+    <ClCompile Include="MatrixMath.c" />
+    <ClCompile Include="SoulMath.c" />
+    <ClCompile Include="VectorMath.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Behaviors.h">
@@ -54,6 +58,10 @@
     <ClInclude Include="System.h">
       <Filter>SoulEngine</Filter>
     </ClInclude>
+    <ClInclude Include="Collision.h" />
+    <ClInclude Include="MatrixMath.h" />
+    <ClInclude Include="SoulMath.h" />
+    <ClInclude Include="VectorMath.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Blank.png">
@@ -64,26 +72,26 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Anim_Arch.txt">
-      <Filter>GameFiles</Filter>
-    </Text>
-    <Text Include="_LevelList.txt">
-      <Filter>GameFiles</Filter>
-    </Text>
     <Text Include="_ArchetypeList.txt">
-      <Filter>GameFiles</Filter>
+      <Filter>GameFiles\Archetypes</Filter>
+    </Text>
+    <Text Include="Anim_Arch.txt">
+      <Filter>GameFiles\Archetypes</Filter>
     </Text>
     <Text Include="GoRight_Arch.txt">
-      <Filter>GameFiles</Filter>
-    </Text>
-    <Text Include="LevelFile.txt">
-      <Filter>GameFiles</Filter>
+      <Filter>GameFiles\Archetypes</Filter>
     </Text>
     <Text Include="Player_Arch.txt">
-      <Filter>GameFiles</Filter>
+      <Filter>GameFiles\Archetypes</Filter>
+    </Text>
+    <Text Include="_LevelList.txt">
+      <Filter>GameFiles\Levels</Filter>
+    </Text>
+    <Text Include="LevelFile.txt">
+      <Filter>GameFiles\Levels</Filter>
     </Text>
     <Text Include="Tutorial_Level.txt">
-      <Filter>GameFiles</Filter>
+      <Filter>GameFiles\Levels</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>
@@ -98,6 +106,12 @@
     </Filter>
     <Filter Include="GameFiles">
       <UniqueIdentifier>{6097c594-e807-4dd5-a423-340ce83abccf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameFiles\Levels">
+      <UniqueIdentifier>{f7f805d1-cc64-4116-9d79-c45064ab2b45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameFiles\Archetypes">
+      <UniqueIdentifier>{0b29f7ac-fcd7-4b4f-8fcb-cb7161e0d4b5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
