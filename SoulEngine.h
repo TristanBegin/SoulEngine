@@ -175,6 +175,7 @@ typedef struct SPRITE
   VECTOR RowCol;          //The number of rows and columns in the sprite sheet. 
   VECTOR Offset;          //The offset of the texture on the object.
   float AnimationSpeed;   //The speed of the animation.
+  float TimeSinceLastFrame;   //The speed of the animation.
 }SPRITE;
 
 

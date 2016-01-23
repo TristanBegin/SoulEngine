@@ -65,6 +65,7 @@ GAMESTATS * SetDefaults(GAME * pGame)
   pSprite->Offset = zeroVector;
 
   pSprite->AnimationSpeed = 0;
+  pSprite->TimeSinceLastFrame = 0;
 
   pSprite->pComponent = NULL;
 
