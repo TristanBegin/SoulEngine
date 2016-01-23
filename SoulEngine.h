@@ -399,7 +399,11 @@ ARCHETYPE * FindArchetypeByName(GAME *pGame, char *Name);
 LEVEL * AddLevel(GAME * pGame, char *Name, int Order);
 
 //Adds a Unit of the given Archetype to the given level with the default Transform.
+//DO NOT USE AT RUNTIME (Use InstantiateUnit)
 UNIT * AddUnit(LEVEL *pLevel, ARCHETYPE *pArchetype, char *Name);
+
+//Adds a new Unit AT RUNTIME (do not use on initialize, do not use AddUnit at runtime).
+UNIT * InstantiateUnit(LEVEL *pLevel, char * ArchetypeName, VECTOR position);
 
 //Finds all Units in a level with the given Archetype and stores them in given array. 
 //Returns amount of Units stored, -1 (ERR_SURPASSED_BUFFER_SIZE) if surpassed the buffer size.

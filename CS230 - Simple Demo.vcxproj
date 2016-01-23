@@ -50,6 +50,7 @@
   <ItemGroup>
     <Image Include="Blank.png" />
     <Image Include="TestAnimation.png" />
+    <Image Include="WitchWalking01.png" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
@@ -68,6 +69,10 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Anim_Arch.txt">
+      <SubType>
+      </SubType>
+    </Text>
+    <Text Include="Bullet_Arch.txt">
       <SubType>
       </SubType>
     </Text>
