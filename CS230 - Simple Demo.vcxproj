@@ -75,6 +75,7 @@
       <SubType>
       </SubType>
     </Text>
+    <Text Include="Level1.txt" />
     <Text Include="_LevelList.txt" />
     <Text Include="Player_Arch.txt" />
     <Text Include="_ArchetypeList.txt" />

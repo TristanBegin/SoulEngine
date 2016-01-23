@@ -99,6 +99,9 @@
     <Text Include="Tutorial_Level.txt">
       <Filter>GameFiles\Levels</Filter>
     </Text>
+    <Text Include="Level1.txt">
+      <Filter>GameFiles\Levels</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Behaviors">

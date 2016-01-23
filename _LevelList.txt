@@ -6,5 +6,6 @@
 # Name = TextLevel
 # Order = 0
 Tutorial_Level.txt
+Level1.txt
 
 # No more levels :(
