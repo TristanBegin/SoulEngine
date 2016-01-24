@@ -235,10 +235,10 @@ void InterpretArchetype(FILE * fpArch)
             SPRITE * pSprite = (SPRITE*)pCurrComp->pStruct;
             if (myStrCmp(question, "TextureFile") <= 0)
             {
-			  int temp;
+			        int temp;
               char textureInput[MAX_LENGTH];
               sscanf(buffer, "\tTextureFile = %i , ", &temp);
-			  MultipleAnimations(buffer, temp, pSprite);
+			        MultipleAnimations(buffer, temp, pSprite);
               continue;
             }
 
