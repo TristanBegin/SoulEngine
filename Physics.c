@@ -40,7 +40,7 @@ void UpdatePhysics(PHYSICS * pPhysics, COLLIDER *pCollider)
   //  pVelocity->y += -(pVelocity->y);
   //}
 
-  if (pCollider->LeftBlocked)
+  if (pCollider->Grounded)
   {
     pVelocity->y = 0;
     pAcceleration->y = 0;

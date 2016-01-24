@@ -62,19 +62,22 @@ void UpdateCollision(COLLIDER *pCollider)
 					switch (colDir)
 					{
 						case Bottom:
-              OutputDebugString("Bottom Collision");
+                            //OutputDebugString("Bottom Collision\n");
 							pCollider->Grounded = True;
 							tempCollider->TopBlocked = True;
 							break;
 						case Top:
+							//OutputDebugString("Top Collision\n");
 							pCollider->TopBlocked = True;
 							tempCollider->Grounded = True;
 							break;
 						case Left:
+							//OutputDebugString("Left Collision\n");
 							pCollider->LeftBlocked = True;
 							tempCollider->RightBlocked = True;
 							break;
 						case Right:
+							//OutputDebugString("Right Collision\n");
 							pCollider->RightBlocked = True;
 							tempCollider->LeftBlocked = True;
 							break;
@@ -164,10 +167,16 @@ int CollisionDirection(VECTOR *pRect0, float Width0, float Height0, VECTOR *pRec
 	float bottom1 = pRect1->y - Height1 / 2;
 	float top1 = pRect1->y + Height1 / 2;
 
-	float bottomCol = bottom0 - top1;
-	float topCol = top0 - bottom1;
-	float leftCol = left0 - right1;
-	float rightCol = right0 - right1;
+	float bottomCol = abs(bottom0 - top1);
+	float topCol = abs(top0 - bottom1);
+	float leftCol = abs(left0 - right1);
+	float rightCol = abs(right0 - right1);
+
+/*
+	char output[50];
+	snprintf(output, 50, "B: %f, T: %f, L: %f, R: %f", bottomCol, topCol, leftCol, rightCol);
+	OutputDebugString(output);
+	OutputDebugString("\n"); */
 
 	if (bottomCol < topCol && bottomCol < leftCol && bottomCol < rightCol)
 		return Bottom;
