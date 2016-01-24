@@ -9,6 +9,7 @@ static GAME * pMyGame;
 static GAMESTATS * pMyGameStats;
 static PHYSICS * pMyPhysics;
 static BEHAVIOR * pMyBehavior;
+static COLLIDER * pMyCollider;
 
 static float gravityRate = 0;
 static float gravityMax = 0.5;
@@ -33,6 +34,7 @@ void PlayerBehavior(BEHAVIOR * Owner, char * Trigger)
   pMyGame = pMyLevel->pGame;
   pMyGameStats = pMyGame->pGameStats;
   pMyPhysics = FindComponentStruct(pMyArchetype, Physics);
+  pMyCollider = FindComponentStruct(pMyArchetype, Collider);
 
   if (Trigger == "Start")
   {
@@ -55,17 +57,17 @@ static void Update()
 {
   BOOL * FacingRight = (BOOL*)GetVar("FacingRight", pMyBehavior);
 
-  if (AEInputCheckTriggered(' '))
+  if (AEInputCheckTriggered(17))
   {
     UNIT * pBullet = InstantiateUnit(pMyLevel, "Bullet", pMyTransform->Position);
     PHYSICS * pBulletPhysics = ((PHYSICS*)FindComponentStruct(pBullet->pArchetype, Physics));
     if (*FacingRight)
     {
-      pBulletPhysics->Velocity.x = 0.5;
+      pBulletPhysics->Velocity.x = 50;
     }
     else
     {
-      pBulletPhysics->Velocity.x = -0.5;
+      pBulletPhysics->Velocity.x = -50;
     }
     OutputDebugString("Bullet");
   }
@@ -73,11 +75,9 @@ static void Update()
   /************* Player Input ***************/
 
   // Jumping
-  if (AEInputCheckCurr('W') && 
-      (pMyTransform->Position.y <= 0 || 
-      (pMyPhysics->Velocity.y > 0.4 && pMyTransform->Position.y <= 4)))
+  if (AEInputCheckCurr('W') && pMyCollider->Grounded)
   {
-    pMyPhysics->Velocity.y = 0.5;
+    pMyPhysics->Velocity.y = 20;
   }
 
   if (AEInputCheckCurr('S'))

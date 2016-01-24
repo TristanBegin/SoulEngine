@@ -1,10 +1,11 @@
 #include "Collision.h"
-
+#include <math.h>
 // ---------------------------------------------------------------------------
 
 void UpdateCollision(COLLIDER *pCollider)
 {
 	UNIT *tempUnit = pCollider->pArchetype->pUnit->pLevel->nextUnit;
+  UNIT * pUnit = pCollider->pArchetype->pUnit;
 	VECTOR pRect0 = pCollider->pArchetype->pUnit->pTransform->Position;
 	float height0 = pCollider->Height;
 	float width0 = pCollider->Width;
@@ -20,7 +21,7 @@ void UpdateCollision(COLLIDER *pCollider)
 	//Walk through the list of Units in the Level, checking for collisions with current collider
 	while (tempUnit)
 	{
-    if (tempUnit->pArchetype)
+    if (tempUnit->pArchetype && tempUnit != pUnit)
     {
 		COMPONENT *tempComp = tempUnit->pArchetype->nextComponent;
 		COLLIDER *tempCollider = NULL;
@@ -55,10 +56,10 @@ void UpdateCollision(COLLIDER *pCollider)
             
 			if (colResult)
 			{
-				if (!tempCollider->IsGhosted)
+				if (!pCollider->IsGhosted && !tempCollider->IsGhosted)
 				{
-					colDir = CollisionDirection(&pRect0, width0, height0, &pRect1, width1, height1);
-
+					colDir = CollisionDirection(&pRect0, width0, height0, &pRect1, width1, height1, pCollider);
+          /*
 					switch (colDir)
 					{
 						case Bottom:
@@ -85,7 +86,7 @@ void UpdateCollision(COLLIDER *pCollider)
 							pCollider->RightBlocked = True;
 							tempCollider->LeftBlocked = True;
 							break;
-					}
+					}*/
 				}
 			}
 		}
@@ -159,7 +160,7 @@ int StaticRectToStaticRect(VECTOR *pRect0, float Width0, float Height0, VECTOR *
 
 // ---------------------------------------------------------------------------
 
-int CollisionDirection(VECTOR *pRect0, float Width0, float Height0, VECTOR *pRect1, float Width1, float Height1)
+int CollisionDirection(VECTOR *pRect0, float Width0, float Height0, VECTOR *pRect1, float Width1, float Height1, COLLIDER * pCollider)
 {
 	float left0 = pRect0->x - Width0 / 2;
 	float right0 = pRect0->x + Width0 / 2;
@@ -176,17 +177,22 @@ int CollisionDirection(VECTOR *pRect0, float Width0, float Height0, VECTOR *pRec
 	float leftCol = left0 - right1;
 	float rightCol = right0 - left1;
 
-	bottomCol = abs(bottomCol);
-	topCol = abs(topCol);
-	leftCol = abs(leftCol);
-	rightCol = abs(rightCol);
+	bottomCol = fabs(bottomCol);
+	topCol = fabs(topCol);
+	leftCol = fabs(leftCol);
+	rightCol = fabs(rightCol);
+
+  
+  
+  
+  
 
 	if (bottomCol < topCol && bottomCol < leftCol && bottomCol < rightCol)
-		return Bottom;
+    pCollider->Grounded = bottomCol;
 	else if (topCol < bottomCol && topCol < leftCol && topCol < rightCol)
-		return Top;
+    pCollider->TopBlocked = topCol;
 	else if (leftCol < topCol && leftCol < bottomCol && leftCol < rightCol)
-		return Left;
+    pCollider->LeftBlocked = leftCol;
 	else if (rightCol < topCol && rightCol < bottomCol && rightCol < leftCol)
-		return Right;
+    pCollider->RightBlocked = rightCol;
 }

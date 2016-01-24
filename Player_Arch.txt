@@ -10,7 +10,7 @@ Name = Player
 
 COMPONENT | Sprite |
 
-	TextureFile = WitchWalking01.png
+	TextureFile = Blank.png
 	
 	Animated = 1
 
@@ -32,7 +32,7 @@ EndComponent
 
 COMPONENT | Physics |
 
-	Gravity = 10
+	Gravity = 35
   
 	MaxSpeed = 0.5
   
@@ -53,10 +53,11 @@ COMPONENT | Collider |
   
 	Width = 1
 
+
 EndComponent
 #-----------------------------------------------
 
-COMPONENT | Sound |
+COMPONENT | KSound |
 
 	Volume = 0
   

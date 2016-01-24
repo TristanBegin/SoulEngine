@@ -178,6 +178,13 @@ void InterpretArchetype(FILE * fpArch)
               pCollider->Width = inputFloat;
               continue;
             }
+
+            if (myStrCmp(question, "IsGhosted") <= 0)
+            {
+              sscanf(buffer, "\tIsGhosted = %i", &inputInt);
+              pCollider->IsGhosted = inputInt;
+              continue;
+            }
           }
 
           if (pCurrComp->Type == KSound)

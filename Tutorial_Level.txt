@@ -48,7 +48,7 @@ EndUnit
 
 UNIT < Platform > myPlatform
 
-	InitialPosition = (0, -0.9)
+	InitialPosition = (0, -2)
 	InitialRotation = 0
 	InitialScale = (1, 1)
 
@@ -57,11 +57,25 @@ EndUnit
 
 UNIT < Bullet > FrameBullet
 
-	InitialPosition = (0, -20)
+	InitialPosition = (200, -200)
 	InitialRotation = 0
 	InitialScale = (1, 1)
 
 EndUnit
 #-----------------------------------------------
+UNIT < Platform > myPlatform
 
+	InitialPosition = (-8, -1)
+	InitialRotation = 0
+	InitialScale = (1, 1)
 
+EndUnit
+#-----------------------------------------------
+UNIT < Platform > myPlatform
+
+	InitialPosition = (5, 3)
+	InitialRotation = 0
+	InitialScale = (1, 1)
+
+EndUnit
+#-----------------------------------------------

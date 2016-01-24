@@ -59,6 +59,8 @@ COMPONENT | Collider |
   
 	Width = 1
 
+	IsGhosted = 1
+
 EndComponent
 #-----------------------------------------------
 

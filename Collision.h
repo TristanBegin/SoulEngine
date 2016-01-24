@@ -41,5 +41,5 @@ int StaticRectToStaticRect(VECTOR *pRect0, float Width0, float Height0, VECTOR *
 This function checks the direction of collision for 2 rectangles
 The direction will be based off of pRect0 (if 0 is above 1, it's a collision from below)
 */
-int CollisionDirection(VECTOR *pRect0, float Width0, float Height0, VECTOR *pRect1, float Width1, float Height1);
+int CollisionDirection(VECTOR *pRect0, float Width0, float Height0, VECTOR *pRect1, float Width1, float Height1, COLLIDER * pCollider);
 #endif

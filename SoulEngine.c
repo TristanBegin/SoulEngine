@@ -231,7 +231,7 @@ COMPONENT * AddComponent(ARCHETYPE *pArchetype, COMPONENTTYPE DesiredType)
 
   if (DesiredType == KSound)
   {
-    KSOUND * pNewSound;
+    KSOUND * pNewSound = malloc(sizeof(KSOUND));
 	KSOUND_Init(pNewSound);
     
 	pNewComponent->Type = KSound;

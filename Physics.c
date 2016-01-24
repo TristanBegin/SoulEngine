@@ -1,6 +1,6 @@
 #include "SoulEngine.h"
 #include "Physics.h"
-
+#include <math.h>
 void UpdatePhysics(PHYSICS * pPhysics, COLLIDER *pCollider)
 {
   UNIT * pOwner = pPhysics->pArchetype->pUnit;
@@ -39,11 +39,60 @@ void UpdatePhysics(PHYSICS * pPhysics, COLLIDER *pCollider)
   //{
   //  pVelocity->y += -(pVelocity->y);
   //}
-
   if (pCollider->Grounded)
   {
-    pVelocity->y = 0;
-    pAcceleration->y = 0;
+    if (pAcceleration->y < 0) pAcceleration->y = 0;
+    if (pCollider->Grounded < 0.1f)
+    {
+      
+      if (pVelocity->y < 0) pVelocity->y = 0;
+    }
+    else
+    {
+      if (pVelocity->y < 0) pVelocity->y = (pow(pCollider->Grounded * 15, 2)) / 2;
+    }
+  }
+
+  if (pCollider->LeftBlocked)
+  {
+    if (pAcceleration->x < 0) pAcceleration->x = 0;
+    if (pCollider->LeftBlocked < 0.1f)
+    {
+
+      if (pVelocity->x < 0) pVelocity->x = 0;
+    }
+    else
+    {
+      if (pVelocity->x < 0) pVelocity->x = (pow(pCollider->LeftBlocked * 15, 2)) / 2;
+    }
+  }
+
+  if (pCollider->TopBlocked)
+  {
+    if (pAcceleration->y > 0) pAcceleration->y = 0;
+    if (pCollider->TopBlocked < 0.1f)
+    {
+
+      if (pVelocity->y > 0) pVelocity->y = 0;
+    }
+    else
+    {
+      if (pVelocity->y > 0) pVelocity->y = -(pow(pCollider->TopBlocked * 15, 2)) / 2;
+    }
+  }
+
+  if (pCollider->RightBlocked)
+  {
+    if (pAcceleration->x > 0) pAcceleration->x = 0;
+    if (pCollider->RightBlocked < 0.1f)
+    {
+
+      if (pVelocity->x > 0) pVelocity->y = 0;
+    }
+    else
+    {
+      if (pVelocity->x > 0) pVelocity->y = -(pow(pCollider->RightBlocked * 15, 2)) / 2;
+    }
   }
   //
   //if (pMyTransform->Position.y < 0)
