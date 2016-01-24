@@ -6,14 +6,12 @@ static ARCHETYPE * pMyArchetype;
 static LEVEL * pMyLevel;
 static GAME * pMyGame;
 static GAMESTATS * pMyGameStats;
-static BEHAVIOR * pMyBehavior;
 
 void Start();
 void Update();
 
 void BulletBehavior(BEHAVIOR * Owner, char * Trigger)
 {
-  pMyBehavior = Owner;
   pMyUnit = Owner->pArchetype->pUnit;
   pMyTransform = pMyUnit->pTransform;
   pMyArchetype = pMyUnit->pArchetype;
@@ -34,17 +32,12 @@ void BulletBehavior(BEHAVIOR * Owner, char * Trigger)
 
 void Start()
 {
-  float * TimeDestroy = AddVar(Float, "TimeDestroy", pMyBehavior);
-  *TimeDestroy = 5;
+  
+
 }
 
 void Update()
 {
-  float * TimeDestroy = GetVar("TimeDestroy", pMyBehavior);
-  *TimeDestroy -= AEFrameRateControllerGetFrameTime();
-  if (*TimeDestroy < 0)
-  {
-    DestroyUnit(pMyUnit);
-  }
+
 
 }

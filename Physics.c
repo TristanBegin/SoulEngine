@@ -19,7 +19,7 @@ void UpdatePhysics(PHYSICS * pPhysics, COLLIDER *pCollider)
 
   //if (pVelocity->y < gravityMax)
   //{
-  pAcceleration->y -= gravityRate * frameTime;
+  pAcceleration->y = -gravityRate;
   //}
 
   ////////////////////////////////////////////
