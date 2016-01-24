@@ -32,13 +32,15 @@ EndComponent
 
 COMPONENT | Physics |
 
-	Gravity = 0.05
+	Gravity = 100
   
 	MaxSpeed = 0.5
   
 	Friction = 0.1
 
 	Velocity = (0, 0)
+
+  Acceleration = (0, 0)
 
 EndComponent
 #-----------------------------------------------

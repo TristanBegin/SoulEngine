@@ -6,30 +6,29 @@ void UpdatePhysics(PHYSICS * pPhysics, COLLIDER *pCollider)
   UNIT * pOwner = pPhysics->pArchetype->pUnit;
   TRANSFORM * pMyTransform = pOwner->pTransform;
   VECTOR * pVelocity = &(pPhysics->Velocity);
+  VECTOR * pAcceleration = &(pPhysics->Acceleration);
 
   float gravityRate = pPhysics->Gravity;
-  float gravityMax = 0.5;
+  float gravityMax = 500;
   float friction = pPhysics->Friction;
   int collidingY = 0;
   float maxSpeed = pPhysics->MaxSpeed;
+  double frameTime = AEFrameRateControllerGetFrameTime();
 
-  //Checking for collision with a platform at y = 0
+
   if (pMyTransform->Position.y <= 0)
   {
-    //Fake collision.
-    collidingY = 1;
+    pCollider->Grounded = TRUE;
   }
   else
-  {
-    collidingY = 0;
-  }
+    pCollider->Grounded = FALSE;
 
 
   /**************** Gravity *****************/
 
   //if (pVelocity->y < gravityMax)
   //{
-  pVelocity->y -= gravityRate;
+  pAcceleration->y -= gravityRate * frameTime;
   //}
 
   ////////////////////////////////////////////
@@ -38,19 +37,29 @@ void UpdatePhysics(PHYSICS * pPhysics, COLLIDER *pCollider)
   /******* Apply Friction to Velocity *******/
 
   pVelocity->x -= (friction * pVelocity->x);
-  pVelocity->y -= (friction * pVelocity->y);
+  //pVelocity->y -= (friction * pVelocity->y);
 
   ////////////////////////////////////////////
 
 
-  /*************** Collision ****************/
+  /******* Account for Collision ************/
 
-  if (collidingY)
+  //if (pCollider->Grounded)
+  //{
+  //  pVelocity->y += -(pVelocity->y);
+  //}
+
+  if (pCollider->Grounded)
   {
-    if (pVelocity->y < 0)
+    if (pAcceleration->y < 0)
     {
-      pVelocity->y = 0;
+      pAcceleration->y = 0;
     }
+  }
+
+  if (pMyTransform->Position.y < 0)
+  {
+    pMyTransform->Position.y = 0;
   }
 
   ////////////////////////////////////////////
@@ -71,8 +80,11 @@ void UpdatePhysics(PHYSICS * pPhysics, COLLIDER *pCollider)
 
   /******* Apply Velocity to Player *********/
 
-  pMyTransform->Position.x += pVelocity->x;
-  pMyTransform->Position.y += pVelocity->y;
+  pVelocity->x += pAcceleration->x * frameTime;
+  pVelocity->y += pAcceleration->y * frameTime;
+
+  pMyTransform->Position.x += pVelocity->x * frameTime;
+  pMyTransform->Position.y += pVelocity->y * frameTime;
 
   ////////////////////////////////////////////
 }
