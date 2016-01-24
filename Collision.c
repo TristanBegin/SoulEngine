@@ -51,30 +51,37 @@ void UpdateCollision(COLLIDER *pCollider)
 			pRect1.y += tempCollider->Offset.y;
 
 			//Checking for collision between pRect0 and pRect1
-			colResult = StaticRectToStaticRect(&pRect0, width0, height0, &pRect1, height1, width1);
+			colResult = StaticRectToStaticRect(&pRect0, width0, height0, &pRect1, width1, height1);
             
 			if (colResult)
 			{
 				if (!tempCollider->IsGhosted)
 				{
 					colDir = CollisionDirection(&pRect0, width0, height0, &pRect1, width1, height1);
-					
+
 					switch (colDir)
 					{
 						case Bottom:
-              OutputDebugString("Bottom Collision");
+							if (pCollider->pArchetype->Name = "Player One")
+								OutputDebugString("Bottom\n");
 							pCollider->Grounded = True;
 							tempCollider->TopBlocked = True;
 							break;
 						case Top:
+							if (pCollider->pArchetype->Name = "Player One")
+								OutputDebugString("Top\n");
 							pCollider->TopBlocked = True;
 							tempCollider->Grounded = True;
 							break;
 						case Left:
+							if (pCollider->pArchetype->Name = "Player One")
+								OutputDebugString("Left\n");
 							pCollider->LeftBlocked = True;
 							tempCollider->RightBlocked = True;
 							break;
 						case Right:
+							if (pCollider->pArchetype->Name = "Player One")
+								OutputDebugString("Right\n");
 							pCollider->RightBlocked = True;
 							tempCollider->LeftBlocked = True;
 							break;
@@ -144,7 +151,7 @@ int StaticRectToStaticRect(VECTOR *pRect0, float Width0, float Height0, VECTOR *
 	float bottom1 = pRect1->y - Height1 / 2;
 	float top1 = pRect1->y + Height1 / 2;
 
-	if (right0 < left1 || left0 > right1 || bottom0 > top1 || top0 < bottom1)
+	if ((right0 < left1 || left0 > right1) || (bottom0 > top1 || top0 < bottom1))
 		return 0;
 	else
 		return 1;
@@ -167,7 +174,12 @@ int CollisionDirection(VECTOR *pRect0, float Width0, float Height0, VECTOR *pRec
 	float bottomCol = bottom0 - top1;
 	float topCol = top0 - bottom1;
 	float leftCol = left0 - right1;
-	float rightCol = right0 - right1;
+	float rightCol = right0 - left1;
+
+	bottomCol = abs(bottomCol);
+	topCol = abs(topCol);
+	leftCol = abs(leftCol);
+	rightCol = abs(rightCol);
 
 	if (bottomCol < topCol && bottomCol < leftCol && bottomCol < rightCol)
 		return Bottom;
