@@ -62,26 +62,18 @@ void UpdateCollision(COLLIDER *pCollider)
 					switch (colDir)
 					{
 						case Bottom:
-							if (pCollider->pArchetype->Name = "Player One")
-							 OutputDebugString("Bottom Collision\n");
 							pCollider->Grounded = True;
 							tempCollider->TopBlocked = True;
 							break;
 						case Top:
-							if (pCollider->pArchetype->Name = "Player One")
-							  OutputDebugString("Top Collision\n");
 							pCollider->TopBlocked = True;
 							tempCollider->Grounded = True;
 							break;
 						case Left:
-							if (pCollider->pArchetype->Name = "Player One")
-							  OutputDebugString("Left Collision\n");
 							pCollider->LeftBlocked = True;
 							tempCollider->RightBlocked = True;
 							break;
 						case Right:
-							if (pCollider->pArchetype->Name = "Player One")
-							  OutputDebugString("Right Collision\n");
 							pCollider->RightBlocked = True;
 							tempCollider->LeftBlocked = True;
 							break;
@@ -180,12 +172,6 @@ int CollisionDirection(VECTOR *pRect0, float Width0, float Height0, VECTOR *pRec
 	topCol = abs(10 * topCol);
 	leftCol = abs(10 * leftCol);
 	rightCol = abs(10 * rightCol);
-
-	
-	char output[50];
-	snprintf(output, 50, "B: %f, T: %f, L: %f, R: %f", bottomCol, topCol, leftCol, rightCol);
-	OutputDebugString(output);
-	OutputDebugString("\n");
 
 	if (bottomCol < topCol && bottomCol < leftCol && bottomCol < rightCol)
 		return Bottom;
