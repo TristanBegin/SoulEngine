@@ -116,10 +116,14 @@ void UpdateLevel()
         Animate(pSprite);
       }
 
-      if (pPhysics && pCollider)
+      if (pCollider)
       {
         UpdateCollision(pCollider);
-        UpdatePhysics(pPhysics, pCollider);
+
+        if (pPhysics)
+        {
+          UpdatePhysics(pPhysics, pCollider);
+        }
       }
 
       if (pBehavior)

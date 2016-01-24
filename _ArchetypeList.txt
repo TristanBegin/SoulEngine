@@ -18,4 +18,8 @@ Anim_Arch.txt
 # BULLETS
 Bullet_Arch.txt
 
+# Name = Platform
+# Basic platform
+Platform_Arch.txt
+
 # No more archetypes.

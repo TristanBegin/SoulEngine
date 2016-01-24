@@ -4,7 +4,7 @@
 
 void UpdateCollision(COLLIDER *pCollider)
 {
-	UNIT *tempUnit = pCollider->pArchetype->pUnit->nextUnit;
+	UNIT *tempUnit = pCollider->pArchetype->pUnit->pLevel->nextUnit;
 	VECTOR pRect0 = pCollider->pArchetype->pUnit->pTransform->Position;
 	float height0 = pCollider->Height;
 	float width0 = pCollider->Width;
@@ -12,11 +12,15 @@ void UpdateCollision(COLLIDER *pCollider)
 	pRect0.x += pCollider->Offset.x;
 	pRect0.y += pCollider->Offset.y;
 
-
+  pCollider->Grounded = False;
+  pCollider->LeftBlocked = False;
+  pCollider->RightBlocked = False;
+  pCollider->TopBlocked = False;
 
 	//Walk through the list of Units in the Level, checking for collisions with current collider
 	while (tempUnit)
 	{
+
 		COMPONENT *tempComp = tempUnit->pArchetype->nextComponent;
 		COLLIDER *tempCollider = NULL;
 
@@ -57,6 +61,7 @@ void UpdateCollision(COLLIDER *pCollider)
 					switch (colDir)
 					{
 						case Bottom:
+              OutputDebugString("Bottom Collision");
 							pCollider->Grounded = True;
 							tempCollider->TopBlocked = True;
 							break;

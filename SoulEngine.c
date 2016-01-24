@@ -217,6 +217,13 @@ COMPONENT * AddComponent(ARCHETYPE *pArchetype, COMPONENTTYPE DesiredType)
     pNewCollider->Offset = NewVector(0, 0);
     pNewCollider->Height = 1;
     pNewCollider->Width = 1;
+    pNewCollider->IsGhosted = False;
+    pNewCollider->Grounded = False;
+    pNewCollider->LeftBlocked = False;
+    pNewCollider->RightBlocked = False;
+    pNewCollider->TopBlocked = False;
+
+
         
     pNewCollider->pComponent = pNewComponent;
     pNewCollider->pArchetype = pArchetype;

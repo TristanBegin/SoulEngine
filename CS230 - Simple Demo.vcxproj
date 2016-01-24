@@ -76,6 +76,10 @@
       <SubType>
       </SubType>
     </Text>
+    <Text Include="Platform_Arch.txt">
+      <SubType>
+      </SubType>
+    </Text>
     <Text Include="Bullet_Arch.txt">
       <SubType>
       </SubType>

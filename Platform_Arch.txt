@@ -1,6 +1,6 @@
 #GLOBAL ARCHETYPE CREATION FILE
 
-Name = Bullet
+Name = Platform
 
 #-----------------------------------------------
 # - COMPONENTS -
@@ -26,7 +26,7 @@ EndComponent
 
 COMPONENT | Mesh |
 
-	Size = (0.25, 0.25)
+	Size = (10, 1)
 
 EndComponent
 #-----------------------------------------------
@@ -38,17 +38,14 @@ COMPONENT | Behavior |
 EndComponent
 
 #-----------------------------------------------
+COMPONENT | Collider |
 
-COMPONENT | Physics |
-
-	Gravity = 0
+	Offset = (0, 0)
   
-	MaxSpeed = 4
+	Height = 1
   
-	Friction = 0
-
-	Velocity = (0, 0)
+	Width = 10
 
 EndComponent
-#-----------------------------------------------
+
 

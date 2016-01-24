@@ -56,8 +56,8 @@ static void Update()
 
   pMyTransform->Position.x += *exampleFloat;
 
-  if (pMyTransform->Position.x > LEVELSWITCH)
-	  pMyGame->pGameStats->nextLevel = 1;
+  //if (pMyTransform->Position.x > LEVELSWITCH)
+	  //pMyGame->pGameStats->nextLevel = 1;
 
 
 }
