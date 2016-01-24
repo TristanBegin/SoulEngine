@@ -55,4 +55,13 @@ UNIT < Platform > myPlatform
 EndUnit
 #-----------------------------------------------
 
+UNIT < Bullet > FrameBullet
+
+	InitialPosition = (0, -20)
+	InitialRotation = 0
+	InitialScale = (1, 1)
+
+EndUnit
+#-----------------------------------------------
+
 
