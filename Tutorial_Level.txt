@@ -25,39 +25,30 @@ UNIT < Player > PlayerOne
 
 EndUnit
 #-----------------------------------------------
-
-UNIT < GoRight > RightMan
-
-	InitialPosition = (0, -2)
-	InitialRotation = 0
-	InitialScale = (1, 1)
-
-	VAR exampleFloat : Float = 0.1
-
-EndUnit
+# 
+#UNIT < GoRight > RightMan
+#
+#	InitialPosition = (0, -2)
+#	InitialRotation = 0
+#	InitialScale = (1, 1)
+#
+#	VAR exampleFloat : Float = 0.1
+#
+#EndUnit
+#-----------------------------------------------
+#
+#UNIT < Anim > AnimatedMan
+#
+#	InitialPosition = (-4, 5)
+#	InitialRotation = 0
+#	InitialScale = (1, 1)
+#
+#EndUnit
 #-----------------------------------------------
 
-UNIT < Anim > AnimatedMan
+UNIT < Platform > myPlatform
 
-	InitialPosition = (-4, 5)
-	InitialRotation = 0
-	InitialScale = (1, 1)
-
-EndUnit
-#-----------------------------------------------
-
-UNIT < Bullet > myBullet
-
-	InitialPosition = (5, 5)
-	InitialRotation = 0
-	InitialScale = (1, 1)
-
-EndUnit
-#-----------------------------------------------
-
-UNIT < Bullet > myBullet
-
-	InitialPosition = (5, 5)
+	InitialPosition = (0, -0.9)
 	InitialRotation = 0
 	InitialScale = (1, 1)
 

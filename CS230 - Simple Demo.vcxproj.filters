@@ -111,6 +111,9 @@
     <Text Include="Level1.txt">
       <Filter>GameFiles\Levels</Filter>
     </Text>
+    <Text Include="Platform_Arch.txt">
+      <Filter>GameFiles\Archetypes</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Behaviors">

@@ -32,7 +32,7 @@ EndComponent
 
 COMPONENT | Physics |
 
-	Gravity = 100
+	Gravity = 10
   
 	MaxSpeed = 0.5
   

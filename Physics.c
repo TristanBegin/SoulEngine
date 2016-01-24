@@ -9,20 +9,11 @@ void UpdatePhysics(PHYSICS * pPhysics, COLLIDER *pCollider)
   VECTOR * pAcceleration = &(pPhysics->Acceleration);
 
   float gravityRate = pPhysics->Gravity;
-  float gravityMax = 500;
+  float gravityMax = 50;
   float friction = pPhysics->Friction;
   int collidingY = 0;
   float maxSpeed = pPhysics->MaxSpeed;
   double frameTime = AEFrameRateControllerGetFrameTime();
-
-
-  if (pMyTransform->Position.y <= 0)
-  {
-    pCollider->Grounded = TRUE;
-  }
-  else
-    pCollider->Grounded = FALSE;
-
 
   /**************** Gravity *****************/
 
@@ -49,31 +40,21 @@ void UpdatePhysics(PHYSICS * pPhysics, COLLIDER *pCollider)
   //  pVelocity->y += -(pVelocity->y);
   //}
 
-  if (pCollider->Grounded)
+  if (pCollider->LeftBlocked)
   {
-    if (pAcceleration->y < 0)
-    {
-      pAcceleration->y = 0;
-    }
+    pVelocity->y = 0;
+    pAcceleration->y = 0;
   }
-
-  if (pMyTransform->Position.y < 0)
-  {
-    pMyTransform->Position.y = 0;
-  }
+  //
+  //if (pMyTransform->Position.y < 0)
+  //{
+  //  pMyTransform->Position.y = 0;
+  //}
 
   ////////////////////////////////////////////
 
 
   /************ Normalize Velocity **********/
-
-  //if (Velocity.x != 0 && Velocity.y != 0)
-  //{
-  //mineVar = sqrt( (Velocity.x * Velocity.x) + (Velocity.y * Velocity.y) );
-
-  //Velocity.x = (Velocity.x) / mineVar;
-  //Velocity.y = (Velocity.y) / mineVar;
-  //}
 
   ////////////////////////////////////////////
 
