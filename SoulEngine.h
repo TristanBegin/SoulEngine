@@ -12,7 +12,6 @@ typedef struct PHYSICS PHYSICS;
 typedef struct COLLIDER COLLIDER;
 typedef struct SOUND SOUND;
 typedef struct SPRITE SPRITE;
-typedef struct IMAGE IMAGE;
 typedef struct MESH MESH;
 typedef struct GAMESTATS GAMESTATS;
 typedef struct GAME GAME;
@@ -175,22 +174,14 @@ typedef struct SPRITE
 {
   COMPONENT *pComponent;  //The component that holds this Sprite.
   ARCHETYPE *pArchetype;  //The original archetype this came from.
-  IMAGE *pImage;
+  AEGfxTexture *pTexture; //The texture to display.
+  char * TextureFile;
   BOOL Animated;          //The Boolean that tells if it is animated.
   VECTOR RowCol;          //The number of rows and columns in the sprite sheet. 
   VECTOR Offset;          //The offset of the texture on the object.
   float AnimationSpeed;   //The speed of the animation.
   float TimeSinceLastFrame;   //The speed of the animation.
 }SPRITE;
-
-// COMPONENT STRUCT
-// Holds information to display a texture.
-typedef struct IMAGE
-{
-	AEGfxTexture *pTexture; //The texture to display.
-	char * TextureFile;
-	IMAGE *pNextImage;
-}IMAGE;
 
 
 // COMPONENT STRUCT
