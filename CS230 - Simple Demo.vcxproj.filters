@@ -41,7 +41,7 @@
     <ClCompile Include="KMOD_Engine.c" />
     <ClCompile Include="KSOUND.c" />
     <ClCompile Include="Physics.c" />
-    <ClCompile Include="DestroyOverTimeBehavior.c">
+    <ClCompile Include="BulletBehavior.c">
       <Filter>Behaviors</Filter>
     </ClCompile>
   </ItemGroup>

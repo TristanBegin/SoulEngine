@@ -11,7 +11,7 @@ static BEHAVIOR * pMyBehavior;
 void Start();
 void Update();
 
-void $BehaviorName$(BEHAVIOR * Owner, char * Trigger)
+void BulletBehavior(BEHAVIOR * Owner, char * Trigger)
 {
   pMyBehavior = Owner;
   pMyUnit = Owner->pArchetype->pUnit;
@@ -40,7 +40,7 @@ void Start()
 
 void Update()
 {
-  float * TimeDestroy = GetVar(Float, "TimeDestroy", pMyBehavior);
+  float * TimeDestroy = GetVar("TimeDestroy", pMyBehavior);
   *TimeDestroy -= AEFrameRateControllerGetFrameTime();
   if (*TimeDestroy < 0)
   {

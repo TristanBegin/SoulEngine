@@ -33,7 +33,7 @@ EndComponent
 
 COMPONENT | Behavior |
 
-	BehaviorScript = DefaultBehavior
+	BehaviorScript = BulletBehavior
 
 EndComponent
 

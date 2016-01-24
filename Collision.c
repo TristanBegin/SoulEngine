@@ -17,65 +17,68 @@ void UpdateCollision(COLLIDER *pCollider)
 	//Walk through the list of Units in the Level, checking for collisions with current collider
 	while (tempUnit)
 	{
-		COMPONENT *tempComp = tempUnit->pArchetype->nextComponent;
-		COLLIDER *tempCollider = NULL;
+    if (tempUnit->pArchetype)
+    {
+		  COMPONENT *tempComp = tempUnit->pArchetype->nextComponent;
+		  COLLIDER *tempCollider = NULL;
 
-		//Search for a Collider on the current Unit
-		while (tempComp)
-		{
-			//If we find a Collider, store it and break out
-			if (tempComp->Type == Collider)
-			{
-				tempCollider = (COLLIDER *)tempComp->pStruct;
-				break;
-			}
-			tempComp = tempComp->nextComponent;
-		}
+		  //Search for a Collider on the current Unit
+		  while (tempComp)
+		  {
+		  	//If we find a Collider, store it and break out
+		  	if (tempComp->Type == Collider)
+		  	{
+		  		tempCollider = (COLLIDER *)tempComp->pStruct;
+		  		break;
+		  	}
+		  	tempComp = tempComp->nextComponent;
+		  }
 
-		//If the Unit has a Collider, check for collision with current Collider
-		if (tempCollider)
-		{
-			VECTOR pRect1 = tempCollider->pArchetype->pUnit->pTransform->Position;
-			float height1 = tempCollider->Height;
-			float width1 = tempCollider->Width;
-			BOOL colResult;
-			DIRECTION colDir;
+		  //If the Unit has a Collider, check for collision with current Collider
+      if (tempCollider)
+      {
+        VECTOR pRect1 = tempCollider->pArchetype->pUnit->pTransform->Position;
+        float height1 = tempCollider->Height;
+        float width1 = tempCollider->Width;
+        BOOL colResult;
+        DIRECTION colDir;
 
-			//Adding the offset to get the world pos of pRect1
-			pRect1.x += tempCollider->Offset.x;
-			pRect1.y += tempCollider->Offset.y;
+        //Adding the offset to get the world pos of pRect1
+        pRect1.x += tempCollider->Offset.x;
+        pRect1.y += tempCollider->Offset.y;
 
-			//Checking for collision between pRect0 and pRect1
-			colResult = StaticRectToStaticRect(&pRect0, width0, height0, &pRect1, height1, width1);
-            
-			if (colResult)
-			{
-				if (!tempCollider->IsGhosted)
-				{
-					colDir = CollisionDirection(&pRect0, width0, height0, &pRect1, width1, height1);
-					
-					switch (colDir)
-					{
-						case Bottom:
-							pCollider->Grounded = True;
-							tempCollider->TopBlocked = True;
-							break;
-						case Top:
-							pCollider->TopBlocked = True;
-							tempCollider->Grounded = True;
-							break;
-						case Left:
-							pCollider->LeftBlocked = True;
-							tempCollider->RightBlocked = True;
-							break;
-						case Right:
-							pCollider->RightBlocked = True;
-							tempCollider->LeftBlocked = True;
-							break;
-					}
-				}
-			}
-		}
+        //Checking for collision between pRect0 and pRect1
+        colResult = StaticRectToStaticRect(&pRect0, width0, height0, &pRect1, height1, width1);
+
+        if (colResult)
+        {
+          if (!tempCollider->IsGhosted)
+          {
+            colDir = CollisionDirection(&pRect0, width0, height0, &pRect1, width1, height1);
+
+            switch (colDir)
+            {
+            case Bottom:
+              pCollider->Grounded = True;
+              tempCollider->TopBlocked = True;
+              break;
+            case Top:
+              pCollider->TopBlocked = True;
+              tempCollider->Grounded = True;
+              break;
+            case Left:
+              pCollider->LeftBlocked = True;
+              tempCollider->RightBlocked = True;
+              break;
+            case Right:
+              pCollider->RightBlocked = True;
+              tempCollider->LeftBlocked = True;
+              break;
+            }
+          }
+        }
+      }
+     }
 
 		tempUnit = tempUnit->nextUnit;
 	}
