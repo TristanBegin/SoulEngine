@@ -61,7 +61,7 @@ GAMESTATS * SetDefaults(GAME * pGame)
 
   pImage->pNextImage = NULL;
   pSprite->pImage = pImage;
-  pSprite->pImage->pTexture = AEGfxTextureLoad("Blank.png");
+  pSprite->pImage->pTexture = AEGfxTextureLoad("WitchWalking01.png");
   pSprite->Animated = TRUE;
   pSprite->RowCol.x = 2;
   pSprite->RowCol.y = 5;
@@ -168,6 +168,7 @@ COMPONENT * AddComponent(ARCHETYPE *pArchetype, COMPONENTTYPE DesiredType)
 	  pImage->pNextImage = NULL;
 	  pNewComponent->Type = Sprite;
 	  *pNewSprite = *(pArchetype->pGame->pGameStats->pDefaultSprite);
+    pNewSprite->pImage = pImage;
 	  pNewComponent->pStruct = pNewSprite;
 	  pNewSprite->pImage->TextureFile = NULL;
 	  pNewSprite->pComponent = pNewComponent;
