@@ -34,18 +34,17 @@ void $BehaviorName$(BEHAVIOR * Owner, char * Trigger)
 
 void Start()
 {
-  //float * TimeTillDestroy = AddVar(Float, "TimeTillDestroy", pMyBehavior);
-  //*TimeUntilDestroy = 5;
-
+  float * TimeDestroy = AddVar(Float, "TimeDestroy", pMyBehavior);
+  *TimeDestroy = 5;
 }
 
 void Update()
 {
-  float * TimeTillDestroy = GetVar(Float, "TimeTillDestroy", pMyBehavior);
-  *TimeTillDestroy -= AEFrameRateControllerGetFrameTime();
-  if (*TimeTillDestroy < 0)
+  float * TimeDestroy = GetVar(Float, "TimeDestroy", pMyBehavior);
+  *TimeDestroy -= AEFrameRateControllerGetFrameTime();
+  if (*TimeDestroy < 0)
   {
-
+    DestroyUnit(pMyUnit);
   }
 
 }
