@@ -42,14 +42,14 @@ void UpdatePhysics(PHYSICS * pPhysics, COLLIDER *pCollider)
   if (pCollider->Grounded)
   {
     if (pAcceleration->y < 0) pAcceleration->y = 0;
-    if (pCollider->Grounded < 0.1f)
+    if (pCollider->Grounded < 0.15f)
     {
       
       if (pVelocity->y < 0) pVelocity->y = 0;
     }
     else
     {
-      if (pVelocity->y < 0) pVelocity->y = (pow(pCollider->Grounded * 15, 2)) / 2;
+      if (pVelocity->y < 0) pVelocity->y = (pow((pCollider->Grounded - 0.05) * 20, 2)) / 2;
     }
   }
 

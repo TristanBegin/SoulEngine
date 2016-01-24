@@ -10,7 +10,7 @@ Name = Player
 
 COMPONENT | Sprite |
 
-	TextureFile = Blank.png
+	TextureFile = 1 , WitchWalking01.png
 	
 	Animated = 1
 

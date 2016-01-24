@@ -22,6 +22,7 @@ typedef struct BEHAVIOR BEHAVIOR;
 typedef struct VAR VAR;
 typedef struct COLOR COLOR;
 typedef struct MATRIX MATRIX;
+typedef struct IMAGE IMAGE;
 typedef enum COMPONENTTYPE COMPONENTTYPE;
 typedef enum BOOL BOOL;
 typedef enum VARTYPE VTYPE;
@@ -167,21 +168,28 @@ typedef struct KSOUND
   BOOL PlayOnStart;
 }KSOUND;
 
-
 // COMPONENT STRUCT
 // Holds information to display a texture.
 typedef struct SPRITE
 {
   COMPONENT *pComponent;  //The component that holds this Sprite.
   ARCHETYPE *pArchetype;  //The original archetype this came from.
-  AEGfxTexture *pTexture; //The texture to display.
-  char * TextureFile;
+  IMAGE *pImage;
   BOOL Animated;          //The Boolean that tells if it is animated.
   VECTOR RowCol;          //The number of rows and columns in the sprite sheet. 
   VECTOR Offset;          //The offset of the texture on the object.
   float AnimationSpeed;   //The speed of the animation.
   float TimeSinceLastFrame;   //The speed of the animation.
+  char *CurrentAnimation;  // The current animation.
 }SPRITE;
+
+
+typedef struct IMAGE
+{
+  AEGfxTexture *pTexture; //The texture to display.
+  char * TextureFile;
+  IMAGE *pNextImage;
+}IMAGE;
 
 
 // COMPONENT STRUCT

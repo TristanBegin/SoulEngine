@@ -11,7 +11,7 @@ Name = Bullet
 
 COMPONENT | Sprite |
 
-	TextureFile = Blank.png
+	TextureFile = 1 , Blank.png
 	
 	Animated = 0
 
@@ -55,9 +55,9 @@ COMPONENT | Collider |
 
 	Offset = (0, 0)
   
-	Height = 1
+	Height = 0.25
   
-	Width = 1
+	Width = 0.25
 
 	IsGhosted = 1
 

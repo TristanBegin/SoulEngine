@@ -57,7 +57,7 @@ static void Update()
 {
   BOOL * FacingRight = (BOOL*)GetVar("FacingRight", pMyBehavior);
 
-  if (AEInputCheckTriggered(17))
+  if (AEInputCheckTriggered(' '))
   {
     UNIT * pBullet = InstantiateUnit(pMyLevel, "Bullet", pMyTransform->Position);
     PHYSICS * pBulletPhysics = ((PHYSICS*)FindComponentStruct(pBullet->pArchetype, Physics));
