@@ -51,4 +51,14 @@ COMPONENT | Physics |
 
 EndComponent
 #-----------------------------------------------
+COMPONENT | Collider |
+
+	Offset = (0, 0)
+  
+	Height = 0.25
+  
+	Width = 0.25
+
+EndComponent
+#-----------------------------------------------
 

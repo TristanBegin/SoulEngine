@@ -74,59 +74,61 @@ void UpdateLevel()
   UNIT * tempUnit = pTheLevel->nextUnit;
   while (tempUnit)
   {
-    COMPONENT * tempComp = tempUnit->pArchetype->nextComponent;
-    SPRITE * pSprite = NULL;
-    MESH * pMesh = NULL;
-    BEHAVIOR * pBehavior = NULL;
-    PHYSICS * pPhysics = NULL;
-    COLLIDER * pCollider = NULL;
-    SOUND * pSound = NULL;
-
-    while (tempComp)
+    if (tempUnit->pArchetype)
     {
-      switch (tempComp->Type)
+      COMPONENT * tempComp = tempUnit->pArchetype->nextComponent;
+      SPRITE * pSprite = NULL;
+      MESH * pMesh = NULL;
+      BEHAVIOR * pBehavior = NULL;
+      PHYSICS * pPhysics = NULL;
+      COLLIDER * pCollider = NULL;
+      SOUND * pSound = NULL;
+
+      while (tempComp)
       {
-		  case Sprite:
-			pSprite = (SPRITE *)tempComp->pStruct;
-			break;
-		  case Mesh:
-			pMesh = (MESH *)tempComp->pStruct;
-			break;
-		  case Behavior:
-			pBehavior = (BEHAVIOR *)tempComp->pStruct;
-			break;
-		  case Physics:
-			pPhysics = (PHYSICS *)tempComp->pStruct;
-			break;
-		  case Collider:
-			pCollider = (COLLIDER *)tempComp->pStruct;
-			break;
-		  case KSound:
-			pSound = (SOUND *)tempComp->pStruct;
-			break;
+        switch (tempComp->Type)
+        {
+        case Sprite:
+          pSprite = (SPRITE *)tempComp->pStruct;
+          break;
+        case Mesh:
+          pMesh = (MESH *)tempComp->pStruct;
+          break;
+        case Behavior:
+          pBehavior = (BEHAVIOR *)tempComp->pStruct;
+          break;
+        case Physics:
+          pPhysics = (PHYSICS *)tempComp->pStruct;
+          break;
+        case Collider:
+          pCollider = (COLLIDER *)tempComp->pStruct;
+          break;
+        case KSound:
+          pSound = (SOUND *)tempComp->pStruct;
+          break;
+        }
+
+        tempComp = tempComp->nextComponent;
       }
 
-      tempComp = tempComp->nextComponent;
-    }
-	  
-    if (pSprite->Animated == TRUE)
-	  {
-	  	Animate(pSprite);
-	  }
-    
-    if (pPhysics && pCollider)
-    {
-	  UpdateCollision(pCollider);
-      UpdatePhysics(pPhysics, pCollider);
-    }
+      if (pSprite->Animated == TRUE)
+      {
+        Animate(pSprite);
+      }
 
-	if (pBehavior)
-    {
-		pBehavior->BehaviorScript(pBehavior, "Update");
+      if (pPhysics && pCollider)
+      {
+        UpdateCollision(pCollider);
+        UpdatePhysics(pPhysics, pCollider);
+      }
+
+      if (pBehavior)
+      {
+        pBehavior->BehaviorScript(pBehavior, "Update");
+      }
     }
 
     tempUnit = tempUnit->nextUnit;
-
 
   }
 }
@@ -140,35 +142,37 @@ void DrawLevel()
   UNIT * tempUnit = pTheLevel->nextUnit;
   while (tempUnit)
   {
-    COMPONENT * tempComp = tempUnit->pArchetype->nextComponent;
-    SPRITE * pSprite = NULL;
-    MESH * pMesh = NULL;
-    while (tempComp)
+    if (tempUnit->pArchetype)
     {
-      switch (tempComp->Type)
+      COMPONENT * tempComp = tempUnit->pArchetype->nextComponent;
+      SPRITE * pSprite = NULL;
+      MESH * pMesh = NULL;
+      while (tempComp)
       {
+        switch (tempComp->Type)
+        {
         case Sprite:
           pSprite = (SPRITE *)tempComp->pStruct;
           break;
 
         case Mesh:
-          pMesh = (MESH *) tempComp->pStruct;
+          pMesh = (MESH *)tempComp->pStruct;
           break;
 
         default:
           break;
+        }
+
+        tempComp = tempComp->nextComponent;
       }
 
-      tempComp = tempComp->nextComponent;
+      if (pMesh && pSprite)
+      {
+        DrawObject(pMesh, pSprite);
+      }
     }
-      
-    if (pMesh && pSprite)
-    {
-      DrawObject(pMesh, pSprite);
-    }
-    
+
     tempUnit = tempUnit->nextUnit;
-    
   }
 }
 

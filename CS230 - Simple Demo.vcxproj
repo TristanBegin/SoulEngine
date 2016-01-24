@@ -26,6 +26,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="DestroyOverTimeBehavior.c">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="FileInterpreter.c" />
     <ClCompile Include="GSMBigSix.c" />
     <ClCompile Include="GoRightBehavior.c">

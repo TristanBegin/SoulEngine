@@ -41,6 +41,9 @@
     <ClCompile Include="KMOD_Engine.c" />
     <ClCompile Include="KSOUND.c" />
     <ClCompile Include="Physics.c" />
+    <ClCompile Include="DestroyOverTimeBehavior.c">
+      <Filter>Behaviors</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Behaviors.h">
@@ -104,6 +107,9 @@
     </Text>
     <Text Include="Bullet_Arch.txt">
       <Filter>GameFiles\Archetypes</Filter>
+    </Text>
+    <Text Include="Level1.txt">
+      <Filter>GameFiles\Levels</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>

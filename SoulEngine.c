@@ -476,7 +476,23 @@ UNIT * InstantiateUnit(LEVEL *pLevel, char * ArchetypeName, VECTOR position)
   UNIT * pUnit = AddUnit(pLevel, pArchetype, ArchetypeName);
   pUnit->pInitTransform->Position = position;
   InitializeUnit(pUnit);
+  pUnit->pInitTransform = NULL;
+  pUnit->pInitArchetype = NULL;
   return pUnit;
+}
+
+void DestroyUnit(UNIT * pUnit)
+{
+  //if (pUnit->pInitTransform)
+  //{
+    //Remember to free these later and add functionality to remove from list.
+    pUnit->pTransform = NULL;
+    pUnit->pArchetype = NULL;
+  //}
+  //else
+  //{
+
+  //}
 }
 
 LEVEL * FindLevelByOrder(GAME *pGame, int Order)
