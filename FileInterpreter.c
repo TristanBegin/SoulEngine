@@ -230,7 +230,7 @@ void InterpretArchetype(FILE * fpArch)
             {
               char textureInput[MAX_LENGTH];
               sscanf(buffer, "\tTextureFile = %s", &textureInput);
-              pSprite->TextureFile = myStrCpy(textureInput);
+              pSprite->pImage->TextureFile = myStrCpy(textureInput);
               continue;
             }
 
