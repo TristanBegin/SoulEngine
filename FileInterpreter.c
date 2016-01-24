@@ -526,6 +526,7 @@ void MultipleAnimations(char * Buffer, int NumberOfAnimations, SPRITE * pSprite)
 		pSprite->pImage->TextureFile = myStrCpy(textureInput1);
 		pSprite->pImage->pNextImage = malloc(sizeof(IMAGE));
 		pSprite->pImage->pNextImage->pTexture = myStrCpy(textureInput2);
+		pSprite->pImage->pNextImage->pNextImage = NULL;
 		break;
 	case 3:
 		sscanf(Buffer, "\tTextureFile = %i , %s , %s , %s", &useless, &textureInput1, &textureInput2, &textureInput3);
@@ -534,6 +535,7 @@ void MultipleAnimations(char * Buffer, int NumberOfAnimations, SPRITE * pSprite)
 		pSprite->pImage->pNextImage->pTexture = myStrCpy(textureInput2);
 		pSprite->pImage->pNextImage->pNextImage = malloc(sizeof(IMAGE));
 		pSprite->pImage->pNextImage->pNextImage->pTexture = myStrCpy(textureInput3);
+		pSprite->pImage->pNextImage->pNextImage->pNextImage = NULL;
 		break;
 	case 4:
 		sscanf(Buffer, "\tTextureFile = %i , %s , %s , %s , %s", &useless, &textureInput1, &textureInput2, &textureInput3, &textureInput4);
@@ -544,6 +546,7 @@ void MultipleAnimations(char * Buffer, int NumberOfAnimations, SPRITE * pSprite)
 		pSprite->pImage->pNextImage->pNextImage->pTexture = myStrCpy(textureInput3);
 		pSprite->pImage->pNextImage->pNextImage->pNextImage = malloc(sizeof(IMAGE));
 		pSprite->pImage->pNextImage->pNextImage->pNextImage->pTexture = myStrCpy(textureInput4);
+		pSprite->pImage->pNextImage->pNextImage->pNextImage->pNextImage = NULL;
 		break;
 	case 5:
 		sscanf(Buffer, "\tTextureFile = %i , %s , %s , %s , %s , %s", &useless, &textureInput1, &textureInput2, &textureInput3, &textureInput4, &textureInput5);
@@ -556,6 +559,7 @@ void MultipleAnimations(char * Buffer, int NumberOfAnimations, SPRITE * pSprite)
 		pSprite->pImage->pNextImage->pNextImage->pNextImage->pTexture = myStrCpy(textureInput4);
 		pSprite->pImage->pNextImage->pNextImage->pNextImage->pNextImage = malloc(sizeof(IMAGE));
 		pSprite->pImage->pNextImage->pNextImage->pNextImage->pNextImage->pTexture = myStrCpy(textureInput5);
+		pSprite->pImage->pNextImage->pNextImage->pNextImage->pNextImage->pNextImage = NULL;
 		break;
 	default:
 		sscanf(Buffer, " %s", &textureInput1);
