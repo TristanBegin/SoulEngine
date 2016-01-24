@@ -11,7 +11,7 @@ Name = Anim
 
 COMPONENT | Sprite |
 
-	TextureFile = TestAnimation.png
+	TextureFile = 1 , TestAnimation.png
 	
 	Animated = 1
 

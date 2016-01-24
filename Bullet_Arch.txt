@@ -11,7 +11,7 @@ Name = Bullet
 
 COMPONENT | Sprite |
 
-	TextureFile = Blank.png
+	TextureFile = 1 , Blank.png
 	
 	Animated = 0
 

@@ -59,6 +59,7 @@ GAMESTATS * SetDefaults(GAME * pGame)
   pTransform->Scale = oneVector;
   pStats->pDefaultTransform = pTransform;
 
+  pImage->pNextImage = NULL;
   pSprite->pImage = pImage;
   pSprite->pImage->pTexture = AEGfxTextureLoad("Blank.png");
   pSprite->Animated = TRUE;
@@ -164,6 +165,7 @@ COMPONENT * AddComponent(ARCHETYPE *pArchetype, COMPONENTTYPE DesiredType)
   if (DesiredType == Sprite) {
 	  SPRITE * pNewSprite = malloc(sizeof(SPRITE));
 	  IMAGE * pImage = malloc(sizeof(IMAGE));
+	  pImage->pNextImage = NULL;
 	  pNewComponent->Type = Sprite;
 	  *pNewSprite = *(pArchetype->pGame->pGameStats->pDefaultSprite);
 	  pNewComponent->pStruct = pNewSprite;

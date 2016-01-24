@@ -22,8 +22,14 @@ void LoadLevel()
 	{
 		MESH * pMesh = ((MESH*)FindComponentStruct(tempUnit->pInitArchetype, Mesh));
 		SPRITE * pSprite = ((SPRITE*)FindComponentStruct(tempUnit->pInitArchetype, Sprite));
-
-		pSprite->pImage->pTexture = AEGfxTextureLoad(pSprite->pImage->TextureFile);
+		
+		
+		IMAGE * ptemp = pSprite->pImage;
+		while(ptemp)
+		{
+			ptemp->pTexture = AEGfxTextureLoad(pSprite->pImage->TextureFile);
+			ptemp = ptemp->pNextImage;
+		}
 		
 		if (pMesh->pMeshLit == NULL)
 		{
