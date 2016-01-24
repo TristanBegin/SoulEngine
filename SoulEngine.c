@@ -47,6 +47,7 @@ GAMESTATS * SetDefaults(GAME * pGame)
 
   SPRITE * pSprite = malloc(sizeof(SPRITE));
   MESH * pMesh = malloc(sizeof(MESH));
+  IMAGE * pImage = malloc(sizeof(IMAGE));
   VECTOR zeroVector = { 0, 0 };
   VECTOR meshSizeVector = { 1, 1 };
   VECTOR oneVector = { 1, 1 };
@@ -58,7 +59,8 @@ GAMESTATS * SetDefaults(GAME * pGame)
   pTransform->Scale = oneVector;
   pStats->pDefaultTransform = pTransform;
 
-  pSprite->pTexture = AEGfxTextureLoad("Blank.png");
+  pSprite->pImage = pImage;
+  pSprite->pImage->pTexture = AEGfxTextureLoad("Blank.png");
   pSprite->Animated = TRUE;
   pSprite->RowCol.x = 2;
   pSprite->RowCol.y = 5;
@@ -144,7 +146,7 @@ void FreeGame(GAME * pGame)
     AEGfxMeshFree(pGame->pGameStats->pDefaultMesh->pMeshLit);
     
     // Freeing the texture
-    AEGfxTextureUnload(pGame->pGameStats->pDefaultSprite->pTexture);
+    AEGfxTextureUnload(pGame->pGameStats->pDefaultSprite->pImage->pTexture);
 
     free(pGame->pGameStats->pDefaultTransform);
     free(pGame->pGameStats);
@@ -161,10 +163,12 @@ COMPONENT * AddComponent(ARCHETYPE *pArchetype, COMPONENTTYPE DesiredType)
 
   if (DesiredType == Sprite) {
 	  SPRITE * pNewSprite = malloc(sizeof(SPRITE));
+	  IMAGE * pImage = malloc(sizeof(IMAGE));
 	  pNewComponent->Type = Sprite;
 	  *pNewSprite = *(pArchetype->pGame->pGameStats->pDefaultSprite);
 	  pNewComponent->pStruct = pNewSprite;
-	  pNewSprite->TextureFile = NULL;
+	  pNewSprite->pImage = pImage;
+	  pNewSprite->pImage->TextureFile = "Blank.png";
 	  pNewSprite->pComponent = pNewComponent;
 	  pNewSprite->pArchetype = pArchetype;
   }
