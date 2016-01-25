@@ -4,6 +4,7 @@
 #define FIRST 0
 #define LAST -1
 #define ERR_SURPASSED_BUFFER_SIZE -1
+#define deltaTime AEFrameRateControllerGetFrameTime()
 typedef struct VECTOR VECTOR;
 typedef struct TRANSFORM TRANSFORM;
 typedef struct ARCHETYPE ARCHETYPE;
@@ -27,7 +28,7 @@ typedef enum COMPONENTTYPE COMPONENTTYPE;
 typedef enum BOOL BOOL;
 typedef enum VARTYPE VTYPE;
 typedef enum GAMESTATE GAMESTATE;
-
+typedef enum TAG TAG;
 
 // Vector, pretty self explanatory.
 typedef struct VECTOR
@@ -89,6 +90,7 @@ typedef struct GAME
 typedef struct ARCHETYPE
 {
   char *Name;               //The name of the archetype.
+  TAG Tag;                  //The Tag for the Archetype.
   GAME * pGame;             //The Game object that owns this archetype.
   UNIT * pUnit;             //Will be null if this is original archetype (aka not an instance attatched to a unit).
   COMPONENT *nextComponent; //Pointer to the first component in the archetype's list of components.
@@ -147,6 +149,10 @@ typedef struct COLLIDER
   float TopBlocked;
   float LeftBlocked;
   float RightBlocked;
+  BOOL GhostEnter;
+  BOOL GhostStay;
+  BOOL GhostExit;
+  COLLIDER * pCollidedWithGhost;
 
 }COLLIDER;
 
@@ -270,6 +276,7 @@ pArchetype is a Unit Archetype and is an instance of the game archetype.
 typedef struct UNIT
 {
   char *Name;     //Name of this Unit.
+  TAG Tag; //Tag of this unit (Used to override archetype tag).
   TRANSFORM *pInitTransform; //Initial Transform information.
   ARCHETYPE *pInitArchetype; //Initial (Game) Archetype. Copied into pArchetype on initialize.
   VAR *nextVar; //Override variables. Name the same as variables on behaviors to override initial values.
@@ -342,6 +349,17 @@ typedef enum COMPONENTTYPE
   Collider,
   KSound
 }COMPONENTTYPE;
+
+typedef enum TAG
+{
+  DEFAULT,
+  PLAYER,
+  BAD,
+  ENEMY,
+  WALL
+}TAG;
+
+TAG GetTagFromString(char * String);
 
 typedef enum BOOL
 {

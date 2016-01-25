@@ -44,6 +44,9 @@
     <ClCompile Include="BulletBehavior.c">
       <Filter>Behaviors</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyBehavior.c">
+      <Filter>Behaviors</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Behaviors.h">
@@ -112,6 +115,9 @@
       <Filter>GameFiles\Levels</Filter>
     </Text>
     <Text Include="Platform_Arch.txt">
+      <Filter>GameFiles\Archetypes</Filter>
+    </Text>
+    <Text Include="Enemy_Arch.txt">
       <Filter>GameFiles\Archetypes</Filter>
     </Text>
   </ItemGroup>

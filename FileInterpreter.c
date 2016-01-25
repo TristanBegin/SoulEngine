@@ -73,6 +73,14 @@ void InterpretArchetype(FILE * fpArch)
           continue;
         }
 
+        if (myStrCmp(question, "Tag") <= 0)
+        {
+          char tagInput[MAX_LENGTH];
+          sscanf(buffer, "Tag = %s", tagInput);
+          pNewArchetype->Tag = GetTagFromString(tagInput);
+          continue;
+        }
+
         if (myStrCmp(question, "COMPONENT") <= 0)
         {
           COMPONENTTYPE theType;
@@ -389,13 +397,20 @@ void InterpretLevel(FILE * fpLevel)
           ARCHETYPE * pArchetype = NULL;
           sscanf(buffer, "UNIT < %s > %s", &archInput, &nameInput);
           pArchetype = FindArchetypeByName(pTheGame, archInput);
-          OutputDebugString("Unit");
           pCurrUnit = AddUnit(pNewLevel, pArchetype, myStrCpy(nameInput));
           continue;
         }
         
         if (pCurrUnit)
         {
+          if (myStrCmp(question, "Tag") <= 0)
+          {
+            char tagInput[MAX_LENGTH];
+            sscanf(buffer, "\tTag = %s", tagInput);
+            pCurrUnit->Tag = GetTagFromString(tagInput);
+            continue;
+          }
+
           if (myStrCmp(question, "InitialPosition") <= 0)
           {
             sscanf(buffer, "\tInitialPosition = (%f, %f)", &inputVector.x, &inputVector.y);
@@ -597,5 +612,29 @@ VTYPE GetVTypeFromString(char * theString)
   if (myStrCmp(theString, "Matrix") <= 0)
   {
     return Matrix;
+  }
+}
+
+TAG GetTagFromString(char * String)
+{
+  if (myStrCmp(String, "DEFUALT") <= 0)
+  {
+    return DEFAULT;
+  }
+  else if (myStrCmp(String, "PLAYER") <= 0)
+  {
+    return PLAYER;
+  }
+  else if (myStrCmp(String, "BAD") <= 0)
+  {
+    return BAD;
+  }
+  else if (myStrCmp(String, "ENEMY") <= 0)
+  {
+    return ENEMY;
+  }
+  else if (myStrCmp(String, "WALL") <= 0)
+  {
+    return WALL;
   }
 }

@@ -1,22 +1,22 @@
 #GLOBAL ARCHETYPE CREATION FILE
 
-Name = Player
-
-Tag = PLAYER
+Name = Enemy
+Tag = ENEMY
 
 #-----------------------------------------------
 # - COMPONENTS -
 # All values not specified will be set to
-# default. 
+# default. Delete text of any components
+# you do not want.
 #-----------------------------------------------
 
 COMPONENT | Sprite |
 
-	TextureFile = 1 , WitchWalking01.png
+	TextureFile = 1 , Blank.png
 	
-	Animated = 1
+	Animated = 0
 
-	RowCol = (3, 1)
+	RowCol = (1, 1)
 
 	Offset = (0, 0)
 
@@ -27,7 +27,26 @@ EndComponent
 
 COMPONENT | Mesh |
 
-	Size = (1, 1)
+	Size = (2, 2)
+
+EndComponent
+#-----------------------------------------------
+
+COMPONENT | Behavior |
+
+	BehaviorScript = DefaultBehavior
+
+EndComponent
+#-----------------------------------------------
+
+COMPONENT | Collider |
+
+	Offset = (0, 0)
+  
+	Height = 2
+  
+	Width = 2
+
 
 EndComponent
 #-----------------------------------------------
@@ -40,45 +59,6 @@ COMPONENT | Physics |
   
 	Friction = 0.1
 
-	Velocity = (0, 0)
-
-  Acceleration = (0, 0)
-
 EndComponent
 #-----------------------------------------------
-
-COMPONENT | Collider |
-
-	Offset = (0, 0)
-  
-	Height = 1
-  
-	Width = 1
-
-
-EndComponent
-#-----------------------------------------------
-
-COMPONENT | KSound |
-
-	Volume = 0
-  
-	Positional = 0
-  
-	Radius = 1
-
-	SoundFile = ""
-
-	PlayOnStart = 0
-	
-EndComponent
-#-----------------------------------------------
-
-COMPONENT | Behavior |
-
-	BehaviorScript = PlayerBehavior
-
-EndComponent
-
-
 

@@ -42,7 +42,7 @@ void UpdatePhysics(PHYSICS * pPhysics, COLLIDER *pCollider)
   if (pCollider->Grounded)
   {
     if (pAcceleration->y < 0) pAcceleration->y = 0;
-    if (pCollider->Grounded < 0.15f)
+    if (pCollider->Grounded < 0.02f)
     {
       
       if (pVelocity->y < 0) pVelocity->y = 0;
@@ -87,11 +87,11 @@ void UpdatePhysics(PHYSICS * pPhysics, COLLIDER *pCollider)
     if (pCollider->RightBlocked < 0.1f)
     {
 
-      if (pVelocity->x > 0) pVelocity->y = 0;
+      if (pVelocity->x > 0) pVelocity->x = 0;
     }
     else
     {
-      if (pVelocity->x > 0) pVelocity->y = -(pow(pCollider->RightBlocked * 15, 2)) / 2;
+      if (pVelocity->x > 0) pVelocity->x = -(pow(pCollider->RightBlocked * 15, 2)) / 2;
     }
   }
   //
@@ -112,6 +112,14 @@ void UpdatePhysics(PHYSICS * pPhysics, COLLIDER *pCollider)
 
   pVelocity->x += pAcceleration->x * frameTime;
   pVelocity->y += pAcceleration->y * frameTime;
+  if (pVelocity->y > maxSpeed)
+  {
+    pVelocity->y = maxSpeed;
+  }
+  else if (pVelocity->y < -maxSpeed)
+  {
+    pVelocity->y = -maxSpeed;
+  }
 
   pMyTransform->Position.x += pVelocity->x * frameTime;
   pMyTransform->Position.y += pVelocity->y * frameTime;

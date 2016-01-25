@@ -63,11 +63,11 @@ static void Update()
     PHYSICS * pBulletPhysics = ((PHYSICS*)FindComponentStruct(pBullet->pArchetype, Physics));
     if (*FacingRight)
     {
-      pBulletPhysics->Velocity.x = 50;
+      pBulletPhysics->Velocity.x = 15;
     }
     else
     {
-      pBulletPhysics->Velocity.x = -50;
+      pBulletPhysics->Velocity.x = -15;
     }
     OutputDebugString("Bullet");
   }
@@ -75,9 +75,16 @@ static void Update()
   /************* Player Input ***************/
 
   // Jumping
-  if (AEInputCheckCurr('W') && pMyCollider->Grounded)
+  if (AEInputCheckTriggered('W') && (pMyCollider->Grounded 
+    || pMyCollider->RightBlocked || pMyCollider->LeftBlocked))
   {
     pMyPhysics->Velocity.y = 20;
+
+    if (pMyCollider->Grounded == False)
+    {
+      if (pMyCollider->RightBlocked) pMyPhysics->Velocity.x = -15;
+      if (pMyCollider->LeftBlocked) pMyPhysics->Velocity.x = 15;
+    }
   }
 
   if (AEInputCheckCurr('S'))

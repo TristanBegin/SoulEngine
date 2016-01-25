@@ -48,7 +48,7 @@ EndUnit
 
 UNIT < Platform > myPlatform
 
-	InitialPosition = (0, -2)
+	InitialPosition = (0, -4)
 	InitialRotation = 0
 	InitialScale = (1, 1)
 
@@ -57,6 +57,7 @@ EndUnit
 
 UNIT < Bullet > FrameBullet
 
+	Tag = Default
 	InitialPosition = (200, -200)
 	InitialRotation = 0
 	InitialScale = (1, 1)
@@ -74,6 +75,14 @@ EndUnit
 UNIT < Platform > myPlatform
 
 	InitialPosition = (5, 3)
+	InitialRotation = 0
+	InitialScale = (1, 1)
+
+EndUnit
+#-----------------------------------------------
+UNIT < Enemy > TestEnemy
+
+	InitialPosition = (-5, 6)
 	InitialRotation = 0
 	InitialScale = (1, 1)
 

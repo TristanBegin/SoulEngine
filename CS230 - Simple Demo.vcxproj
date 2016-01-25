@@ -30,6 +30,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="EnemyBehavior.c">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="FileInterpreter.c" />
     <ClCompile Include="GSMBigSix.c" />
     <ClCompile Include="GoRightBehavior.c">
@@ -73,6 +77,10 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Anim_Arch.txt">
+      <SubType>
+      </SubType>
+    </Text>
+    <Text Include="Enemy_Arch.txt">
       <SubType>
       </SubType>
     </Text>

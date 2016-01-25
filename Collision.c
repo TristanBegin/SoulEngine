@@ -17,83 +17,92 @@ void UpdateCollision(COLLIDER *pCollider)
   pCollider->LeftBlocked = False;
   pCollider->RightBlocked = False;
   pCollider->TopBlocked = False;
+  pCollider->pCollidedWithGhost = NULL;
 
 	//Walk through the list of Units in the Level, checking for collisions with current collider
 	while (tempUnit)
 	{
     if (tempUnit->pArchetype && tempUnit != pUnit)
     {
-		COMPONENT *tempComp = tempUnit->pArchetype->nextComponent;
-		COLLIDER *tempCollider = NULL;
+		  COMPONENT *tempComp = tempUnit->pArchetype->nextComponent;
+		  COLLIDER *tempCollider = NULL;
 
-		//Search for a Collider on the current Unit
-		while (tempComp)
-		{
-			//If we find a Collider, store it and break out
-			if (tempComp->Type == Collider)
-			{
-				tempCollider = (COLLIDER *)tempComp->pStruct;
-				break;
-			}
-			tempComp = tempComp->nextComponent;
-		}
+		  //Search for a Collider on the current Unit
+		  while (tempComp)
+		  {
+		  	//If we find a Collider, store it and break out
+		  	if (tempComp->Type == Collider)
+		  	{
+		  		tempCollider = (COLLIDER *)tempComp->pStruct;
+		  		break;
+		  	}
+		  	tempComp = tempComp->nextComponent;
+		  }
 
-		//If the Unit has a Collider, check for collision with current Collider
-		if (tempCollider)
-		{
-			VECTOR pRect1 = tempCollider->pArchetype->pUnit->pTransform->Position;
-			float height1 = tempCollider->Height;
-			float width1 = tempCollider->Width;
-			BOOL colResult;
-			DIRECTION colDir;
+		  //If the Unit has a Collider, check for collision with current Collider
+		  if (tempCollider)
+		  {
+		  	VECTOR pRect1 = tempCollider->pArchetype->pUnit->pTransform->Position;
+		  	float height1 = tempCollider->Height;
+		  	float width1 = tempCollider->Width;
+		  	BOOL colResult;
+		  	DIRECTION colDir;
 
-			//Adding the offset to get the world pos of pRect1
-			pRect1.x += tempCollider->Offset.x;
-			pRect1.y += tempCollider->Offset.y;
+		  	//Adding the offset to get the world pos of pRect1
+		  	pRect1.x += tempCollider->Offset.x;
+		  	pRect1.y += tempCollider->Offset.y;
 
-			//Checking for collision between pRect0 and pRect1
-			colResult = StaticRectToStaticRect(&pRect0, width0, height0, &pRect1, width1, height1);
+		  	//Checking for collision between pRect0 and pRect1
+		  	colResult = StaticRectToStaticRect(&pRect0, width0, height0, &pRect1, width1, height1);
+        
+
+		  	if (colResult)
+		  	{
+		  		if (!pCollider->IsGhosted && !tempCollider->IsGhosted)
+		  		{
+		  			colDir = CollisionDirection(&pRect0, width0, height0, &pRect1, width1, height1, pCollider);
             
-			if (colResult)
-			{
-				if (!pCollider->IsGhosted && !tempCollider->IsGhosted)
-				{
-					colDir = CollisionDirection(&pRect0, width0, height0, &pRect1, width1, height1, pCollider);
-          /*
-					switch (colDir)
-					{
-						case Bottom:
-							if (pCollider->pArchetype->Name = "Player One")
-								OutputDebugString("Bottom\n");
-							pCollider->Grounded = True;
-							tempCollider->TopBlocked = True;
-							break;
-						case Top:
-							if (pCollider->pArchetype->Name = "Player One")
-								OutputDebugString("Top\n");
-							pCollider->TopBlocked = True;
-							tempCollider->Grounded = True;
-							break;
-						case Left:
-							if (pCollider->pArchetype->Name = "Player One")
-								OutputDebugString("Left\n");
-							pCollider->LeftBlocked = True;
-							tempCollider->RightBlocked = True;
-							break;
-						case Right:
-							if (pCollider->pArchetype->Name = "Player One")
-								OutputDebugString("Right\n");
-							pCollider->RightBlocked = True;
-							tempCollider->LeftBlocked = True;
-							break;
-					}*/
-				}
-			}
-		}
-     }
+		  		}
+          else
+          {
+            if (pCollider->pCollidedWithGhost == NULL)
+            {
+              pCollider->pCollidedWithGhost = tempCollider;
+            }
+          }
+		  	}
+		  }
+    }
 
 		tempUnit = tempUnit->nextUnit;
 	}
+
+  if (pCollider->pCollidedWithGhost)
+  {
+    if (pCollider->GhostEnter)
+    {
+      pCollider->GhostEnter = False;
+    }
+    else
+    {
+      pCollider->GhostEnter = True;
+    }
+
+    pCollider->GhostStay = True;
+    pCollider->GhostExit = False;
+  }
+  else
+  {
+    if (pCollider->GhostStay)
+    {
+      pCollider->GhostExit = True;
+      pCollider->GhostStay = False;
+    }
+    else
+    {
+      pCollider->GhostExit = False;
+    }
+  }
 }
 
 // ---------------------------------------------------------------------------

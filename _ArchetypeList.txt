@@ -22,4 +22,8 @@ Bullet_Arch.txt
 # Basic platform
 Platform_Arch.txt
 
+# Name = Enemy
+# Test Enemy
+Enemy_Arch.txt
+
 # No more archetypes.

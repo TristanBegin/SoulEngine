@@ -1,18 +1,19 @@
-#include "SoulEngine.h"
-
+/*#include "SoulEngine.h"
+#define COLLIDED_TAG pMyCollider->pCollidedWithGhost->pArchetype->Tag
 static UNIT * pMyUnit;
 static TRANSFORM * pMyTransform;
 static ARCHETYPE * pMyArchetype;
 static LEVEL * pMyLevel;
 static GAME * pMyGame;
 static GAMESTATS * pMyGameStats;
+static PHYSICS * pMyPhysics;
 static BEHAVIOR * pMyBehavior;
 static COLLIDER * pMyCollider;
 
 void Start();
 void Update();
 
-void BulletBehavior(BEHAVIOR * Owner, char * Trigger)
+void EnemyBehavior(BEHAVIOR * Owner, char * Trigger)
 {
   pMyUnit = Owner->pArchetype->pUnit;
   pMyTransform = pMyUnit->pTransform;
@@ -20,8 +21,9 @@ void BulletBehavior(BEHAVIOR * Owner, char * Trigger)
   pMyLevel = pMyUnit->pLevel;
   pMyGame = pMyLevel->pGame;
   pMyGameStats = pMyGame->pGameStats;
+  pMyBehavior = Owner;
+  pMyPhysics = FindComponentStruct(pMyArchetype, Physics);
   pMyCollider = FindComponentStruct(pMyArchetype, Collider);
-  pMyBehavior = FindComponentStruct(pMyArchetype, Behavior);
 
   if (Trigger == "Start")
   {
@@ -34,19 +36,25 @@ void BulletBehavior(BEHAVIOR * Owner, char * Trigger)
   }
 }
 
-void Start()
+static void Start()
 {
-  float * TimeDestroy = AddVar(Float, "TimeDestroy", pMyBehavior);
-  *TimeDestroy = 4;
+  int * Health = AddVar(Int, "Health", pMyBehavior);
+  *Health = 100;
 }
 
-void Update()
+static void Update()
 {
-  float * TimeDestroy = GetVar("TimeDestroy", pMyBehavior);
-  *TimeDestroy -= deltaTime;
-  if (*TimeDestroy <= 0 || 
-    (pMyCollider->GhostStay && pMyCollider->pCollidedWithGhost->pArchetype->Tag == WALL))
+  int * Health = GetVar(Int, "Health", pMyBehavior);
+
+  if (*Health <= 0)
   {
     DestroyUnit(pMyUnit);
   }
-}
+
+  if (pMyCollider->GhostEnter && COLLIDED_TAG == BAD)
+  {
+    pMyPhysics->Velocity.y = 5;
+    *Health -= 10;
+  }
+
+}*/

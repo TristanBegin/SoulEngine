@@ -1,6 +1,7 @@
 #GLOBAL ARCHETYPE CREATION FILE
 
 Name = Bullet
+Tag = BAD
 
 #-----------------------------------------------
 # - COMPONENTS -

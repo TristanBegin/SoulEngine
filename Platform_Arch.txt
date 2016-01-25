@@ -1,6 +1,7 @@
 #GLOBAL ARCHETYPE CREATION FILE
 
 Name = Platform
+Tag = WALL
 
 #-----------------------------------------------
 # - COMPONENTS -
@@ -26,7 +27,7 @@ EndComponent
 
 COMPONENT | Mesh |
 
-	Size = (10, 1)
+	Size = (10, 5)
 
 EndComponent
 #-----------------------------------------------
@@ -42,7 +43,7 @@ COMPONENT | Collider |
 
 	Offset = (0, 0)
   
-	Height = 1
+	Height = 5
   
 	Width = 10
 

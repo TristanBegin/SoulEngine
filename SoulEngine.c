@@ -88,7 +88,7 @@ GAMESTATS * SetDefaults(GAME * pGame)
   pStats->pDefaultBehavior = NULL;
   pStats->Points = 0;
   pStats->SpawnPoint = zeroVector;
-  pStats->GridSize = 32;
+  pStats->GridSize = 48;
 
   return pStats;
 }
@@ -97,6 +97,7 @@ ARCHETYPE * CreateArchetype(GAME * pGame, char *Name)
 {
   ARCHETYPE * pNewArchetype = malloc(sizeof(ARCHETYPE));
   pNewArchetype->Name = Name;
+  pNewArchetype->Tag = DEFAULT;
   pNewArchetype->nextComponent = NULL;
   pNewArchetype->pUnit = NULL;
   pNewArchetype->pGame = pGame;
@@ -228,6 +229,10 @@ COMPONENT * AddComponent(ARCHETYPE *pArchetype, COMPONENTTYPE DesiredType)
     pNewCollider->LeftBlocked = False;
     pNewCollider->RightBlocked = False;
     pNewCollider->TopBlocked = False;
+    pNewCollider->GhostEnter = False;
+    pNewCollider->GhostExit = False;
+    pNewCollider->GhostStay = False;
+    pNewCollider->pCollidedWithGhost = NULL;
 
 
         
@@ -297,6 +302,7 @@ void * AddVar(VTYPE Type, char * Name, BEHAVIOR * Owner)
   VAR * pNewVar = malloc(sizeof(VAR));
   pNewVar->Name = myStrCpy(Name);
   pNewVar->Type = Float;
+  pNewVar->nextVar = NULL;
 
   // NOTE: SHOULD MAKE A SWITCH CASE. MUCH CLEANER (AND SOMETIMES FASTER!)
   if (Type == Int)
@@ -472,6 +478,7 @@ UNIT * AddUnit(LEVEL *pLevel, ARCHETYPE *pArchetype, char *Name)
   pNewUnit->pInitTransform = malloc(sizeof(TRANSFORM));
   pNewUnit->pTransform = malloc(sizeof(TRANSFORM));
 	pNewUnit->Name = myStrCpy(Name);
+  pNewUnit->Tag = pArchetype->Tag;
 	pNewUnit->pInitArchetype = pArchetype;
   *(pNewUnit->pInitTransform) = *(pArchetype->pGame->pGameStats->pDefaultTransform);
 	*(pNewUnit->pTransform) = *(pArchetype->pGame->pGameStats->pDefaultTransform);
@@ -489,6 +496,7 @@ UNIT * InstantiateUnit(LEVEL *pLevel, char * ArchetypeName, VECTOR position)
   
   UNIT * pUnit = AddUnit(pLevel, pArchetype, ArchetypeName);
   pUnit->pInitTransform->Position = position;
+  pUnit->Tag = pUnit->pInitArchetype->Tag;
   InitializeUnit(pUnit);
   pUnit->pInitTransform = NULL;
   pUnit->pInitArchetype = NULL;
@@ -584,6 +592,8 @@ ARCHETYPE * CreateInstanceOfArchetype(ARCHETYPE * pArchetype, UNIT * pUnit)
   ARCHETYPE * pNewArchetype = malloc(sizeof(ARCHETYPE));
   COMPONENT * temp = pArchetype->nextComponent;
   //pNewArchetype->Name = strcat(pArchetype->Name, "(Instance)");
+  pNewArchetype->Tag = pUnit->Tag;
+  pNewArchetype->Name = myStrCpy(pArchetype->Name);
   pNewArchetype->nextComponent = NULL;
   pNewArchetype->nextArchetype = NULL;
   pNewArchetype->pGame = pArchetype->pGame;
