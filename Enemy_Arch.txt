@@ -29,6 +29,10 @@ COMPONENT | Mesh |
 
 	Size = (2, 2)
 
+	Color = (1, 0, 0, 1)
+
+	Opacity = 1
+
 EndComponent
 #-----------------------------------------------
 

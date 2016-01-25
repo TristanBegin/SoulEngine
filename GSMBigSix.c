@@ -210,7 +210,8 @@ void DrawObject(MESH * pMesh, SPRITE * pSprite)
   
 
   //Drawing the mesh (list of triangles)
-  AEGfxSetTransparency(1.0);
+  AEGfxSetTintColor(pMesh->Color.r, pMesh->Color.g, pMesh->Color.b, pMesh->Color.a);
+  AEGfxSetTransparency(pMesh->Opacity);
   AEGfxMeshDraw(pMesh->pMeshLit, AE_GFX_MDM_TRIANGLES);
 
 }

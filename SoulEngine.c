@@ -183,6 +183,7 @@ COMPONENT * AddComponent(ARCHETYPE *pArchetype, COMPONENTTYPE DesiredType)
     pNewComponent->Type = Mesh;
     *pNewMesh = *(pArchetype->pGame->pGameStats->pDefaultMesh);
     pNewMesh->Color = NewColor(1, 1, 1, 1);
+    pNewMesh->Opacity = 1.0;
     pNewComponent->pStruct = pNewMesh;
     pNewMesh->pComponent = pNewComponent;
     pNewMesh->pArchetype = pArchetype;

@@ -9,6 +9,7 @@ static GAMESTATS * pMyGameStats;
 static PHYSICS * pMyPhysics;
 static BEHAVIOR * pMyBehavior;
 static COLLIDER * pMyCollider;
+static MESH * pMyMesh;
 
 void Start();
 void Update();
@@ -24,6 +25,7 @@ void EnemyBehavior(BEHAVIOR * Owner, char * Trigger)
   pMyBehavior = Owner;
   pMyPhysics = FindComponentStruct(pMyArchetype, Physics);
   pMyCollider = FindComponentStruct(pMyArchetype, Collider);
+  pMyMesh = FindComponentStruct(pMyArchetype, Mesh);
 
   if (Trigger == "Start")
   {
@@ -38,18 +40,20 @@ void EnemyBehavior(BEHAVIOR * Owner, char * Trigger)
 
 static void Start()
 {
-  int * Health = AddVar(Int, "Health", pMyBehavior);
+  float * Health = AddVar(Float, "Health", pMyBehavior);
   *Health = 100;
 }
 
 static void Update()
 {
-  int * Health = GetVar("Health", pMyBehavior);
+  float * Health = GetVar("Health", pMyBehavior);
 
   if (*Health <= 0)
   {
     DestroyUnit(pMyUnit);
   }
+
+  pMyMesh->Opacity = *Health / 100;
 
   if (pMyCollider->GhostEnter && COLLIDED_OBJECT->Tag == BAD)
   {

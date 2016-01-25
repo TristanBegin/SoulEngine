@@ -215,6 +215,7 @@ typedef struct MESH
   VECTOR Size;            //The scale of the mesh (read only).
   AEGfxVertexList *pMeshLit; //The actual mesh.
   COLOR Color;
+  float Opacity;
 }MESH;
 
 

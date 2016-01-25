@@ -109,6 +109,21 @@ void InterpretArchetype(FILE * fpArch)
               pMesh->Size = inputVector;
               continue;
             }
+
+            if (myStrCmp(question, "Color") <= 0)
+            {
+              COLOR inputColor;
+              sscanf(buffer, "\tColor = (%f, %f, %f, %f)", &inputColor.r, &inputColor.g, &inputColor.b, &inputColor.a);
+              pMesh->Color = inputColor;
+              continue;
+            }
+
+            if (myStrCmp(question, "Opacity") <= 0)
+            {
+              sscanf(buffer, "\tOpacity = %f", &inputFloat);
+              pMesh->Opacity = inputFloat;
+              continue;
+            }
           }
 
           if (pCurrComp->Type == Behavior)
