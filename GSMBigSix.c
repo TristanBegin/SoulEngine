@@ -196,8 +196,18 @@ void DrawObject(MESH * pMesh, SPRITE * pSprite)
   //Set Position of object
   AEGfxSetPosition(pMyTransform->Position.x * gridMultiplier, pMyTransform->Position.y * gridMultiplier);
 
-  //Set texture for object
-  AEGfxTextureSet(pSprite->pImage->pTexture, pSprite->Offset.x, pSprite->Offset.y);
+  SPRITE * ptemp = pSprite;
+  while (ptemp->pImage)
+  {
+	  if ((ptemp->CurrentAnimation == ptemp->pImage->TextureFile) || (ptemp->pImage->pNextImage == NULL))
+	  {
+		  //Set texture for object
+		  AEGfxTextureSet(ptemp->pImage->pTexture, pSprite->Offset.x, pSprite->Offset.y);
+		  break;
+	  }
+	  ptemp->pImage = ptemp->pImage->pNextImage;
+  }
+  
 
   //Drawing the mesh (list of triangles)
   AEGfxSetTransparency(1.0);
