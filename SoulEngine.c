@@ -181,6 +181,7 @@ COMPONENT * AddComponent(ARCHETYPE *pArchetype, COMPONENTTYPE DesiredType)
     MESH * pNewMesh = malloc(sizeof(MESH));
     pNewComponent->Type = Mesh;
     *pNewMesh = *(pArchetype->pGame->pGameStats->pDefaultMesh);
+    pNewMesh->Color = NewColor(1, 1, 1, 1);
     pNewComponent->pStruct = pNewMesh;
     pNewMesh->pComponent = pNewComponent;
     pNewMesh->pArchetype = pArchetype;
@@ -666,4 +667,10 @@ VECTOR NewVector(float x, float y)
 {
   VECTOR newVec = { x, y };
   return newVec;
+}
+
+COLOR NewColor(float r, float g, float b, float a)
+{
+  COLOR newColor = { r, g, b, a };
+  return newColor;
 }

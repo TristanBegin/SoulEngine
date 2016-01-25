@@ -21,7 +21,7 @@ typedef struct LEVEL LEVEL;
 typedef struct CAMERA CAMERA;
 typedef struct BEHAVIOR BEHAVIOR;
 typedef struct VAR VAR;
-typedef struct COLOR COLOR;
+//typedef struct COLOR COLOR;
 typedef struct MATRIX MATRIX;
 typedef struct IMAGE IMAGE;
 typedef enum COMPONENTTYPE COMPONENTTYPE;
@@ -29,6 +29,14 @@ typedef enum BOOL BOOL;
 typedef enum VARTYPE VTYPE;
 typedef enum GAMESTATE GAMESTATE;
 typedef enum TAG TAG;
+
+typedef struct COLOR
+{
+  float r;
+  float g;
+  float b;
+  float a;
+}COLOR;
 
 // Vector, pretty self explanatory.
 typedef struct VECTOR
@@ -206,6 +214,7 @@ typedef struct MESH
   ARCHETYPE *pArchetype;  //The original archetype this came from.
   VECTOR Size;            //The scale of the mesh (read only).
   AEGfxVertexList *pMeshLit; //The actual mesh.
+  COLOR Color;
 }MESH;
 
 
@@ -306,13 +315,7 @@ typedef struct CAMERA
   TRANSFORM *pTransform;
 }CAMERA;
 
-typedef struct COLOR
-{
-  float r;
-  float g;
-  float b;
-  float a;
-}COLOR;
+
 
 typedef struct MATRIX
 {
@@ -453,6 +456,9 @@ LEVEL * FindLevelByOrder(GAME *pGame, int Order);
 void InitializeUnit(UNIT * pUnit);
 
 ARCHETYPE * CreateInstanceOfArchetype(ARCHETYPE * pArchetype, UNIT * pUnit);
+
+//Returns a new color with the given rgba values.
+COLOR NewColor(float r, float g, float b, float a);
 
 //Returns a new vector with given x and y.
 VECTOR NewVector(float x, float y);

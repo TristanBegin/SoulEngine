@@ -50,7 +50,7 @@ static void Update()
   {
     DestroyUnit(pMyUnit);
   }
-
+  pMyCollider->
   if (pMyCollider->GhostEnter && COLLIDED_OBJECT->Tag == BAD)
   {
     pMyPhysics->Velocity.y = 5;
