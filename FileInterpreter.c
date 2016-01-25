@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include "FileInterpreter.h"
 
-#define MAX_LENGTH 80
+#define MAX_LENGTH 200
 
 #pragma warning(disable : 4996)
 
@@ -555,40 +555,40 @@ void MultipleAnimations(char * Buffer, int NumberOfAnimations, SPRITE * pSprite)
 		sscanf(Buffer, "\tTextureFile = %i , %s , %s", &useless,  &textureInput1, &textureInput2);
 		pSprite->pImage->TextureFile = myStrCpy(textureInput1);
 		pSprite->pImage->pNextImage = malloc(sizeof(IMAGE));
-		pSprite->pImage->pNextImage->pTexture = myStrCpy(textureInput2);
+		pSprite->pImage->pNextImage->TextureFile = myStrCpy(textureInput2);
 		pSprite->pImage->pNextImage->pNextImage = NULL;
 		break;
 	case 3:
 		sscanf(Buffer, "\tTextureFile = %i , %s , %s , %s", &useless, &textureInput1, &textureInput2, &textureInput3);
 		pSprite->pImage->TextureFile = myStrCpy(textureInput1);
 		pSprite->pImage->pNextImage = malloc(sizeof(IMAGE));
-		pSprite->pImage->pNextImage->pTexture = myStrCpy(textureInput2);
+		pSprite->pImage->pNextImage->TextureFile = myStrCpy(textureInput2);
 		pSprite->pImage->pNextImage->pNextImage = malloc(sizeof(IMAGE));
-		pSprite->pImage->pNextImage->pNextImage->pTexture = myStrCpy(textureInput3);
+		pSprite->pImage->pNextImage->pNextImage->TextureFile = myStrCpy(textureInput3);
 		pSprite->pImage->pNextImage->pNextImage->pNextImage = NULL;
 		break;
 	case 4:
 		sscanf(Buffer, "\tTextureFile = %i , %s , %s , %s , %s", &useless, &textureInput1, &textureInput2, &textureInput3, &textureInput4);
 		pSprite->pImage->TextureFile = myStrCpy(textureInput1);
 		pSprite->pImage->pNextImage = malloc(sizeof(IMAGE));
-		pSprite->pImage->pNextImage->pTexture = myStrCpy(textureInput2);
+		pSprite->pImage->pNextImage->TextureFile = myStrCpy(textureInput2);
 		pSprite->pImage->pNextImage->pNextImage = malloc(sizeof(IMAGE));
-		pSprite->pImage->pNextImage->pNextImage->pTexture = myStrCpy(textureInput3);
+		pSprite->pImage->pNextImage->pNextImage->TextureFile = myStrCpy(textureInput3);
 		pSprite->pImage->pNextImage->pNextImage->pNextImage = malloc(sizeof(IMAGE));
-		pSprite->pImage->pNextImage->pNextImage->pNextImage->pTexture = myStrCpy(textureInput4);
+		pSprite->pImage->pNextImage->pNextImage->pNextImage->TextureFile = myStrCpy(textureInput4);
 		pSprite->pImage->pNextImage->pNextImage->pNextImage->pNextImage = NULL;
 		break;
 	case 5:
 		sscanf(Buffer, "\tTextureFile = %i , %s , %s , %s , %s , %s", &useless, &textureInput1, &textureInput2, &textureInput3, &textureInput4, &textureInput5);
 		pSprite->pImage->TextureFile = myStrCpy(textureInput1);
 		pSprite->pImage->pNextImage = malloc(sizeof(IMAGE));
-		pSprite->pImage->pNextImage->pTexture = myStrCpy(textureInput2);
+		pSprite->pImage->pNextImage->TextureFile = myStrCpy(textureInput2);
 		pSprite->pImage->pNextImage->pNextImage = malloc(sizeof(IMAGE));
-		pSprite->pImage->pNextImage->pNextImage->pTexture = myStrCpy(textureInput3);
+		pSprite->pImage->pNextImage->pNextImage->TextureFile = myStrCpy(textureInput3);
 		pSprite->pImage->pNextImage->pNextImage->pNextImage = malloc(sizeof(IMAGE));
-		pSprite->pImage->pNextImage->pNextImage->pNextImage->pTexture = myStrCpy(textureInput4);
+		pSprite->pImage->pNextImage->pNextImage->pNextImage->TextureFile = myStrCpy(textureInput4);
 		pSprite->pImage->pNextImage->pNextImage->pNextImage->pNextImage = malloc(sizeof(IMAGE));
-		pSprite->pImage->pNextImage->pNextImage->pNextImage->pNextImage->pTexture = myStrCpy(textureInput5);
+		pSprite->pImage->pNextImage->pNextImage->pNextImage->pNextImage->TextureFile = myStrCpy(textureInput5);
 		pSprite->pImage->pNextImage->pNextImage->pNextImage->pNextImage->pNextImage = NULL;
 		break;
 	default:

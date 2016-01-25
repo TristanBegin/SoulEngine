@@ -35,10 +35,7 @@ void UpdatePhysics(PHYSICS * pPhysics, COLLIDER *pCollider)
 
   /******* Account for Collision ************/
 
-  //if (pCollider->Grounded)
-  //{
-  //  pVelocity->y += -(pVelocity->y);
-  //}
+
   if (pCollider->Grounded)
   {
     if (pAcceleration->y < 0) pAcceleration->y = 0;
@@ -119,6 +116,10 @@ void UpdatePhysics(PHYSICS * pPhysics, COLLIDER *pCollider)
   else if (pVelocity->y < -maxSpeed)
   {
     pVelocity->y = -maxSpeed;
+  }
+  if (pVelocity->x < 0.1 && pVelocity->x > -0.1)
+  {
+    pVelocity->x = 0;
   }
 
   pMyTransform->Position.x += pVelocity->x * frameTime;

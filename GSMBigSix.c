@@ -27,7 +27,7 @@ void LoadLevel()
 		IMAGE * ptemp = pSprite->pImage;
 		while(ptemp)
 		{
-			ptemp->pTexture = AEGfxTextureLoad(pSprite->pImage->TextureFile);
+			ptemp->pTexture = AEGfxTextureLoad(ptemp->TextureFile);
 			ptemp = ptemp->pNextImage;
 		}
 		

@@ -85,6 +85,15 @@
     <Image Include="WitchWalking01.png">
       <Filter>Resources</Filter>
     </Image>
+    <Image Include="WitchIdle.png">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="WitchJumping.png">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="WitchFalling.png">
+      <Filter>Resources</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Text Include="_ArchetypeList.txt">

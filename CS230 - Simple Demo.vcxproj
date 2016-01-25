@@ -58,6 +58,9 @@
   <ItemGroup>
     <Image Include="Blank.png" />
     <Image Include="TestAnimation.png" />
+    <Image Include="WitchFalling.png" />
+    <Image Include="WitchIdle.png" />
+    <Image Include="WitchJumping.png" />
     <Image Include="WitchWalking01.png" />
   </ItemGroup>
   <ItemGroup>

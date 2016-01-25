@@ -10,6 +10,7 @@ static GAMESTATS * pMyGameStats;
 static PHYSICS * pMyPhysics;
 static BEHAVIOR * pMyBehavior;
 static COLLIDER * pMyCollider;
+static SPRITE * pMySprite;
 
 static float gravityRate = 0;
 static float gravityMax = 0.5;
@@ -35,6 +36,7 @@ void PlayerBehavior(BEHAVIOR * Owner, char * Trigger)
   pMyGameStats = pMyGame->pGameStats;
   pMyPhysics = FindComponentStruct(pMyArchetype, Physics);
   pMyCollider = FindComponentStruct(pMyArchetype, Collider);
+  pMySprite = FindComponentStruct(pMyArchetype, Sprite);
 
   if (Trigger == "Start")
   {
@@ -50,11 +52,23 @@ void PlayerBehavior(BEHAVIOR * Owner, char * Trigger)
 static void Start()
 {
   AddVar(Bool, "FacingRight", pMyBehavior);
+  char ** WalkAnim = AddVar(String, "WalkAnim", pMyBehavior);
+  char ** IdleAnim = AddVar(String, "IdleAnim", pMyBehavior);
+  char ** JumpAnim = AddVar(String, "JumpAnim", pMyBehavior);
+  char ** FallAnim = AddVar(String, "FallAnim", pMyBehavior);
+  *WalkAnim = "WitchWalking01.png";
+  *IdleAnim = "WitchIdle.png";
+  *JumpAnim = "WitchJumping.png";
+  *FallAnim = "WitchFalling.png";
 }
 
 static void Update()
 {
-  BOOL * FacingRight = (BOOL*)GetVar("FacingRight", pMyBehavior);
+  BOOL * FacingRight = GetVar("FacingRight", pMyBehavior);
+  char ** WalkAnim = GetVar("WalkAnim", pMyBehavior);
+  char ** IdleAnim = GetVar("IdleAnim", pMyBehavior);
+  char ** JumpAnim = GetVar("JumpAnim", pMyBehavior);
+  char ** FallAnim = GetVar("FallAnim", pMyBehavior);
 
   if (AEInputCheckTriggered(' '))
   {
@@ -68,7 +82,6 @@ static void Update()
     {
       pBulletPhysics->Velocity.x = -15;
     }
-    OutputDebugString("Bullet");
   }
   
   /************* Player Input ***************/
@@ -90,7 +103,7 @@ static void Update()
   {
     pMyPhysics->Velocity.y -= 0.5;
   }
-
+  
   //Left movement
   if (AEInputCheckCurr('A') && pMyPhysics->Velocity.x > -maxSpeed)
   {
@@ -105,90 +118,23 @@ static void Update()
     pMyPhysics->Velocity.x += 1.0;
   }
 
+  if (pMyCollider->Grounded)
+  {
+    if (pMyPhysics->Velocity.x != 0)
+      pMySprite->CurrentAnimation = *WalkAnim;
+    else
+      pMySprite->CurrentAnimation = *IdleAnim;
+  }
+  else
+  {
+    if (pMyPhysics->Velocity.y > 0)
+      pMySprite->CurrentAnimation = *JumpAnim;
+    else
+      pMySprite->CurrentAnimation = *FallAnim;
+  }
+}
 
-  //Checking for collision with a platform at y = 0
-  //if (pMyTransform->Position.y <= 0)
-  //{
-  //  collidingY = 1;
-  //}
-  //else
-  //{
-  //  collidingY = 0;
-  //}
-  //
-  ///************* Player Input ***************/
-  //
-  // Jumping
-  //if (AEInputCheckCurr('W') && pMyTransform->Position.y <= 0)
-  //{
-  //  Velocity.y = 0.7;
-  //}
-  //
-  //if (AEInputCheckCurr('S'))
-  //{
-  //  Velocity.y -= 0.05;
-  //}
-  //
-  ////Left movement
-  //if (AEInputCheckCurr('A') && Velocity.x > -maxSpeed)
-  //{
-  //  Velocity.x -= 0.05;
-  //}
-  //
-  ////Right movement
-  //if (AEInputCheckCurr('D') && Velocity.x < maxSpeed)
-  //{
-  //  Velocity.x += 0.05;
-  //}
-  //
-  //////////////////////////////////////////////
-  //
-  //
-  ///**************** Gravity *****************/
-  //
-  //Velocity.y -= 0.025;
-  //
-  //////////////////////////////////////////////
-  //
-  //
-  ///******* Apply Friction to Velocity *******/
-  //
-  //  Velocity.x -= (friction * Velocity.x);
-  //  Velocity.y -= (friction * Velocity.y);
-  //
-  //////////////////////////////////////////////
-  //
-  //
-  ///*************** Collision ****************/
-  //
-  //  if (collidingY)
-  //  {
-  //    if (Velocity.y < 0)
-  //    {
-  //      Velocity.y = 0;
-  //    }
-  //  }
-  //
-  //////////////////////////////////////////////
-  //
-  //
-  ///************ Normalize Velocity **********/
-  //
-  ////if (Velocity.x != 0 && Velocity.y != 0)
-  ////{
-  //  //mineVar = sqrt( (Velocity.x * Velocity.x) + (Velocity.y * Velocity.y) );
-  //  
-  //  //Velocity.x = (Velocity.x) / mineVar;
-  //  //Velocity.y = (Velocity.y) / mineVar;
-  ////}
-  //
-  //////////////////////////////////////////////
-  //
-  //
-  ///******* Apply Velocity to Player *********/
-  //
-  //pMyTransform->Position.x += Velocity.x;
-  //pMyTransform->Position.y += Velocity.y;
-  //
-  //////////////////////////////////////////////
+UpdateAnimation()
+{
+
 }
