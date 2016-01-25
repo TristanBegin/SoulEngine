@@ -34,7 +34,7 @@ EndComponent
 
 COMPONENT | Behavior |
 
-	BehaviorScript = DefaultBehavior
+	BehaviorScript = EnemyBehavior
 
 EndComponent
 #-----------------------------------------------

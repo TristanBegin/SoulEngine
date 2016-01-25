@@ -12,7 +12,7 @@ Tag = PLAYER
 
 COMPONENT | Sprite |
 
-	TextureFile = 2 , TestAnimation.png , WitchWalking01.png
+	TextureFile = 1 , Blank.png
 	
 	Animated = 1
 

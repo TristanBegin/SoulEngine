@@ -49,7 +49,6 @@ void PlayerBehavior(BEHAVIOR * Owner, char * Trigger)
 
 static void Start()
 {
-  //pMyTransform->Position = NewVector(2, 2);
   AddVar(Bool, "FacingRight", pMyBehavior);
 }
 

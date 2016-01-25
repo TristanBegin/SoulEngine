@@ -79,7 +79,7 @@ void UpdateCollision(COLLIDER *pCollider)
 
   if (pCollider->pCollidedWithGhost)
   {
-    if (pCollider->GhostEnter)
+    if (pCollider->GhostStay)
     {
       pCollider->GhostEnter = False;
     }
@@ -93,6 +93,7 @@ void UpdateCollision(COLLIDER *pCollider)
   }
   else
   {
+    pCollider->GhostEnter = False;
     if (pCollider->GhostStay)
     {
       pCollider->GhostExit = True;

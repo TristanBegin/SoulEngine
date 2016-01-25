@@ -1,5 +1,5 @@
-/*#include "SoulEngine.h"
-#define COLLIDED_TAG pMyCollider->pCollidedWithGhost->pArchetype->Tag
+#include "SoulEngine.h"
+#define COLLIDED_OBJECT pMyCollider->pCollidedWithGhost->pArchetype->pUnit
 static UNIT * pMyUnit;
 static TRANSFORM * pMyTransform;
 static ARCHETYPE * pMyArchetype;
@@ -44,17 +44,18 @@ static void Start()
 
 static void Update()
 {
-  int * Health = GetVar(Int, "Health", pMyBehavior);
+  int * Health = GetVar("Health", pMyBehavior);
 
   if (*Health <= 0)
   {
     DestroyUnit(pMyUnit);
   }
 
-  if (pMyCollider->GhostEnter && COLLIDED_TAG == BAD)
+  if (pMyCollider->GhostEnter && COLLIDED_OBJECT->Tag == BAD)
   {
     pMyPhysics->Velocity.y = 5;
     *Health -= 10;
+    DestroyUnit(COLLIDED_OBJECT);
   }
 
-}*/
+}
