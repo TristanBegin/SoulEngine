@@ -169,7 +169,8 @@ COMPONENT * AddComponent(ARCHETYPE *pArchetype, COMPONENTTYPE DesiredType)
 	  pImage->pNextImage = NULL;
 	  pNewComponent->Type = Sprite;
 	  *pNewSprite = *(pArchetype->pGame->pGameStats->pDefaultSprite);
-    pNewSprite->pImage = pImage;
+		pNewSprite->pImage = pImage;
+		pNewSprite->CurrentAnimation = "Blank.png";
 	  pNewComponent->pStruct = pNewSprite;
 	  pNewSprite->pImage->TextureFile = NULL;
 	  pNewSprite->pComponent = pNewComponent;

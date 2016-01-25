@@ -3,7 +3,7 @@
 #include "Animation.h"
 #include "Collision.h"
 #include "Physics.h"
-
+#include "FileInterpreter.h"
 extern GAME * pTheGame;
 //extern BEHAVIOR ** pBehaviorArray;
 //extern int numBehaviors;
@@ -196,16 +196,16 @@ void DrawObject(MESH * pMesh, SPRITE * pSprite)
   //Set Position of object
   AEGfxSetPosition(pMyTransform->Position.x * gridMultiplier, pMyTransform->Position.y * gridMultiplier);
 
-  SPRITE * ptemp = pSprite;
-  while (ptemp->pImage)
+  IMAGE * ptemp = pSprite->pImage;
+  while (ptemp)
   {
-	  if ((ptemp->CurrentAnimation == ptemp->pImage->TextureFile) || (ptemp->pImage->pNextImage == NULL))
+	  if (myStrCmp(pSprite->CurrentAnimation , ptemp->TextureFile) <= 0 || (ptemp->pNextImage == NULL))
 	  {
 		  //Set texture for object
-		  AEGfxTextureSet(ptemp->pImage->pTexture, pSprite->Offset.x, pSprite->Offset.y);
+		  AEGfxTextureSet(ptemp->pTexture, pSprite->Offset.x, pSprite->Offset.y);
 		  break;
 	  }
-	  ptemp->pImage = ptemp->pImage->pNextImage;
+	  ptemp = ptemp->pNextImage;
   }
   
 
