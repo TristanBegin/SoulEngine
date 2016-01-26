@@ -3,7 +3,7 @@
 #include "Animation.h"
 #include "Collision.h"
 #include "Physics.h"
-
+#include "FileInterpreter.h"
 extern GAME * pTheGame;
 //extern BEHAVIOR ** pBehaviorArray;
 //extern int numBehaviors;
@@ -23,26 +23,32 @@ void LoadLevel()
 		MESH * pMesh = ((MESH*)FindComponentStruct(tempUnit->pInitArchetype, Mesh));
 		SPRITE * pSprite = ((SPRITE*)FindComponentStruct(tempUnit->pInitArchetype, Sprite));
 
-    pSprite->pTexture = AEGfxTextureLoad(pSprite->TextureFile);
-
-    if (pMesh->pMeshLit == NULL)
-    {
-      // Informing the library that we're about to start adding triangles.
-      AEGfxMeshStart();
-      //This shape has 2 triangles.
-      AEGfxTriAdd(
-        -(pMesh->Size.x) * gridSize, -(pMesh->Size.y) * gridSize, 0xFFFFFFFF, 0.0f, 1 / pSprite->RowCol.y,
-        (pMesh->Size.x) * gridSize, -(pMesh->Size.y) * gridSize, 0xFFFFFFFF, 1 / pSprite->RowCol.x, 1 / pSprite->RowCol.y,
-        -(pMesh->Size.x) * gridSize, (pMesh->Size.y) * gridSize, 0xFFFFFFFF, 0.0f, 0.0f);
-      AEGfxTriAdd(
-        (pMesh->Size.x) * gridSize, -(pMesh->Size.y) * gridSize, 0xFFFFFFFF, 1 / pSprite->RowCol.x, 1 / pSprite->RowCol.y,
-        (pMesh->Size.x) * gridSize, (pMesh->Size.y) * gridSize, 0xFFFFFFFF, 1 / pSprite->RowCol.x, 0.0f,
-        -(pMesh->Size.x) * gridSize, (pMesh->Size.y) * gridSize, 0xFFFFFFFF, 0.0f, 0.0f);
-
-      pLMesh = AEGfxMeshEnd();
-      AE_ASSERT_MESG(pLMesh, "Failed to create default mesh");
-      pMesh->pMeshLit = pLMesh;
-    }
+		
+		IMAGE * ptemp = pSprite->pImage;
+		while(ptemp)
+		{
+			ptemp->pTexture = AEGfxTextureLoad(ptemp->TextureFile);
+			ptemp = ptemp->pNextImage;
+		}
+		
+		if (pMesh->pMeshLit == NULL)
+		{
+			// Informing the library that we're about to start adding triangles.
+			AEGfxMeshStart();
+			//This shape has 2 triangles.
+			AEGfxTriAdd(
+			  -(pMesh->Size.x) * gridSize, -(pMesh->Size.y) * gridSize, 0xFFFFFFFF, 0.0f, 1 / pSprite->RowCol.y,
+			  (pMesh->Size.x) * gridSize, -(pMesh->Size.y) * gridSize, 0xFFFFFFFF, 1 / pSprite->RowCol.x, 1 / pSprite->RowCol.y,
+			  -(pMesh->Size.x) * gridSize, (pMesh->Size.y) * gridSize, 0xFFFFFFFF, 0.0f, 0.0f);
+			AEGfxTriAdd(
+			  (pMesh->Size.x) * gridSize, -(pMesh->Size.y) * gridSize, 0xFFFFFFFF, 1 / pSprite->RowCol.x, 1 / pSprite->RowCol.y,
+			  (pMesh->Size.x) * gridSize, (pMesh->Size.y) * gridSize, 0xFFFFFFFF, 1 / pSprite->RowCol.x, 0.0f,
+			  -(pMesh->Size.x) * gridSize, (pMesh->Size.y) * gridSize, 0xFFFFFFFF, 0.0f, 0.0f);
+		
+			pLMesh = AEGfxMeshEnd();
+			AE_ASSERT_MESG(pLMesh, "Failed to create default mesh");
+			pMesh->pMeshLit = pLMesh;
+		}
 		tempUnit = tempUnit->nextUnit;
 	}
 
@@ -190,11 +196,22 @@ void DrawObject(MESH * pMesh, SPRITE * pSprite)
   //Set Position of object
   AEGfxSetPosition(pMyTransform->Position.x * gridMultiplier, pMyTransform->Position.y * gridMultiplier);
 
-  //Set texture for object
-  AEGfxTextureSet(pSprite->pTexture, pSprite->Offset.x, pSprite->Offset.y);
+  IMAGE * ptemp = pSprite->pImage;
+  while (ptemp)
+  {
+	  if (myStrCmp(pSprite->CurrentAnimation , ptemp->TextureFile) <= 0 || (ptemp->pNextImage == NULL))
+	  {
+		  //Set texture for object
+		  AEGfxTextureSet(ptemp->pTexture, pSprite->Offset.x, pSprite->Offset.y);
+		  break;
+	  }
+	  ptemp = ptemp->pNextImage;
+  }
+  
 
   //Drawing the mesh (list of triangles)
-  AEGfxSetTransparency(1.0);
+  AEGfxSetTintColor(pMesh->Color.r, pMesh->Color.g, pMesh->Color.b, pMesh->Color.a);
+  AEGfxSetTransparency(pMesh->Opacity);
   AEGfxMeshDraw(pMesh->pMeshLit, AE_GFX_MDM_TRIANGLES);
 
 }

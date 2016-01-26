@@ -26,7 +26,11 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="DestroyOverTimeBehavior.c">
+    <ClCompile Include="BulletBehavior.c">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="EnemyBehavior.c">
       <SubType>
       </SubType>
     </ClCompile>
@@ -54,6 +58,9 @@
   <ItemGroup>
     <Image Include="Blank.png" />
     <Image Include="TestAnimation.png" />
+    <Image Include="WitchFalling.png" />
+    <Image Include="WitchIdle.png" />
+    <Image Include="WitchJumping.png" />
     <Image Include="WitchWalking01.png" />
   </ItemGroup>
   <ItemGroup>
@@ -73,6 +80,10 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Anim_Arch.txt">
+      <SubType>
+      </SubType>
+    </Text>
+    <Text Include="Enemy_Arch.txt">
       <SubType>
       </SubType>
     </Text>

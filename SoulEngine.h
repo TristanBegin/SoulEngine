@@ -4,6 +4,7 @@
 #define FIRST 0
 #define LAST -1
 #define ERR_SURPASSED_BUFFER_SIZE -1
+#define deltaTime AEFrameRateControllerGetFrameTime()
 typedef struct VECTOR VECTOR;
 typedef struct TRANSFORM TRANSFORM;
 typedef struct ARCHETYPE ARCHETYPE;
@@ -20,13 +21,22 @@ typedef struct LEVEL LEVEL;
 typedef struct CAMERA CAMERA;
 typedef struct BEHAVIOR BEHAVIOR;
 typedef struct VAR VAR;
-typedef struct COLOR COLOR;
+//typedef struct COLOR COLOR;
 typedef struct MATRIX MATRIX;
+typedef struct IMAGE IMAGE;
 typedef enum COMPONENTTYPE COMPONENTTYPE;
 typedef enum BOOL BOOL;
 typedef enum VARTYPE VTYPE;
 typedef enum GAMESTATE GAMESTATE;
+typedef enum TAG TAG;
 
+typedef struct COLOR
+{
+  float r;
+  float g;
+  float b;
+  float a;
+}COLOR;
 
 // Vector, pretty self explanatory.
 typedef struct VECTOR
@@ -88,6 +98,7 @@ typedef struct GAME
 typedef struct ARCHETYPE
 {
   char *Name;               //The name of the archetype.
+  TAG Tag;                  //The Tag for the Archetype.
   GAME * pGame;             //The Game object that owns this archetype.
   UNIT * pUnit;             //Will be null if this is original archetype (aka not an instance attatched to a unit).
   COMPONENT *nextComponent; //Pointer to the first component in the archetype's list of components.
@@ -142,10 +153,14 @@ typedef struct COLLIDER
   float Height;
   float Width;
   BOOL IsGhosted;
-  BOOL Grounded;
-  BOOL TopBlocked;
-  BOOL LeftBlocked;
-  BOOL RightBlocked;
+  float Grounded;
+  float TopBlocked;
+  float LeftBlocked;
+  float RightBlocked;
+  BOOL GhostEnter;
+  BOOL GhostStay;
+  BOOL GhostExit;
+  COLLIDER * pCollidedWithGhost;
 
 }COLLIDER;
 
@@ -167,21 +182,28 @@ typedef struct KSOUND
   BOOL PlayOnStart;
 }KSOUND;
 
-
 // COMPONENT STRUCT
 // Holds information to display a texture.
 typedef struct SPRITE
 {
   COMPONENT *pComponent;  //The component that holds this Sprite.
   ARCHETYPE *pArchetype;  //The original archetype this came from.
-  AEGfxTexture *pTexture; //The texture to display.
-  char * TextureFile;
+  IMAGE *pImage;
   BOOL Animated;          //The Boolean that tells if it is animated.
   VECTOR RowCol;          //The number of rows and columns in the sprite sheet. 
   VECTOR Offset;          //The offset of the texture on the object.
   float AnimationSpeed;   //The speed of the animation.
   float TimeSinceLastFrame;   //The speed of the animation.
+  char *CurrentAnimation;  // The current animation.
 }SPRITE;
+
+
+typedef struct IMAGE
+{
+  AEGfxTexture *pTexture; //The texture to display.
+  char * TextureFile;
+  IMAGE *pNextImage;
+}IMAGE;
 
 
 // COMPONENT STRUCT
@@ -192,6 +214,8 @@ typedef struct MESH
   ARCHETYPE *pArchetype;  //The original archetype this came from.
   VECTOR Size;            //The scale of the mesh (read only).
   AEGfxVertexList *pMeshLit; //The actual mesh.
+  COLOR Color;
+  float Opacity;
 }MESH;
 
 
@@ -262,6 +286,7 @@ pArchetype is a Unit Archetype and is an instance of the game archetype.
 typedef struct UNIT
 {
   char *Name;     //Name of this Unit.
+  TAG Tag; //Tag of this unit (Used to override archetype tag).
   TRANSFORM *pInitTransform; //Initial Transform information.
   ARCHETYPE *pInitArchetype; //Initial (Game) Archetype. Copied into pArchetype on initialize.
   VAR *nextVar; //Override variables. Name the same as variables on behaviors to override initial values.
@@ -291,13 +316,7 @@ typedef struct CAMERA
   TRANSFORM *pTransform;
 }CAMERA;
 
-typedef struct COLOR
-{
-  float r;
-  float g;
-  float b;
-  float a;
-}COLOR;
+
 
 typedef struct MATRIX
 {
@@ -334,6 +353,17 @@ typedef enum COMPONENTTYPE
   Collider,
   KSound
 }COMPONENTTYPE;
+
+typedef enum TAG
+{
+  DEFAULT,
+  PLAYER,
+  BAD,
+  ENEMY,
+  WALL
+}TAG;
+
+TAG GetTagFromString(char * String);
 
 typedef enum BOOL
 {
@@ -427,6 +457,9 @@ LEVEL * FindLevelByOrder(GAME *pGame, int Order);
 void InitializeUnit(UNIT * pUnit);
 
 ARCHETYPE * CreateInstanceOfArchetype(ARCHETYPE * pArchetype, UNIT * pUnit);
+
+//Returns a new color with the given rgba values.
+COLOR NewColor(float r, float g, float b, float a);
 
 //Returns a new vector with given x and y.
 VECTOR NewVector(float x, float y);

@@ -7,19 +7,21 @@ static LEVEL * pMyLevel;
 static GAME * pMyGame;
 static GAMESTATS * pMyGameStats;
 static BEHAVIOR * pMyBehavior;
+static COLLIDER * pMyCollider;
 
 void Start();
 void Update();
 
-void $BehaviorName$(BEHAVIOR * Owner, char * Trigger)
+void BulletBehavior(BEHAVIOR * Owner, char * Trigger)
 {
-  pMyBehavior = Owner;
   pMyUnit = Owner->pArchetype->pUnit;
   pMyTransform = pMyUnit->pTransform;
   pMyArchetype = pMyUnit->pArchetype;
   pMyLevel = pMyUnit->pLevel;
   pMyGame = pMyLevel->pGame;
   pMyGameStats = pMyGame->pGameStats;
+  pMyCollider = FindComponentStruct(pMyArchetype, Collider);
+  pMyBehavior = FindComponentStruct(pMyArchetype, Behavior);
 
   if (Trigger == "Start")
   {
@@ -35,16 +37,16 @@ void $BehaviorName$(BEHAVIOR * Owner, char * Trigger)
 void Start()
 {
   float * TimeDestroy = AddVar(Float, "TimeDestroy", pMyBehavior);
-  *TimeDestroy = 5;
+  *TimeDestroy = 4;
 }
 
 void Update()
 {
   float * TimeDestroy = GetVar("TimeDestroy", pMyBehavior);
-  *TimeDestroy -= (float)AEFrameRateControllerGetFrameTime();
-  if (*TimeDestroy < 0)
+  *TimeDestroy -= deltaTime;
+  if (*TimeDestroy <= 0 || 
+    (pMyCollider->GhostStay && pMyCollider->pCollidedWithGhost->pArchetype->Tag == WALL))
   {
     DestroyUnit(pMyUnit);
   }
-
 }

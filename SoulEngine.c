@@ -46,6 +46,7 @@ GAMESTATS * SetDefaults(GAME * pGame)
   GAMESTATS * pStats = malloc(sizeof(GAMESTATS));
 
   SPRITE * pSprite = malloc(sizeof(SPRITE));
+  IMAGE * pImage = malloc(sizeof(IMAGE));
   MESH * pMesh = malloc(sizeof(MESH));
   VECTOR zeroVector = { 0, 0 };
   VECTOR meshSizeVector = { 1, 1 };
@@ -58,7 +59,9 @@ GAMESTATS * SetDefaults(GAME * pGame)
   pTransform->Scale = oneVector;
   pStats->pDefaultTransform = pTransform;
 
-  pSprite->pTexture = AEGfxTextureLoad("Blank.png");
+  pImage->pNextImage = NULL;
+  pSprite->pImage = pImage;
+  pSprite->pImage->pTexture = AEGfxTextureLoad("WitchWalking01.png");
   pSprite->Animated = TRUE;
   pSprite->RowCol.x = 2;
   pSprite->RowCol.y = 5;
@@ -85,7 +88,7 @@ GAMESTATS * SetDefaults(GAME * pGame)
   pStats->pDefaultBehavior = NULL;
   pStats->Points = 0;
   pStats->SpawnPoint = zeroVector;
-  pStats->GridSize = 32;
+  pStats->GridSize = 48;
 
   return pStats;
 }
@@ -94,6 +97,7 @@ ARCHETYPE * CreateArchetype(GAME * pGame, char *Name)
 {
   ARCHETYPE * pNewArchetype = malloc(sizeof(ARCHETYPE));
   pNewArchetype->Name = Name;
+  pNewArchetype->Tag = DEFAULT;
   pNewArchetype->nextComponent = NULL;
   pNewArchetype->pUnit = NULL;
   pNewArchetype->pGame = pGame;
@@ -144,7 +148,7 @@ void FreeGame(GAME * pGame)
     AEGfxMeshFree(pGame->pGameStats->pDefaultMesh->pMeshLit);
     
     // Freeing the texture
-    AEGfxTextureUnload(pGame->pGameStats->pDefaultSprite->pTexture);
+    AEGfxTextureUnload(pGame->pGameStats->pDefaultSprite->pImage->pTexture);
 
     free(pGame->pGameStats->pDefaultTransform);
     free(pGame->pGameStats);
@@ -161,10 +165,14 @@ COMPONENT * AddComponent(ARCHETYPE *pArchetype, COMPONENTTYPE DesiredType)
 
   if (DesiredType == Sprite) {
 	  SPRITE * pNewSprite = malloc(sizeof(SPRITE));
+	  IMAGE * pImage = malloc(sizeof(IMAGE));
+	  pImage->pNextImage = NULL;
 	  pNewComponent->Type = Sprite;
 	  *pNewSprite = *(pArchetype->pGame->pGameStats->pDefaultSprite);
+		pNewSprite->pImage = pImage;
+		pNewSprite->CurrentAnimation = "Blank.png";
 	  pNewComponent->pStruct = pNewSprite;
-	  pNewSprite->TextureFile = NULL;
+	  pNewSprite->pImage->TextureFile = NULL;
 	  pNewSprite->pComponent = pNewComponent;
 	  pNewSprite->pArchetype = pArchetype;
   }
@@ -174,6 +182,8 @@ COMPONENT * AddComponent(ARCHETYPE *pArchetype, COMPONENTTYPE DesiredType)
     MESH * pNewMesh = malloc(sizeof(MESH));
     pNewComponent->Type = Mesh;
     *pNewMesh = *(pArchetype->pGame->pGameStats->pDefaultMesh);
+    pNewMesh->Color = NewColor(1, 1, 1, 1);
+    pNewMesh->Opacity = 1.0;
     pNewComponent->pStruct = pNewMesh;
     pNewMesh->pComponent = pNewComponent;
     pNewMesh->pArchetype = pArchetype;
@@ -222,6 +232,10 @@ COMPONENT * AddComponent(ARCHETYPE *pArchetype, COMPONENTTYPE DesiredType)
     pNewCollider->LeftBlocked = False;
     pNewCollider->RightBlocked = False;
     pNewCollider->TopBlocked = False;
+    pNewCollider->GhostEnter = False;
+    pNewCollider->GhostExit = False;
+    pNewCollider->GhostStay = False;
+    pNewCollider->pCollidedWithGhost = NULL;
 
 
         
@@ -231,7 +245,7 @@ COMPONENT * AddComponent(ARCHETYPE *pArchetype, COMPONENTTYPE DesiredType)
 
   if (DesiredType == KSound)
   {
-    KSOUND * pNewSound;
+    KSOUND * pNewSound = malloc(sizeof(KSOUND));
 	KSOUND_Init(pNewSound);
     
 	pNewComponent->Type = KSound;
@@ -291,6 +305,7 @@ void * AddVar(VTYPE Type, char * Name, BEHAVIOR * Owner)
   VAR * pNewVar = malloc(sizeof(VAR));
   pNewVar->Name = myStrCpy(Name);
   pNewVar->Type = Float;
+  pNewVar->nextVar = NULL;
 
   // NOTE: SHOULD MAKE A SWITCH CASE. MUCH CLEANER (AND SOMETIMES FASTER!)
   if (Type == Int)
@@ -466,6 +481,7 @@ UNIT * AddUnit(LEVEL *pLevel, ARCHETYPE *pArchetype, char *Name)
   pNewUnit->pInitTransform = malloc(sizeof(TRANSFORM));
   pNewUnit->pTransform = malloc(sizeof(TRANSFORM));
 	pNewUnit->Name = myStrCpy(Name);
+  pNewUnit->Tag = pArchetype->Tag;
 	pNewUnit->pInitArchetype = pArchetype;
   *(pNewUnit->pInitTransform) = *(pArchetype->pGame->pGameStats->pDefaultTransform);
 	*(pNewUnit->pTransform) = *(pArchetype->pGame->pGameStats->pDefaultTransform);
@@ -483,6 +499,7 @@ UNIT * InstantiateUnit(LEVEL *pLevel, char * ArchetypeName, VECTOR position)
   
   UNIT * pUnit = AddUnit(pLevel, pArchetype, ArchetypeName);
   pUnit->pInitTransform->Position = position;
+  pUnit->Tag = pUnit->pInitArchetype->Tag;
   InitializeUnit(pUnit);
   pUnit->pInitTransform = NULL;
   pUnit->pInitArchetype = NULL;
@@ -578,6 +595,8 @@ ARCHETYPE * CreateInstanceOfArchetype(ARCHETYPE * pArchetype, UNIT * pUnit)
   ARCHETYPE * pNewArchetype = malloc(sizeof(ARCHETYPE));
   COMPONENT * temp = pArchetype->nextComponent;
   //pNewArchetype->Name = strcat(pArchetype->Name, "(Instance)");
+  pNewArchetype->Tag = pUnit->Tag;
+  pNewArchetype->Name = myStrCpy(pArchetype->Name);
   pNewArchetype->nextComponent = NULL;
   pNewArchetype->nextArchetype = NULL;
   pNewArchetype->pGame = pArchetype->pGame;
@@ -650,4 +669,10 @@ VECTOR NewVector(float x, float y)
 {
   VECTOR newVec = { x, y };
   return newVec;
+}
+
+COLOR NewColor(float r, float g, float b, float a)
+{
+  COLOR newColor = { r, g, b, a };
+  return newColor;
 }

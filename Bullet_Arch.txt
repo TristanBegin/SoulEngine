@@ -1,6 +1,7 @@
 #GLOBAL ARCHETYPE CREATION FILE
 
 Name = Bullet
+Tag = BAD
 
 #-----------------------------------------------
 # - COMPONENTS -
@@ -11,7 +12,7 @@ Name = Bullet
 
 COMPONENT | Sprite |
 
-	TextureFile = Blank.png
+	TextureFile = 1 , Blank.png
 	
 	Animated = 0
 
@@ -33,7 +34,7 @@ EndComponent
 
 COMPONENT | Behavior |
 
-	BehaviorScript = DefaultBehavior
+	BehaviorScript = BulletBehavior
 
 EndComponent
 
@@ -48,6 +49,18 @@ COMPONENT | Physics |
 	Friction = 0
 
 	Velocity = (0, 0)
+
+EndComponent
+#-----------------------------------------------
+COMPONENT | Collider |
+
+	Offset = (0, 0)
+  
+	Height = 0.25
+  
+	Width = 0.25
+
+	IsGhosted = 1
 
 EndComponent
 #-----------------------------------------------

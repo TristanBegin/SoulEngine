@@ -1,10 +1,11 @@
 #include "Collision.h"
-
+#include <math.h>
 // ---------------------------------------------------------------------------
 
 void UpdateCollision(COLLIDER *pCollider)
 {
 	UNIT *tempUnit = pCollider->pArchetype->pUnit->pLevel->nextUnit;
+  UNIT * pUnit = pCollider->pArchetype->pUnit;
 	VECTOR pRect0 = pCollider->pArchetype->pUnit->pTransform->Position;
 	float height0 = pCollider->Height;
 	float width0 = pCollider->Width;
@@ -16,74 +17,93 @@ void UpdateCollision(COLLIDER *pCollider)
   pCollider->LeftBlocked = False;
   pCollider->RightBlocked = False;
   pCollider->TopBlocked = False;
+  pCollider->pCollidedWithGhost = NULL;
 
 	//Walk through the list of Units in the Level, checking for collisions with current collider
 	while (tempUnit)
 	{
+    if (tempUnit->pArchetype && tempUnit != pUnit)
+    {
+		  COMPONENT *tempComp = tempUnit->pArchetype->nextComponent;
+		  COLLIDER *tempCollider = NULL;
 
-		COMPONENT *tempComp = tempUnit->pArchetype->nextComponent;
-		COLLIDER *tempCollider = NULL;
+		  //Search for a Collider on the current Unit
+		  while (tempComp)
+		  {
+		  	//If we find a Collider, store it and break out
+		  	if (tempComp->Type == Collider)
+		  	{
+		  		tempCollider = (COLLIDER *)tempComp->pStruct;
+		  		break;
+		  	}
+		  	tempComp = tempComp->nextComponent;
+		  }
 
-		//Search for a Collider on the current Unit
-		while (tempComp)
-		{
-			//If we find a Collider, store it and break out
-			if (tempComp->Type == Collider)
-			{
-				tempCollider = (COLLIDER *)tempComp->pStruct;
-				break;
-			}
-			tempComp = tempComp->nextComponent;
-		}
+		  //If the Unit has a Collider, check for collision with current Collider
+		  if (tempCollider)
+		  {
+		  	VECTOR pRect1 = tempCollider->pArchetype->pUnit->pTransform->Position;
+		  	float height1 = tempCollider->Height;
+		  	float width1 = tempCollider->Width;
+		  	BOOL colResult;
+		  	DIRECTION colDir;
 
-		//If the Unit has a Collider, check for collision with current Collider
-		if (tempCollider)
-		{
-			VECTOR pRect1 = tempCollider->pArchetype->pUnit->pTransform->Position;
-			float height1 = tempCollider->Height;
-			float width1 = tempCollider->Width;
-			BOOL colResult;
-			DIRECTION colDir;
+		  	//Adding the offset to get the world pos of pRect1
+		  	pRect1.x += tempCollider->Offset.x;
+		  	pRect1.y += tempCollider->Offset.y;
 
-			//Adding the offset to get the world pos of pRect1
-			pRect1.x += tempCollider->Offset.x;
-			pRect1.y += tempCollider->Offset.y;
+		  	//Checking for collision between pRect0 and pRect1
+		  	colResult = StaticRectToStaticRect(&pRect0, width0, height0, &pRect1, width1, height1);
+        
 
-			//Checking for collision between pRect0 and pRect1
-			colResult = StaticRectToStaticRect(&pRect0, width0, height0, &pRect1, height1, width1);
+		  	if (colResult)
+		  	{
+		  		if (!pCollider->IsGhosted && !tempCollider->IsGhosted)
+		  		{
+		  			colDir = CollisionDirection(&pRect0, width0, height0, &pRect1, width1, height1, pCollider);
             
-			if (colResult)
-			{
-				if (!tempCollider->IsGhosted)
-				{
-					colDir = CollisionDirection(&pRect0, width0, height0, &pRect1, width1, height1);
-					
-					switch (colDir)
-					{
-						case Bottom:
-              OutputDebugString("Bottom Collision");
-							pCollider->Grounded = True;
-							tempCollider->TopBlocked = True;
-							break;
-						case Top:
-							pCollider->TopBlocked = True;
-							tempCollider->Grounded = True;
-							break;
-						case Left:
-							pCollider->LeftBlocked = True;
-							tempCollider->RightBlocked = True;
-							break;
-						case Right:
-							pCollider->RightBlocked = True;
-							tempCollider->LeftBlocked = True;
-							break;
-					}
-				}
-			}
-		}
+		  		}
+          else
+          {
+            if (pCollider->pCollidedWithGhost == NULL)
+            {
+              pCollider->pCollidedWithGhost = tempCollider;
+            }
+          }
+		  	}
+		  }
+    }
 
 		tempUnit = tempUnit->nextUnit;
 	}
+
+  if (pCollider->pCollidedWithGhost)
+  {
+    if (pCollider->GhostStay)
+    {
+      pCollider->GhostEnter = False;
+    }
+    else
+    {
+      pCollider->GhostEnter = True;
+    }
+
+    pCollider->GhostStay = True;
+    pCollider->GhostExit = False;
+  }
+  else
+  {
+    pCollider->GhostEnter = False;
+    if (pCollider->GhostStay)
+    {
+      pCollider->GhostExit = True;
+      pCollider->GhostStay = False;
+    }
+    else
+    {
+      pCollider->GhostExit = False;
+    }
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -142,7 +162,7 @@ int StaticRectToStaticRect(VECTOR *pRect0, float Width0, float Height0, VECTOR *
 	float bottom1 = pRect1->y - Height1 / 2;
 	float top1 = pRect1->y + Height1 / 2;
 
-	if (right0 < left1 || left0 > right1 || bottom0 > top1 || top0 < bottom1)
+	if ((right0 < left1 || left0 > right1) || (bottom0 > top1 || top0 < bottom1))
 		return 0;
 	else
 		return 1;
@@ -150,7 +170,7 @@ int StaticRectToStaticRect(VECTOR *pRect0, float Width0, float Height0, VECTOR *
 
 // ---------------------------------------------------------------------------
 
-int CollisionDirection(VECTOR *pRect0, float Width0, float Height0, VECTOR *pRect1, float Width1, float Height1)
+int CollisionDirection(VECTOR *pRect0, float Width0, float Height0, VECTOR *pRect1, float Width1, float Height1, COLLIDER * pCollider)
 {
 	float left0 = pRect0->x - Width0 / 2;
 	float right0 = pRect0->x + Width0 / 2;
@@ -165,16 +185,24 @@ int CollisionDirection(VECTOR *pRect0, float Width0, float Height0, VECTOR *pRec
 	float bottomCol = bottom0 - top1;
 	float topCol = top0 - bottom1;
 	float leftCol = left0 - right1;
-	float rightCol = right0 - right1;
+	float rightCol = right0 - left1;
+
+	bottomCol = fabs(bottomCol);
+	topCol = fabs(topCol);
+	leftCol = fabs(leftCol);
+	rightCol = fabs(rightCol);
+
+  
+  
+  
+  
 
 	if (bottomCol < topCol && bottomCol < leftCol && bottomCol < rightCol)
-		return Bottom;
+    pCollider->Grounded = bottomCol;
 	else if (topCol < bottomCol && topCol < leftCol && topCol < rightCol)
-		return Top;
+    pCollider->TopBlocked = topCol;
 	else if (leftCol < topCol && leftCol < bottomCol && leftCol < rightCol)
-		return Left;
+    pCollider->LeftBlocked = leftCol;
 	else if (rightCol < topCol && rightCol < bottomCol && rightCol < leftCol)
-		return Right;
-
-  return 0;
+    pCollider->RightBlocked = rightCol;
 }

@@ -41,7 +41,10 @@
     <ClCompile Include="KMOD_Engine.c" />
     <ClCompile Include="KSOUND.c" />
     <ClCompile Include="Physics.c" />
-    <ClCompile Include="DestroyOverTimeBehavior.c">
+    <ClCompile Include="BulletBehavior.c">
+      <Filter>Behaviors</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBehavior.c">
       <Filter>Behaviors</Filter>
     </ClCompile>
   </ItemGroup>
@@ -82,6 +85,15 @@
     <Image Include="WitchWalking01.png">
       <Filter>Resources</Filter>
     </Image>
+    <Image Include="WitchIdle.png">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="WitchJumping.png">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="WitchFalling.png">
+      <Filter>Resources</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Text Include="_ArchetypeList.txt">
@@ -112,6 +124,9 @@
       <Filter>GameFiles\Levels</Filter>
     </Text>
     <Text Include="Platform_Arch.txt">
+      <Filter>GameFiles\Archetypes</Filter>
+    </Text>
+    <Text Include="Enemy_Arch.txt">
       <Filter>GameFiles\Archetypes</Filter>
     </Text>
   </ItemGroup>

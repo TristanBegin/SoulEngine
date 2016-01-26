@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include "FileInterpreter.h"
 
-#define MAX_LENGTH 50
+#define MAX_LENGTH 200
 
 #pragma warning(disable : 4996)
 
@@ -73,6 +73,14 @@ void InterpretArchetype(FILE * fpArch)
           continue;
         }
 
+        if (myStrCmp(question, "Tag") <= 0)
+        {
+          char tagInput[MAX_LENGTH];
+          sscanf(buffer, "Tag = %s", tagInput);
+          pNewArchetype->Tag = GetTagFromString(tagInput);
+          continue;
+        }
+
         if (myStrCmp(question, "COMPONENT") <= 0)
         {
           COMPONENTTYPE theType;
@@ -99,6 +107,21 @@ void InterpretArchetype(FILE * fpArch)
             {
               sscanf(buffer, "\tSize = (%f, %f)", &inputVector.x, &inputVector.y);
               pMesh->Size = inputVector;
+              continue;
+            }
+
+            if (myStrCmp(question, "Color") <= 0)
+            {
+              COLOR inputColor;
+              sscanf(buffer, "\tColor = (%f, %f, %f, %f)", &inputColor.r, &inputColor.g, &inputColor.b, &inputColor.a);
+              pMesh->Color = inputColor;
+              continue;
+            }
+
+            if (myStrCmp(question, "Opacity") <= 0)
+            {
+              sscanf(buffer, "\tOpacity = %f", &inputFloat);
+              pMesh->Opacity = inputFloat;
               continue;
             }
           }
@@ -178,6 +201,13 @@ void InterpretArchetype(FILE * fpArch)
               pCollider->Width = inputFloat;
               continue;
             }
+
+            if (myStrCmp(question, "IsGhosted") <= 0)
+            {
+              sscanf(buffer, "\tIsGhosted = %i", &inputInt);
+              pCollider->IsGhosted = inputInt;
+              continue;
+            }
           }
 
           if (pCurrComp->Type == KSound)
@@ -228,9 +258,10 @@ void InterpretArchetype(FILE * fpArch)
             SPRITE * pSprite = (SPRITE*)pCurrComp->pStruct;
             if (myStrCmp(question, "TextureFile") <= 0)
             {
+			        int temp;
               char textureInput[MAX_LENGTH];
-              sscanf(buffer, "\tTextureFile = %s", &textureInput);
-              pSprite->TextureFile = myStrCpy(textureInput);
+              sscanf(buffer, "\tTextureFile = %i , ", &temp);
+			        MultipleAnimations(buffer, temp, pSprite);
               continue;
             }
 
@@ -368,6 +399,7 @@ void InterpretLevel(FILE * fpLevel)
         
         if (myStrCmp(question, "Order") <= 0)
         {
+          char nameInput[MAX_LENGTH];
           sscanf(buffer, "Order = %i", &inputInt);
           pNewLevel->Order = inputInt;
           continue;
@@ -380,13 +412,20 @@ void InterpretLevel(FILE * fpLevel)
           ARCHETYPE * pArchetype = NULL;
           sscanf(buffer, "UNIT < %s > %s", &archInput, &nameInput);
           pArchetype = FindArchetypeByName(pTheGame, archInput);
-          OutputDebugString("Unit");
           pCurrUnit = AddUnit(pNewLevel, pArchetype, myStrCpy(nameInput));
           continue;
         }
         
         if (pCurrUnit)
         {
+          if (myStrCmp(question, "Tag") <= 0)
+          {
+            char tagInput[MAX_LENGTH];
+            sscanf(buffer, "\tTag = %s", tagInput);
+            pCurrUnit->Tag = GetTagFromString(tagInput);
+            continue;
+          }
+
           if (myStrCmp(question, "InitialPosition") <= 0)
           {
             sscanf(buffer, "\tInitialPosition = (%f, %f)", &inputVector.x, &inputVector.y);
@@ -498,6 +537,67 @@ void InterpretLevel(FILE * fpLevel)
   }
 }
 
+void MultipleAnimations(char * Buffer, int NumberOfAnimations, SPRITE * pSprite)
+{
+	int useless;
+	char textureInput1[MAX_LENGTH];
+	char textureInput2[MAX_LENGTH];
+	char textureInput3[MAX_LENGTH];
+	char textureInput4[MAX_LENGTH];
+	char textureInput5[MAX_LENGTH];
+
+	switch (NumberOfAnimations) {
+	case 1:
+		sscanf(Buffer, "\tTextureFile = %i , %s", &useless, &textureInput1);
+		pSprite->pImage->TextureFile = myStrCpy(textureInput1);
+		break;
+	case 2:
+		sscanf(Buffer, "\tTextureFile = %i , %s , %s", &useless,  &textureInput1, &textureInput2);
+		pSprite->pImage->TextureFile = myStrCpy(textureInput1);
+		pSprite->pImage->pNextImage = malloc(sizeof(IMAGE));
+		pSprite->pImage->pNextImage->TextureFile = myStrCpy(textureInput2);
+		pSprite->pImage->pNextImage->pNextImage = NULL;
+		break;
+	case 3:
+		sscanf(Buffer, "\tTextureFile = %i , %s , %s , %s", &useless, &textureInput1, &textureInput2, &textureInput3);
+		pSprite->pImage->TextureFile = myStrCpy(textureInput1);
+		pSprite->pImage->pNextImage = malloc(sizeof(IMAGE));
+		pSprite->pImage->pNextImage->TextureFile = myStrCpy(textureInput2);
+		pSprite->pImage->pNextImage->pNextImage = malloc(sizeof(IMAGE));
+		pSprite->pImage->pNextImage->pNextImage->TextureFile = myStrCpy(textureInput3);
+		pSprite->pImage->pNextImage->pNextImage->pNextImage = NULL;
+		break;
+	case 4:
+		sscanf(Buffer, "\tTextureFile = %i , %s , %s , %s , %s", &useless, &textureInput1, &textureInput2, &textureInput3, &textureInput4);
+		pSprite->pImage->TextureFile = myStrCpy(textureInput1);
+		pSprite->pImage->pNextImage = malloc(sizeof(IMAGE));
+		pSprite->pImage->pNextImage->TextureFile = myStrCpy(textureInput2);
+		pSprite->pImage->pNextImage->pNextImage = malloc(sizeof(IMAGE));
+		pSprite->pImage->pNextImage->pNextImage->TextureFile = myStrCpy(textureInput3);
+		pSprite->pImage->pNextImage->pNextImage->pNextImage = malloc(sizeof(IMAGE));
+		pSprite->pImage->pNextImage->pNextImage->pNextImage->TextureFile = myStrCpy(textureInput4);
+		pSprite->pImage->pNextImage->pNextImage->pNextImage->pNextImage = NULL;
+		break;
+	case 5:
+		sscanf(Buffer, "\tTextureFile = %i , %s , %s , %s , %s , %s", &useless, &textureInput1, &textureInput2, &textureInput3, &textureInput4, &textureInput5);
+		pSprite->pImage->TextureFile = myStrCpy(textureInput1);
+		pSprite->pImage->pNextImage = malloc(sizeof(IMAGE));
+		pSprite->pImage->pNextImage->TextureFile = myStrCpy(textureInput2);
+		pSprite->pImage->pNextImage->pNextImage = malloc(sizeof(IMAGE));
+		pSprite->pImage->pNextImage->pNextImage->TextureFile = myStrCpy(textureInput3);
+		pSprite->pImage->pNextImage->pNextImage->pNextImage = malloc(sizeof(IMAGE));
+		pSprite->pImage->pNextImage->pNextImage->pNextImage->TextureFile = myStrCpy(textureInput4);
+		pSprite->pImage->pNextImage->pNextImage->pNextImage->pNextImage = malloc(sizeof(IMAGE));
+		pSprite->pImage->pNextImage->pNextImage->pNextImage->pNextImage->TextureFile = myStrCpy(textureInput5);
+		pSprite->pImage->pNextImage->pNextImage->pNextImage->pNextImage->pNextImage = NULL;
+		break;
+	default:
+		sscanf(Buffer, " %s", &textureInput1);
+		pSprite->pImage->TextureFile = myStrCpy(textureInput1);
+	}
+
+}
+
 VTYPE GetVTypeFromString(char * theString)
 {
   if (myStrCmp(theString, "Float") <= 0)
@@ -532,6 +632,28 @@ VTYPE GetVTypeFromString(char * theString)
   {
     return Matrix;
   }
+}
 
-  return Int;
+TAG GetTagFromString(char * String)
+{
+  if (myStrCmp(String, "DEFUALT") <= 0)
+  {
+    return DEFAULT;
+  }
+  else if (myStrCmp(String, "PLAYER") <= 0)
+  {
+    return PLAYER;
+  }
+  else if (myStrCmp(String, "BAD") <= 0)
+  {
+    return BAD;
+  }
+  else if (myStrCmp(String, "ENEMY") <= 0)
+  {
+    return ENEMY;
+  }
+  else if (myStrCmp(String, "WALL") <= 0)
+  {
+    return WALL;
+  }
 }

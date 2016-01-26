@@ -1,6 +1,6 @@
 #include "SoulEngine.h"
 #include "Physics.h"
-
+#include <math.h>
 void UpdatePhysics(PHYSICS * pPhysics, COLLIDER *pCollider)
 {
   UNIT * pOwner = pPhysics->pArchetype->pUnit;
@@ -19,7 +19,7 @@ void UpdatePhysics(PHYSICS * pPhysics, COLLIDER *pCollider)
 
   //if (pVelocity->y < gravityMax)
   //{
-  pAcceleration->y -= gravityRate * (float)frameTime;
+  pAcceleration->y = -gravityRate;
   //}
 
   ////////////////////////////////////////////
@@ -35,15 +35,61 @@ void UpdatePhysics(PHYSICS * pPhysics, COLLIDER *pCollider)
 
   /******* Account for Collision ************/
 
-  //if (pCollider->Grounded)
-  //{
-  //  pVelocity->y += -(pVelocity->y);
-  //}
+
+  if (pCollider->Grounded)
+  {
+    if (pAcceleration->y < 0) pAcceleration->y = 0;
+    if (pCollider->Grounded < 0.02f)
+    {
+      
+      if (pVelocity->y < 0) pVelocity->y = 0;
+    }
+    else
+    {
+      if (pVelocity->y < 0) pVelocity->y = (pow((pCollider->Grounded - 0.05) * 20, 2)) / 2;
+    }
+  }
 
   if (pCollider->LeftBlocked)
   {
-    pVelocity->y = 0;
-    pAcceleration->y = 0;
+    if (pAcceleration->x < 0) pAcceleration->x = 0;
+    if (pCollider->LeftBlocked < 0.1f)
+    {
+
+      if (pVelocity->x < 0) pVelocity->x = 0;
+    }
+    else
+    {
+      if (pVelocity->x < 0) pVelocity->x = (pow(pCollider->LeftBlocked * 15, 2)) / 2;
+    }
+  }
+
+  if (pCollider->TopBlocked)
+  {
+    if (pAcceleration->y > 0) pAcceleration->y = 0;
+    if (pCollider->TopBlocked < 0.1f)
+    {
+
+      if (pVelocity->y > 0) pVelocity->y = 0;
+    }
+    else
+    {
+      if (pVelocity->y > 0) pVelocity->y = -(pow(pCollider->TopBlocked * 15, 2)) / 2;
+    }
+  }
+
+  if (pCollider->RightBlocked)
+  {
+    if (pAcceleration->x > 0) pAcceleration->x = 0;
+    if (pCollider->RightBlocked < 0.1f)
+    {
+
+      if (pVelocity->x > 0) pVelocity->x = 0;
+    }
+    else
+    {
+      if (pVelocity->x > 0) pVelocity->x = -(pow(pCollider->RightBlocked * 15, 2)) / 2;
+    }
   }
   //
   //if (pMyTransform->Position.y < 0)
@@ -61,11 +107,23 @@ void UpdatePhysics(PHYSICS * pPhysics, COLLIDER *pCollider)
 
   /******* Apply Velocity to Player *********/
 
-  pVelocity->x += pAcceleration->x * (float)frameTime;
-  pVelocity->y += pAcceleration->y * (float)frameTime;
+  pVelocity->x += pAcceleration->x * frameTime;
+  pVelocity->y += pAcceleration->y * frameTime;
+  if (pVelocity->y > maxSpeed)
+  {
+    pVelocity->y = maxSpeed;
+  }
+  else if (pVelocity->y < -maxSpeed)
+  {
+    pVelocity->y = -maxSpeed;
+  }
+  if (pVelocity->x < 0.1 && pVelocity->x > -0.1)
+  {
+    pVelocity->x = 0;
+  }
 
-  pMyTransform->Position.x += pVelocity->x * (float)frameTime;
-  pMyTransform->Position.y += pVelocity->y * (float)frameTime;
+  pMyTransform->Position.x += pVelocity->x * frameTime;
+  pMyTransform->Position.y += pVelocity->y * frameTime;
 
   ////////////////////////////////////////////
 }
