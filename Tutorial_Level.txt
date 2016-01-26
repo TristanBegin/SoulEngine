@@ -80,6 +80,14 @@ UNIT < Platform > myPlatform
 
 EndUnit
 #-----------------------------------------------
+UNIT < Platform > myPlatform
+
+	InitialPosition = (10, -4)
+	InitialRotation = 0
+	InitialScale = (1, 1)
+
+EndUnit
+#-----------------------------------------------
 UNIT < Enemy > TestEnemy
 
 	InitialPosition = (-5, 6)

@@ -368,10 +368,13 @@ void InterpretLevel(FILE * fpLevel)
 {
   char buffer[MAX_LENGTH];
   LEVEL * pNewLevel = malloc(sizeof(LEVEL));
+  CAMERA * pCam = malloc(sizeof(CAMERA));
   UNIT * pCurrUnit = NULL;
+  pCam->Position = NewVector(0, 0);
+  pCam->Zoom = 48;
   pNewLevel->Name = "Untitled";
   pNewLevel->Order = 0;
-  pNewLevel->pCamera = NULL;
+  pNewLevel->pCamera = pCam;
   pNewLevel->nextUnit = NULL;
   pNewLevel->pGame = pTheGame;
   pNewLevel->nextLevel = pTheGame->nextLevel;

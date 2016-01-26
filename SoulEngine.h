@@ -157,6 +157,8 @@ typedef struct COLLIDER
   float TopBlocked;
   float LeftBlocked;
   float RightBlocked;
+  BOOL RightGrounded;
+  BOOL LeftGrounded;
   BOOL GhostEnter;
   BOOL GhostStay;
   BOOL GhostExit;
@@ -313,7 +315,8 @@ typedef struct LEVEL
 //Placeholder
 typedef struct CAMERA
 {
-  TRANSFORM *pTransform;
+  VECTOR Position;
+  float Zoom;
 }CAMERA;
 
 

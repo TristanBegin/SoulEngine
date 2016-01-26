@@ -42,11 +42,14 @@ static void Start()
 {
   float * Health = AddVar(Float, "Health", pMyBehavior);
   *Health = 100;
+  float * Speed = AddVar(Float, "Speed", pMyBehavior);
+  *Speed = 5;
 }
 
 static void Update()
 {
   float * Health = GetVar("Health", pMyBehavior);
+  float * Speed = GetVar("Speed", pMyBehavior);
 
   if (*Health <= 0)
   {
@@ -62,4 +65,16 @@ static void Update()
     DestroyUnit(COLLIDED_OBJECT);
   }
 
+  if (!pMyCollider->RightGrounded)
+  {
+    *Speed = -5;
+  }
+  else if (!pMyCollider->LeftGrounded)
+  {
+    *Speed = 5;
+  }
+  if (pMyCollider->Grounded)
+  {
+    pMyPhysics->Velocity.x = *Speed;
+  }
 }

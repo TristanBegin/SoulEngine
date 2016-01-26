@@ -235,6 +235,8 @@ COMPONENT * AddComponent(ARCHETYPE *pArchetype, COMPONENTTYPE DesiredType)
     pNewCollider->GhostEnter = False;
     pNewCollider->GhostExit = False;
     pNewCollider->GhostStay = False;
+    pNewCollider->LeftGrounded = False;
+    pNewCollider->RightGrounded = False;
     pNewCollider->pCollidedWithGhost = NULL;
 
 
@@ -462,9 +464,13 @@ LEVEL * AddLevel(GAME * pGame, char *Name, int Order)
 {
 
 	LEVEL * pNewLevel = malloc(sizeof(LEVEL));
+  CAMERA * pCam = malloc(sizeof(CAMERA));
+  pCam->Position = NewVector(0, 0);
+  pCam->Zoom = 48;
+  
 	pNewLevel->Name = myStrCpy(Name);
 	pNewLevel->Order = Order;
-	pNewLevel->pCamera = NULL;
+	pNewLevel->pCamera = pCam;
 	pNewLevel->nextUnit = NULL;
   pNewLevel->pGame = pGame;
 	pNewLevel->nextLevel = pGame->nextLevel;

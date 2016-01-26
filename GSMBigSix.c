@@ -5,8 +5,6 @@
 #include "Physics.h"
 #include "FileInterpreter.h"
 extern GAME * pTheGame;
-//extern BEHAVIOR ** pBehaviorArray;
-//extern int numBehaviors;
 
 
 
@@ -78,6 +76,11 @@ void UpdateLevel()
 {
   LEVEL * pTheLevel = pTheGame->pGameStats->pRunningLevel;
   UNIT * tempUnit = pTheLevel->nextUnit;
+
+  float GridSize = pTheGame->pGameStats->GridSize;
+  AEGfxSetCamPosition(pTheLevel->pCamera->Position.x * GridSize, pTheLevel->pCamera->Position.y * GridSize);
+
+
   while (tempUnit)
   {
     if (tempUnit->pArchetype)
@@ -203,11 +206,11 @@ void DrawObject(MESH * pMesh, SPRITE * pSprite)
 	  {
 		  //Set texture for object
 		  AEGfxTextureSet(ptemp->pTexture, pSprite->Offset.x, pSprite->Offset.y);
+      
 		  break;
 	  }
 	  ptemp = ptemp->pNextImage;
   }
-  
 
   //Drawing the mesh (list of triangles)
   AEGfxSetTintColor(pMesh->Color.r, pMesh->Color.g, pMesh->Color.b, pMesh->Color.a);

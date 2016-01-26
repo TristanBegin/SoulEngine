@@ -1,5 +1,6 @@
 #include "SoulEngine.h"
 #include <math.h>
+#include "VectorMath.h"
 
 static UNIT * pMyUnit;
 static TRANSFORM * pMyTransform;
@@ -11,6 +12,7 @@ static PHYSICS * pMyPhysics;
 static BEHAVIOR * pMyBehavior;
 static COLLIDER * pMyCollider;
 static SPRITE * pMySprite;
+static CAMERA * pMyCamera;
 
 static float gravityRate = 0;
 static float gravityMax = 0.5;
@@ -34,6 +36,7 @@ void PlayerBehavior(BEHAVIOR * Owner, char * Trigger)
   pMyLevel = pMyUnit->pLevel;
   pMyGame = pMyLevel->pGame;
   pMyGameStats = pMyGame->pGameStats;
+  pMyCamera = pMyLevel->pCamera;
   pMyPhysics = FindComponentStruct(pMyArchetype, Physics);
   pMyCollider = FindComponentStruct(pMyArchetype, Collider);
   pMySprite = FindComponentStruct(pMyArchetype, Sprite);
@@ -65,11 +68,10 @@ static void Start()
 static void Update()
 {
   BOOL * FacingRight = GetVar("FacingRight", pMyBehavior);
-  char ** WalkAnim = GetVar("WalkAnim", pMyBehavior);
-  char ** IdleAnim = GetVar("IdleAnim", pMyBehavior);
-  char ** JumpAnim = GetVar("JumpAnim", pMyBehavior);
-  char ** FallAnim = GetVar("FallAnim", pMyBehavior);
 
+  UpdateAnimation();
+  UpdateCamera();
+  
   if (AEInputCheckTriggered(' '))
   {
     UNIT * pBullet = InstantiateUnit(pMyLevel, "Bullet", pMyTransform->Position);
@@ -118,6 +120,17 @@ static void Update()
     pMyPhysics->Velocity.x += 1.0;
   }
 
+
+
+}
+
+UpdateAnimation()
+{
+  char ** WalkAnim = GetVar("WalkAnim", pMyBehavior);
+  char ** IdleAnim = GetVar("IdleAnim", pMyBehavior);
+  char ** JumpAnim = GetVar("JumpAnim", pMyBehavior);
+  char ** FallAnim = GetVar("FallAnim", pMyBehavior);
+
   if (pMyCollider->Grounded)
   {
     if (pMyPhysics->Velocity.x != 0)
@@ -134,7 +147,10 @@ static void Update()
   }
 }
 
-UpdateAnimation()
+UpdateCamera()
 {
-
+  float DistanceX = pMyTransform->Position.x - pMyCamera->Position.x;
+  float DistanceY = pMyTransform->Position.y - pMyCamera->Position.y;
+  if (fabs(DistanceX) > 0.2) pMyCamera->Position.x += DistanceX * 2 * deltaTime;
+  if (fabs(DistanceY) > 0.2)pMyCamera->Position.y += DistanceY * 2 * deltaTime;
 }

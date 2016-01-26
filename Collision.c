@@ -17,6 +17,8 @@ void UpdateCollision(COLLIDER *pCollider)
   pCollider->LeftBlocked = False;
   pCollider->RightBlocked = False;
   pCollider->TopBlocked = False;
+  pCollider->RightGrounded = False;
+  pCollider->LeftGrounded = False;
   pCollider->pCollidedWithGhost = NULL;
 
 	//Walk through the list of Units in the Level, checking for collisions with current collider
@@ -197,8 +199,16 @@ int CollisionDirection(VECTOR *pRect0, float Width0, float Height0, VECTOR *pRec
   
   
 
-	if (bottomCol < topCol && bottomCol < leftCol && bottomCol < rightCol)
+  if (bottomCol < topCol && bottomCol < leftCol && bottomCol < rightCol)
+  {
     pCollider->Grounded = bottomCol;
+
+    if (rightCol > Width0) pCollider->LeftGrounded = True;
+    else pCollider->LeftGrounded = False;
+
+    if (leftCol > Width0) pCollider->RightGrounded = True;
+    else pCollider->RightGrounded = False;
+  }
 	else if (topCol < bottomCol && topCol < leftCol && topCol < rightCol)
     pCollider->TopBlocked = topCol;
 	else if (leftCol < topCol && leftCol < bottomCol && leftCol < rightCol)
