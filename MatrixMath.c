@@ -1,6 +1,6 @@
 #include "MatrixMath.h"
 
-#define PI      3.1415926535897932384626433832795
+//#define PI      3.1415926535897932384626433832795
 
 // ---------------------------------------------------------------------------
 
@@ -99,7 +99,7 @@ void Matrix2DScale(Matrix2D *pResult, float x, float y)
 
 void Matrix2DRotDeg(Matrix2D *pResult, float Angle)
 {
-	float angleRad = Angle * PI / 180;
+	float angleRad = Angle * (float)PI / 180;
 
 	Matrix2DRotRad(pResult, angleRad);
 
@@ -110,8 +110,8 @@ void Matrix2DRotDeg(Matrix2D *pResult, float Angle)
 void Matrix2DRotRad(Matrix2D *pResult, float Angle)
 {
 	Matrix2DIdentity(pResult);
-	float c = cos(Angle);
-	float s = sin(Angle);
+	float c = (float)cos(Angle);
+	float s = (float)sin(Angle);
 
 	pResult->m[0][0] = c;
 	pResult->m[0][1] = -s;

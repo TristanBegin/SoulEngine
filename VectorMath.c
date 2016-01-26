@@ -1,6 +1,6 @@
 #include "VectorMath.h"
 
-#define PI 3.1415926535897932384626433832795
+//#define PI 3.1415926535897932384626433832795
 
 // ---------------------------------------------------------------------------
 
@@ -88,7 +88,7 @@ float Vector2DLength(VECTOR *pVec0)
 {
 	float x = pVec0->x;
 	float y = pVec0->y;
-	float h = sqrt(x*x + y*y);
+	float h = (float)sqrt(x*x + y*y);
 
 	return h;
 }
@@ -116,7 +116,7 @@ float Vector2DDistance(VECTOR *pVec0, VECTOR *pVec1)
 	float x = t - v;
 	float y = u - w;
 
-	float h = sqrt(x*x + y*y);
+	float h = (float)sqrt(x*x + y*y);
 
 	return h;
 }
@@ -156,7 +156,7 @@ float Vector2DDotProduct(VECTOR *pVec0, VECTOR *pVec1)
 
 void Vector2DFromAngleDeg(VECTOR *pResult, float angle)
 {
-	float angleRad = angle * PI / 180;
+	float angleRad = angle * (float)PI / 180;
 
 	Vector2DFromAngleRad(pResult, angleRad);
 }
@@ -165,17 +165,17 @@ void Vector2DFromAngleDeg(VECTOR *pResult, float angle)
 
 void Vector2DFromAngleRad(VECTOR *pResult, float angle)
 {
-	float x = sin(angle);
-	float y = sin(angle);
+	float x = (float)sin(angle);
+	float y = (float)sin(angle);
 
 	Vector2DSet(pResult, x, y);
 }
 
 // ---------------------------------------------------------------------------
 
-void GetNormalVec(VECTOR *pResult, VECTOR *pVec)
+void GetNormalVec(VECTOR *pResult, const VECTOR *pVec)
 {
-	AEVec2Set(pResult, -pVec->y, pVec->x);
+  Vector2DSet(pResult, -pVec->y, pVec->x);
 }
 
 // ---------------------------------------------------------------------------
@@ -197,11 +197,11 @@ void GetNormal2Pts(VECTOR *pResult, VECTOR *pPt0, VECTOR *pPt1)
 
 void Project(VECTOR *pResult, VECTOR *pVec0, VECTOR *pVec1)
 {
-	float scalar = AEVec2DotProduct(pVec0, pVec1) / (AEVec2Length(pVec0) * AEVec2Length(pVec1));
+	float scalar = Vector2DDotProduct(pVec0, pVec1) / (Vector2DLength(pVec0) * Vector2DLength(pVec1));
 	float x = pVec0->x * scalar;
 	float y = pVec0->y * scalar;
 
-	AEVec2Set(pResult, x, y);
+	Vector2DSet(pResult, x, y);
 }
 
 // ---------------------------------------------------------------------------

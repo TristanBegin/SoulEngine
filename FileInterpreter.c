@@ -368,7 +368,6 @@ void InterpretLevel(FILE * fpLevel)
         
         if (myStrCmp(question, "Order") <= 0)
         {
-          char nameInput[MAX_LENGTH];
           sscanf(buffer, "Order = %i", &inputInt);
           pNewLevel->Order = inputInt;
           continue;
@@ -533,4 +532,6 @@ VTYPE GetVTypeFromString(char * theString)
   {
     return Matrix;
   }
+
+  return Int;
 }

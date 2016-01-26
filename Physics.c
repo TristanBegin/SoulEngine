@@ -19,7 +19,7 @@ void UpdatePhysics(PHYSICS * pPhysics, COLLIDER *pCollider)
 
   //if (pVelocity->y < gravityMax)
   //{
-  pAcceleration->y -= gravityRate * frameTime;
+  pAcceleration->y -= gravityRate * (float)frameTime;
   //}
 
   ////////////////////////////////////////////
@@ -61,11 +61,11 @@ void UpdatePhysics(PHYSICS * pPhysics, COLLIDER *pCollider)
 
   /******* Apply Velocity to Player *********/
 
-  pVelocity->x += pAcceleration->x * frameTime;
-  pVelocity->y += pAcceleration->y * frameTime;
+  pVelocity->x += pAcceleration->x * (float)frameTime;
+  pVelocity->y += pAcceleration->y * (float)frameTime;
 
-  pMyTransform->Position.x += pVelocity->x * frameTime;
-  pMyTransform->Position.y += pVelocity->y * frameTime;
+  pMyTransform->Position.x += pVelocity->x * (float)frameTime;
+  pMyTransform->Position.y += pVelocity->y * (float)frameTime;
 
   ////////////////////////////////////////////
 }

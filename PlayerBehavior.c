@@ -15,9 +15,9 @@ static float gravityMax = 0.5;
 static float lastPosX;
 static float lastPosY;
 static VECTOR Velocity;
-static float friction = 0.05;
+static float friction = 0.05f;
 static int collidingY = 0;
-static float maxSpeed = 0.3;
+static float maxSpeed = 0.3f;
 static float mineVar = 0;
 
 void Start();
@@ -77,26 +77,26 @@ static void Update()
       (pMyTransform->Position.y <= 0 || 
       (pMyPhysics->Velocity.y > 0.4 && pMyTransform->Position.y <= 4)))
   {
-    pMyPhysics->Velocity.y = 0.5;
+    pMyPhysics->Velocity.y = 0.5f;
   }
 
   if (AEInputCheckCurr('S'))
   {
-    pMyPhysics->Velocity.y -= 0.05;
+    pMyPhysics->Velocity.y -= 0.05f;
   }
 
   //Left movement
   if (AEInputCheckCurr('A') && pMyPhysics->Velocity.x > -maxSpeed)
   {
     *FacingRight = False;
-    pMyPhysics->Velocity.x -= 0.05;
+    pMyPhysics->Velocity.x -= 0.05f;
   }
 
   //Right movement
   if (AEInputCheckCurr('D') && pMyPhysics->Velocity.x < maxSpeed)
   {
     *FacingRight = True;
-    pMyPhysics->Velocity.x += 0.05;
+    pMyPhysics->Velocity.x += 0.05f;
   }
 
 

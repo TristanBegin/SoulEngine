@@ -175,4 +175,6 @@ int CollisionDirection(VECTOR *pRect0, float Width0, float Height0, VECTOR *pRec
 		return Left;
 	else if (rightCol < topCol && rightCol < bottomCol && rightCol < leftCol)
 		return Right;
+
+  return 0;
 }

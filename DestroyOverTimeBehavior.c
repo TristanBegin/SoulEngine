@@ -40,8 +40,8 @@ void Start()
 
 void Update()
 {
-  float * TimeDestroy = GetVar(Float, "TimeDestroy", pMyBehavior);
-  *TimeDestroy -= AEFrameRateControllerGetFrameTime();
+  float * TimeDestroy = GetVar("TimeDestroy", pMyBehavior);
+  *TimeDestroy -= (float)AEFrameRateControllerGetFrameTime();
   if (*TimeDestroy < 0)
   {
     DestroyUnit(pMyUnit);
