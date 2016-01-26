@@ -51,7 +51,7 @@ GAMESTATS * SetDefaults(GAME * pGame)
   VECTOR zeroVector = { 0, 0 };
   VECTOR meshSizeVector = { 1, 1 };
   VECTOR oneVector = { 1, 1 };
-  AEGfxVertexList * pLMesh;
+  //AEGfxVertexList * pLMesh;
   TRANSFORM * pTransform = malloc(sizeof(TRANSFORM));
 
   pTransform->Position = zeroVector;
@@ -210,7 +210,7 @@ COMPONENT * AddComponent(ARCHETYPE *pArchetype, COMPONENTTYPE DesiredType)
     pNewPhysics->Velocity = NewVector(0, 0);
     pNewPhysics->Acceleration = NewVector(0, 0);
     pNewPhysics->Gravity = 0.5;
-    pNewPhysics->Friction = 0.1;
+    pNewPhysics->Friction = 0.1f;
     pNewPhysics->MaxSpeed = 0.5;
 
     pNewPhysics->pComponent = pNewComponent;

@@ -31,6 +31,6 @@ void Animate(SPRITE * pSprite)
 	}
 	else
 	{
-		pSprite->TimeSinceLastFrame += AEFrameRateControllerGetFrameTime();
+		pSprite->TimeSinceLastFrame += (float)AEFrameRateControllerGetFrameTime();
 	}
 }

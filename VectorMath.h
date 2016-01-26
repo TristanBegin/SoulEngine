@@ -94,11 +94,11 @@ void GetNormalVec(VECTOR *pResult, const VECTOR *pVec);
 /*
 This function gets the normal of the vector between pPt0 and pPt1 and stores the result in pResult
 */
-void GetNormal2Pts(VECTOR *pResult, const VECTOR *pPt0, const VECTOR *pPt1);
+void GetNormal2Pts(VECTOR *pResult, VECTOR *pPt0, VECTOR *pPt1);
 
 /*
 This function projects pVec1 onto pVec0 and stores the result in pResult
 */
-void Project(VECTOR *pResult, const VECTOR *pVec0, const VECTOR *pVec1);
+void Project(VECTOR *pResult, VECTOR *pVec0, VECTOR *pVec1);
 
 #endif
