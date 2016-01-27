@@ -21,6 +21,7 @@ typedef struct LEVEL LEVEL;
 typedef struct CAMERA CAMERA;
 typedef struct BEHAVIOR BEHAVIOR;
 typedef struct VAR VAR;
+typedef struct COLLISIONINFO COLLISIONINFO;
 //typedef struct COLOR COLOR;
 typedef struct MATRIX MATRIX;
 typedef struct IMAGE IMAGE;
@@ -149,6 +150,7 @@ typedef struct COLLIDER
 {
   COMPONENT *pComponent;  //The component that holds this Collider.
   ARCHETYPE *pArchetype;  //The original archetype this came from.
+  BOOL Enabled;
   VECTOR Offset;
   float Height;
   float Width;
@@ -190,6 +192,7 @@ typedef struct SPRITE
 {
   COMPONENT *pComponent;  //The component that holds this Sprite.
   ARCHETYPE *pArchetype;  //The original archetype this came from.
+  BOOL Visible;
   IMAGE *pImage;
   BOOL Animated;          //The Boolean that tells if it is animated.
   VECTOR RowCol;          //The number of rows and columns in the sprite sheet. 
@@ -228,7 +231,7 @@ typedef struct MESH
 typedef struct BEHAVIOR
 {
   //Pointer to the funtion that defines the behavior.
-  void(*BehaviorScript)(BEHAVIOR * Owner, char * Trigger); 
+  void(*BehaviorScript)(BEHAVIOR * Owner, char * Trigger, void * Data);
 
   VAR * nextVar; //Linked list of variables for the function to reference.
 
@@ -250,6 +253,13 @@ typedef struct TRANSFORM
   float Rotation;
   VECTOR Scale;
 }TRANSFORM;
+
+typedef struct COLLISIONINFO
+{
+  COLLIDER * pCollider;
+  UNIT * pUnit;
+  TAG Tag;
+};
 
 
 //The stats for the game object.
@@ -363,7 +373,8 @@ typedef enum TAG
   PLAYER,
   BAD,
   ENEMY,
-  WALL
+  WALL,
+  WEAPON
 }TAG;
 
 TAG GetTagFromString(char * String);
@@ -418,7 +429,7 @@ void FreeGame(GAME * pGame);
 COMPONENT * AddComponent(ARCHETYPE *pArchetype, COMPONENTTYPE DesiredType);
 
 //Adds a Behavior component with the given function as it's script. (Use AddComponent to simply add default Behavior).
-COMPONENT * AddBehaviorComponent(ARCHETYPE *pArchetype, void(*BehaviorScript)(BEHAVIOR * Owner, char * Trigger));
+COMPONENT * AddBehaviorComponent(ARCHETYPE *pArchetype, void(*BehaviorScript)(BEHAVIOR * Owner, char * Trigger, void * Data));
 
 //Finds the first component of a given type on an archetype and returns the component.
 COMPONENT * FindComponent(ARCHETYPE * pArchetype, COMPONENTTYPE DesiredType);

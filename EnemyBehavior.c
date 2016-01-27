@@ -11,10 +11,11 @@ static BEHAVIOR * pMyBehavior;
 static COLLIDER * pMyCollider;
 static MESH * pMyMesh;
 
-void Start();
-void Update();
+static void Start();
+static void Update();
+static void OnGhostEnter(COLLISIONINFO * pCollisionInfo);
 
-void EnemyBehavior(BEHAVIOR * Owner, char * Trigger)
+void EnemyBehavior(BEHAVIOR * Owner, char * Trigger, void * Data)
 {
   pMyUnit = Owner->pArchetype->pUnit;
   pMyTransform = pMyUnit->pTransform;
@@ -35,6 +36,11 @@ void EnemyBehavior(BEHAVIOR * Owner, char * Trigger)
   if (Trigger == "Update")
   {
     Update();
+  }
+
+  if (Trigger == "OnGhostEnter")
+  {
+    OnGhostEnter(Data);
   }
 }
 
@@ -58,11 +64,19 @@ static void Update()
 
   pMyMesh->Opacity = *Health / 100;
 
-  if (pMyCollider->GhostEnter && COLLIDED_OBJECT->Tag == BAD)
+  if (pMyCollider->GhostEnter)
   {
-    pMyPhysics->Velocity.y = 5;
-    *Health -= 10;
-    DestroyUnit(COLLIDED_OBJECT);
+    if (COLLIDED_OBJECT->Tag == BAD)
+    {
+      pMyPhysics->Velocity.y = 5;
+      *Health -= 10;
+      DestroyUnit(COLLIDED_OBJECT);
+    }
+    else if (COLLIDED_OBJECT->Tag == WEAPON)
+    {
+      pMyPhysics->Velocity.y = 5;
+      *Health -= 10;
+    }
   }
 
   if (!pMyCollider->RightGrounded)
@@ -77,4 +91,9 @@ static void Update()
   {
     pMyPhysics->Velocity.x = *Speed;
   }
+}
+
+static void OnGhostEnter(COLLISIONINFO * CollisionInfo)
+{
+
 }

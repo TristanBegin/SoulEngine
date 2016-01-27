@@ -14,20 +14,25 @@ static COLLIDER * pMyCollider;
 static SPRITE * pMySprite;
 static CAMERA * pMyCamera;
 
-static float gravityRate = 0;
-static float gravityMax = 0.5;
-static float lastPosX;
-static float lastPosY;
-static VECTOR Velocity;
-static float friction = 0.05;
-static int collidingY = 0;
-static float maxSpeed = 10;
-static float mineVar = 0;
+static UNIT * pWeapon;
+static SPRITE * pWeaponSprite;
+static COLLIDER * pWeaponCollider;
+static PHYSICS * pWeaponPhysics;
+static TRANSFORM * pWeaponTransform;
+
+static enum AttackDirection
+{
+  AtNone,
+  AtRight,
+  AtLeft,
+  AtDown,
+  AtUp
+};
 
 void Start();
 void Update();
 
-void PlayerBehavior(BEHAVIOR * Owner, char * Trigger)
+void PlayerBehavior(BEHAVIOR * Owner, char * Trigger, void * Data)
 {
   pMyBehavior = Owner;
   pMyUnit = Owner->pArchetype->pUnit;
@@ -40,6 +45,12 @@ void PlayerBehavior(BEHAVIOR * Owner, char * Trigger)
   pMyPhysics = FindComponentStruct(pMyArchetype, Physics);
   pMyCollider = FindComponentStruct(pMyArchetype, Collider);
   pMySprite = FindComponentStruct(pMyArchetype, Sprite);
+
+  pWeapon = FindUnitByName(pMyLevel, "PlayerWeapon");
+  pWeaponSprite = FindComponentStruct(pWeapon->pArchetype, Sprite);
+  pWeaponCollider = FindComponentStruct(pWeapon->pArchetype, Collider);
+  pWeaponPhysics = FindComponentStruct(pWeapon->pArchetype, Physics);
+  pWeaponTransform = pWeapon->pTransform;
 
   if (Trigger == "Start")
   {
@@ -55,6 +66,7 @@ void PlayerBehavior(BEHAVIOR * Owner, char * Trigger)
 static void Start()
 {
   AddVar(Bool, "FacingRight", pMyBehavior);
+  AddVar(Int, "Attacking", pMyBehavior);
   char ** WalkAnim = AddVar(String, "WalkAnim", pMyBehavior);
   char ** IdleAnim = AddVar(String, "IdleAnim", pMyBehavior);
   char ** JumpAnim = AddVar(String, "JumpAnim", pMyBehavior);
@@ -68,6 +80,7 @@ static void Start()
 static void Update()
 {
   BOOL * FacingRight = GetVar("FacingRight", pMyBehavior);
+  int * Attacking = GetVar("Attacking", pMyBehavior);
 
   UpdateAnimation();
   UpdateCamera();
@@ -85,7 +98,36 @@ static void Update()
       pBulletPhysics->Velocity.x = -15;
     }
   }
-  
+
+
+  float weaponDistanceX = pWeaponTransform->Position.x - pMyTransform->Position.x;
+  float weaponDistanceY = pWeaponTransform->Position.y - pMyTransform->Position.y;
+
+  if (*Attacking == AtNone)
+  {
+    pWeaponTransform->Position = pMyTransform->Position;
+    pWeaponPhysics->Acceleration = NewVector(0, 0);
+
+    if (AEInputCheckCurr(VK_RIGHT))
+    {
+      *Attacking = AtRight;
+      pWeaponPhysics->Acceleration.x = 100;
+    }
+  }
+  else if (*Attacking = AtRight)
+  {
+    pWeaponTransform->Position.y = pMyTransform->Position.y;
+
+    if (AEInputCheckCurr(VK_LEFT) || weaponDistanceX > 10)
+    {
+      pWeaponPhysics->Acceleration.x = -100;
+    }
+    if (pWeaponCollider->GhostEnter && pWeaponCollider->pCollidedWithGhost->pArchetype->Tag == PLAYER)
+    {
+      *Attacking = False;
+    }
+
+  }
   /************* Player Input ***************/
 
   // Jumping
@@ -107,14 +149,14 @@ static void Update()
   }
   
   //Left movement
-  if (AEInputCheckCurr('A') && pMyPhysics->Velocity.x > -maxSpeed)
+  if (AEInputCheckCurr('A') && pMyPhysics->Velocity.x > -pMyPhysics->MaxSpeed)
   {
     *FacingRight = False;
     pMyPhysics->Velocity.x -= 1.0;
   }
 
   //Right movement
-  if (AEInputCheckCurr('D') && pMyPhysics->Velocity.x < maxSpeed)
+  if (AEInputCheckCurr('D') && pMyPhysics->Velocity.x < pMyPhysics->MaxSpeed)
   {
     *FacingRight = True;
     pMyPhysics->Velocity.x += 1.0;

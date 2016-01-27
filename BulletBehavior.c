@@ -12,7 +12,7 @@ static COLLIDER * pMyCollider;
 void Start();
 void Update();
 
-void BulletBehavior(BEHAVIOR * Owner, char * Trigger)
+void BulletBehavior(BEHAVIOR * Owner, char * Trigger, void * Data)
 {
   pMyUnit = Owner->pArchetype->pUnit;
   pMyTransform = pMyUnit->pTransform;

@@ -13,7 +13,7 @@ static BEHAVIOR * pMyBehavior;
 void Start();
 void Update();
 
-void GoRightBehavior(BEHAVIOR * Owner, char * Trigger)
+void GoRightBehavior(BEHAVIOR * Owner, char * Trigger, void * Data)
 {
   pMyUnit = Owner->pArchetype->pUnit;
   pMyTransform = pMyUnit->pTransform;

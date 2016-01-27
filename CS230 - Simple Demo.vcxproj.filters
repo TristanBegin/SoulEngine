@@ -129,6 +129,9 @@
     <Text Include="Enemy_Arch.txt">
       <Filter>GameFiles\Archetypes</Filter>
     </Text>
+    <Text Include="Weapon_Arch.txt">
+      <Filter>GameFiles\Archetypes</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Behaviors">

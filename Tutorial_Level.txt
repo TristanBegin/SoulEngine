@@ -96,3 +96,11 @@ UNIT < Enemy > TestEnemy
 
 EndUnit
 #-----------------------------------------------
+UNIT < Weapon > PlayerWeapon
+
+	InitialPosition = (200, 200)
+	InitialRotation = 0
+	InitialScale = (1, 1)
+
+EndUnit
+#-----------------------------------------------

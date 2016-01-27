@@ -158,14 +158,15 @@ void FreeGame(GAME * pGame)
 
 COMPONENT * AddComponent(ARCHETYPE *pArchetype, COMPONENTTYPE DesiredType)
 {
-  COMPONENT * pNewComponent = malloc(sizeof(COMPONENT));
+  COMPONENT * pNewComponent = calloc(1, sizeof(COMPONENT));
   pNewComponent->pArchetype = pArchetype;
   pNewComponent->nextComponent = pArchetype->nextComponent;
   pArchetype->nextComponent = pNewComponent;
 
   if (DesiredType == Sprite) {
-	  SPRITE * pNewSprite = malloc(sizeof(SPRITE));
-	  IMAGE * pImage = malloc(sizeof(IMAGE));
+	  SPRITE * pNewSprite = calloc(1, sizeof(SPRITE));
+	  IMAGE * pImage = calloc(1, sizeof(IMAGE));
+    pNewSprite->Visible = True;
 	  pImage->pNextImage = NULL;
 	  pNewComponent->Type = Sprite;
 	  *pNewSprite = *(pArchetype->pGame->pGameStats->pDefaultSprite);
@@ -179,7 +180,7 @@ COMPONENT * AddComponent(ARCHETYPE *pArchetype, COMPONENTTYPE DesiredType)
 
   if (DesiredType == Mesh)
   {
-    MESH * pNewMesh = malloc(sizeof(MESH));
+    MESH * pNewMesh = calloc(1, sizeof(MESH));
     pNewComponent->Type = Mesh;
     *pNewMesh = *(pArchetype->pGame->pGameStats->pDefaultMesh);
     pNewMesh->Color = NewColor(1, 1, 1, 1);
@@ -191,18 +192,17 @@ COMPONENT * AddComponent(ARCHETYPE *pArchetype, COMPONENTTYPE DesiredType)
 
   if (DesiredType == Behavior)
   {
-    BEHAVIOR * pNewBehavior = malloc(sizeof(BEHAVIOR));
+    BEHAVIOR * pNewBehavior = calloc(1, sizeof(BEHAVIOR));
     pNewComponent->Type = Behavior;
     pNewComponent->pStruct = pNewBehavior;
     pNewBehavior->BehaviorScript = DefaultBehavior;
-    pNewBehavior->nextVar = NULL;
     pNewBehavior->pComponent = pNewComponent;
     pNewBehavior->pArchetype = pArchetype;
   }
 
   if (DesiredType == Physics)
   {
-    PHYSICS * pNewPhysics = malloc(sizeof(PHYSICS));
+    PHYSICS * pNewPhysics = calloc(1, sizeof(PHYSICS));
 
     pNewComponent->Type = Physics;
     pNewComponent->pStruct = pNewPhysics;
@@ -219,27 +219,15 @@ COMPONENT * AddComponent(ARCHETYPE *pArchetype, COMPONENTTYPE DesiredType)
 
   if (DesiredType == Collider)
   {
-    COLLIDER * pNewCollider = malloc(sizeof(COLLIDER));
+    COLLIDER * pNewCollider = calloc(1, sizeof(COLLIDER));
     
     pNewComponent->Type = Collider;
     pNewComponent->pStruct = pNewCollider;
     
+    pNewCollider->Enabled = True;
     pNewCollider->Offset = NewVector(0, 0);
     pNewCollider->Height = 1;
     pNewCollider->Width = 1;
-    pNewCollider->IsGhosted = False;
-    pNewCollider->Grounded = False;
-    pNewCollider->LeftBlocked = False;
-    pNewCollider->RightBlocked = False;
-    pNewCollider->TopBlocked = False;
-    pNewCollider->GhostEnter = False;
-    pNewCollider->GhostExit = False;
-    pNewCollider->GhostStay = False;
-    pNewCollider->LeftGrounded = False;
-    pNewCollider->RightGrounded = False;
-    pNewCollider->pCollidedWithGhost = NULL;
-
-
         
     pNewCollider->pComponent = pNewComponent;
     pNewCollider->pArchetype = pArchetype;
@@ -247,7 +235,7 @@ COMPONENT * AddComponent(ARCHETYPE *pArchetype, COMPONENTTYPE DesiredType)
 
   if (DesiredType == KSound)
   {
-    KSOUND * pNewSound = malloc(sizeof(KSOUND));
+    KSOUND * pNewSound = calloc(1, sizeof(KSOUND));
 	KSOUND_Init(pNewSound);
     
 	pNewComponent->Type = KSound;
@@ -262,18 +250,17 @@ COMPONENT * AddComponent(ARCHETYPE *pArchetype, COMPONENTTYPE DesiredType)
 }
 
 
-COMPONENT * AddBehaviorComponent(ARCHETYPE *pArchetype, void(*BehaviorScript)(BEHAVIOR * Owner, char * Trigger))
+COMPONENT * AddBehaviorComponent(ARCHETYPE *pArchetype, void(*BehaviorScript)(BEHAVIOR * Owner, char * Trigger, void * Data))
 {
-  COMPONENT * pNewComponent = malloc(sizeof(COMPONENT));
+  COMPONENT * pNewComponent = calloc(1, sizeof(COMPONENT));
   pNewComponent->pArchetype = pArchetype;
   pNewComponent->nextComponent = pArchetype->nextComponent;
   pArchetype->nextComponent = pNewComponent;
   
-  BEHAVIOR * pNewBehavior = malloc(sizeof(BEHAVIOR));
+  BEHAVIOR * pNewBehavior = calloc(1, sizeof(BEHAVIOR));
   pNewComponent->Type = Behavior;
   pNewComponent->pStruct = pNewBehavior;
   pNewBehavior->BehaviorScript = BehaviorScript;
-  pNewBehavior->nextVar = NULL;
   pNewBehavior->pComponent = pNewComponent;
   pNewBehavior->pArchetype = pArchetype;
 
@@ -299,7 +286,8 @@ void * FindComponentStruct(ARCHETYPE * pArchetype, COMPONENTTYPE DesiredType)
 {
   COMPONENT * pComponent;
   pComponent = FindComponent(pArchetype, DesiredType);
-  return pComponent->pStruct;
+  if (pComponent) return pComponent->pStruct;
+  else return NULL;
 }
 
 void * AddVar(VTYPE Type, char * Name, BEHAVIOR * Owner)
@@ -526,6 +514,20 @@ void DestroyUnit(UNIT * pUnit)
   //}
 }
 
+UNIT * FindUnitByName(LEVEL *pLevel, char * Name)
+{
+  UNIT * temp = pLevel->nextUnit;
+  while (temp)
+  {
+    if (myStrCmp(temp->Name, Name) <= 0)
+    {
+      return temp;
+    }
+    temp = temp->nextUnit;
+  }
+  return NULL;
+}
+
 LEVEL * FindLevelByOrder(GAME *pGame, int Order)
 {
 
@@ -572,7 +574,7 @@ void InitializeUnit(UNIT * pUnit)
     {
       VAR *tempVar = pUnit->nextVar;
       BEHAVIOR * pBehavior = ((BEHAVIOR*)temp->pStruct);
-      pBehavior->BehaviorScript(((BEHAVIOR*)temp->pStruct), "Start");
+      pBehavior->BehaviorScript(((BEHAVIOR*)temp->pStruct), "Start", NULL);
       while (tempVar)
       {
         VAR * pBVar = GetActualVar(tempVar->Name, pBehavior);

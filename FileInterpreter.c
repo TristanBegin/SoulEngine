@@ -659,4 +659,8 @@ TAG GetTagFromString(char * String)
   {
     return WALL;
   }
+  else if (myStrCmp(String, "WEAPON") <= 0)
+  {
+    return WEAPON;
+  }
 }

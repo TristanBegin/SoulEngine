@@ -20,27 +20,27 @@ void LoadLevel()
 	{
 		MESH * pMesh = ((MESH*)FindComponentStruct(tempUnit->pInitArchetype, Mesh));
 		SPRITE * pSprite = ((SPRITE*)FindComponentStruct(tempUnit->pInitArchetype, Sprite));
-
+    IMAGE * ptemp = NULL;
 		
-		IMAGE * ptemp = pSprite->pImage;
+		if (pSprite) ptemp = pSprite->pImage;
 		while(ptemp)
 		{
 			ptemp->pTexture = AEGfxTextureLoad(ptemp->TextureFile);
 			ptemp = ptemp->pNextImage;
 		}
 		
-		if (pMesh->pMeshLit == NULL)
+		if (pMesh && pMesh->pMeshLit == NULL)
 		{
 			// Informing the library that we're about to start adding triangles.
 			AEGfxMeshStart();
 			//This shape has 2 triangles.
 			AEGfxTriAdd(
-			  -(pMesh->Size.x) * gridSize, -(pMesh->Size.y) * gridSize, 0xFFFFFFFF, 0.0f, 1 / pSprite->RowCol.y,
-			  (pMesh->Size.x) * gridSize, -(pMesh->Size.y) * gridSize, 0xFFFFFFFF, 1 / pSprite->RowCol.x, 1 / pSprite->RowCol.y,
+			  -(pMesh->Size.x) * gridSize, -(pMesh->Size.y) * gridSize, 0xFFFFFFFF, 0.0f, 1.0 / pSprite->RowCol.y,
+			  (pMesh->Size.x) * gridSize, -(pMesh->Size.y) * gridSize, 0xFFFFFFFF, 1.0 / pSprite->RowCol.x, 1.0 / pSprite->RowCol.y,
 			  -(pMesh->Size.x) * gridSize, (pMesh->Size.y) * gridSize, 0xFFFFFFFF, 0.0f, 0.0f);
 			AEGfxTriAdd(
-			  (pMesh->Size.x) * gridSize, -(pMesh->Size.y) * gridSize, 0xFFFFFFFF, 1 / pSprite->RowCol.x, 1 / pSprite->RowCol.y,
-			  (pMesh->Size.x) * gridSize, (pMesh->Size.y) * gridSize, 0xFFFFFFFF, 1 / pSprite->RowCol.x, 0.0f,
+			  (pMesh->Size.x) * gridSize, -(pMesh->Size.y) * gridSize, 0xFFFFFFFF, 1.0 / pSprite->RowCol.x, 1.0 / pSprite->RowCol.y,
+			  (pMesh->Size.x) * gridSize, (pMesh->Size.y) * gridSize, 0xFFFFFFFF, 1.0 / pSprite->RowCol.x, 0.0f,
 			  -(pMesh->Size.x) * gridSize, (pMesh->Size.y) * gridSize, 0xFFFFFFFF, 0.0f, 0.0f);
 		
 			pLMesh = AEGfxMeshEnd();
@@ -120,7 +120,7 @@ void UpdateLevel()
         tempComp = tempComp->nextComponent;
       }
 
-      if (pSprite->Animated == TRUE)
+      if (pSprite && pSprite->Animated == TRUE)
       {
         Animate(pSprite);
       }
@@ -128,16 +128,18 @@ void UpdateLevel()
       if (pCollider)
       {
         UpdateCollision(pCollider);
-
-        if (pPhysics)
-        {
-          UpdatePhysics(pPhysics, pCollider);
-        }
       }
+
+      if (pPhysics)
+      {
+        //Collider may be NULL, that's okay.
+        UpdatePhysics(pPhysics, pCollider);
+      }
+      
 
       if (pBehavior)
       {
-        pBehavior->BehaviorScript(pBehavior, "Update");
+        pBehavior->BehaviorScript(pBehavior, "Update", NULL);
       }
     }
 
@@ -179,7 +181,7 @@ void DrawLevel()
         tempComp = tempComp->nextComponent;
       }
 
-      if (pMesh && pSprite)
+      if (pMesh && pSprite && pSprite->Visible)
       {
         DrawObject(pMesh, pSprite);
       }

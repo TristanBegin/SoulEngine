@@ -9,6 +9,7 @@ void UpdateCollision(COLLIDER *pCollider)
 	VECTOR pRect0 = pCollider->pArchetype->pUnit->pTransform->Position;
 	float height0 = pCollider->Height;
 	float width0 = pCollider->Width;
+
 	//Adding the offset to get the world pos of pRect0
 	pRect0.x += pCollider->Offset.x;
 	pRect0.y += pCollider->Offset.y;
@@ -19,11 +20,13 @@ void UpdateCollision(COLLIDER *pCollider)
   pCollider->TopBlocked = False;
   pCollider->RightGrounded = False;
   pCollider->LeftGrounded = False;
+  COLLIDER * pLastCollider = pCollider->pCollidedWithGhost;
   pCollider->pCollidedWithGhost = NULL;
 
 	//Walk through the list of Units in the Level, checking for collisions with current collider
 	while (tempUnit)
 	{
+    if (pCollider->Enabled == False) break;
     if (tempUnit->pArchetype && tempUnit != pUnit)
     {
 		  COMPONENT *tempComp = tempUnit->pArchetype->nextComponent;
@@ -67,8 +70,22 @@ void UpdateCollision(COLLIDER *pCollider)
 		  		}
           else
           {
-            if (pCollider->pCollidedWithGhost == NULL)
+            if ((pCollider->pCollidedWithGhost == NULL || pCollider->pCollidedWithGhost == pLastCollider)
+                && tempCollider->pArchetype->Tag != WALL)
             {
+              BEHAVIOR * pColBehavior = FindComponentStruct(pCollider->pArchetype, Behavior);
+              COLLISIONINFO * pColInfo = calloc(1, sizeof(COLLISIONINFO));
+
+              pColInfo->pCollider = tempCollider;
+              pColInfo->pUnit = tempCollider->pArchetype->pUnit;
+              pColInfo->Tag = tempCollider->pArchetype->Tag;
+              if (pCollider->GhostStay == False
+                || tempCollider != pLastCollider)
+              {
+                pColBehavior->BehaviorScript(pColBehavior, "OnGhostEnter", pColInfo);
+              }
+              pColBehavior->BehaviorScript(pColBehavior, "OnGhostStay", pColInfo);
+
               pCollider->pCollidedWithGhost = tempCollider;
             }
           }
@@ -81,7 +98,7 @@ void UpdateCollision(COLLIDER *pCollider)
 
   if (pCollider->pCollidedWithGhost)
   {
-    if (pCollider->GhostStay)
+    if (pCollider->GhostStay && pCollider->pCollidedWithGhost == pLastCollider)
     {
       pCollider->GhostEnter = False;
     }

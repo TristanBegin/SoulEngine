@@ -26,4 +26,8 @@ Platform_Arch.txt
 # Test Enemy
 Enemy_Arch.txt
 
+# Name = Weapon
+# Test Weapon
+Weapon_Arch.txt
+
 # No more archetypes.
